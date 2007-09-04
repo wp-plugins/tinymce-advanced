@@ -1,0 +1,25 @@
+/* You can add css class names below */
+.shutter {}
+.shutterset {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* styles for the TinyMCE editor */
+body {color: #000000;text-align:left;}
+p {text-align: none !important;}
+a {color: blue;}
+ul, ol {margin : 10px 0 10px 20px;}
+ul li {list-style : disc;}
+ol li {list-style : decimal;}
+ul li, ol li {margin : 0.5em 0;}
