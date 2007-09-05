@@ -4,7 +4,7 @@ Donate link:
 Tags: wysiwyg, formatting, tinymce, write, edit, post
 Requires at least: 2.2.1
 Tested up to: 2.2.2
-Stable tag: trunk
+Stable tag: 2.0
 
 Enables most of the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
@@ -16,7 +16,7 @@ Version 2.0 includes an admin page for arranging the TinyMCE toolbar buttons, ea
 
 = Some of the new features added by this plugin =
 
-* Imports all CSS classes from the main theme’s stylesheet and add them to a drop-down list.
+* Imports all CSS classes from the main theme stylesheet and add them to a drop-down list.
 
 * Fullscreen mode.
 
