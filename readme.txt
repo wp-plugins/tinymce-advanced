@@ -3,8 +3,8 @@ Contributors: Andrew Ozz
 Donate link: 
 Tags: wysiwyg, formatting, tinymce, write, edit, post
 Requires at least: 2.2.1
-Tested up to: 2.2.3
-Stable tag: trunk
+Tested up to: 2.3
+Stable tag: 2.1
 
 Enables most of the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
@@ -14,47 +14,36 @@ This plugin adds 16 plugins to TinyMCE: Advanced hr, Advanced Image, Advanced Li
 
 Version 2.0 includes an admin page for arranging the TinyMCE toolbar buttons, easy installation, a lot of bugfixes, customized "Smilies" plugin that uses the built-in WordPress smilies, etc. The admin page uses Scriptaculous and Prototype.js (similar to the "Widgets" admin page) that lets you "drag and drop" the TinyMCE buttons to arrange your own toolbars and enables/disables the corresponding plugins depending on the used buttons.
 
-**Language Support:** The plugin interface in only in English, but the TinyMCE plugins include several translations: German, French, Italian, Spanish, Portuguese, Russian and Chineze. Another 36 translations are available as a [separate download](http://svn.wp-plugins.org/tinymce-advanced/branches/tinymce-advanced_extra-languages.zip).
+New in version 2.1: Improved language selection, improved compatibility with WordPress 2.3 and TinyMCE 2.1.1.1, option to override some of the imported css classes and other small improvements and bugfixes.
+
+**Language Support:** The plugin interface in only in English, but the TinyMCE plugins include several translations: German, French, Italian, Spanish, Portuguese, Russian and Chinese. Another 36 translations are available as a [separate download](http://svn.wp-plugins.org/tinymce-advanced/branches/tinymce-advanced_extra-languages.zip).
 
 
 = Some of the new features added by this plugin =
 
 * Imports all CSS classes from the main theme’s stylesheet and add them to a drop-down list.
-
-* Fullscreen mode.
-
+* Full screen mode.
 * Support for making and editing basic tables.
-
 * In-line css styles.
-
 * Much better (advanced) link and image dialogs that offer a lot of options.
-
 * Search and Replace while editing.
-
 * Support for XHTML specific tags and for (div based) layers.
 
 
 == Installation ==
 
 1. Download.
-
 2. Unzip.
-
 3. Upload to the plugins directory (wp-content/plugins).
-
 4. Activate the plugin.
-
 5. Set your preferences at "Manage - TinyMCE Advanced".
-
 6. Clear your browser cache.
 
 
 = Upgrading from TinyMCE Advanced 2.0-beta  =
 
 1. Deactivate the beta version.
-
 2. Delete the "tinymce-advanced" folder from WordPress plugins directory.
-
 3. Follow the above steps to install the new version.
 
 
@@ -62,10 +51,8 @@ Version 2.0 includes an admin page for arranging the TinyMCE toolbar buttons, ea
 
 This version of TinyMCE Advanced is self-contained. It does not require separate installation of TinyMCE plugins. If you have one of the previous versions (1.0 or 1.0.1) installed, please follow these steps:
 
-1. Deactivat the old TinyMCE Advanced.
-
+1. Deactivate the old TinyMCE Advanced.
 2. Backup the TinyMCE plugins folder, located at wp-includes/js/tinymce/plugins.
-
 3. Delete the following TinyMCE plugins that were added when installing the previous version (delete the directories with these names from wp-includes/js/tinymce/plugins):
     
     * advhr
@@ -82,9 +69,7 @@ This version of TinyMCE Advanced is self-contained. It does not require separate
     * fullscreen
 
 4. After deleting the above plugins, you should have the 7 default plugins that came with WordPress: autosave, directionality, inlinepopups, paste, spellchecker, wordpress, wphelp. Or if you prefer, delete the whole tinymce plugins directory (wp-includes/js/tinymce/plugins) and upload a fresh copy from the WordPress installation package.
-
 5. Delete the tinymce-advanced folder from WordPress plugins directory (wp-includes/plugins).
-
 6. Follow the installation instructions above to install the new version.
 
 
@@ -92,7 +77,7 @@ This version of TinyMCE Advanced is self-contained. It does not require separate
 
 = No styles are imported in the Styles drop-down menu. =
 
-These styles (just the classes) are imported from your current themes style.css file. However some themes use @import to load the actual css file(s). Tiny does not follow these links. To make the classes appear, add their names to tinymce.css file located in "tinymce-advanced/css". You don’t need to copy the whole classes, just add the names, like that:
+These styles (just the classes) are imported from your current theme style.css file. However some themes use @import to load the actual css file(s). Tiny does not follow these links. To make the classes appear, add their names to tinymce.css file located in "tinymce-advanced/css". You do not need to copy the whole classes, just add the names, like that:
 
     .my-class{}
     .my-other-class{}
@@ -101,7 +86,7 @@ These styles (just the classes) are imported from your current themes style.css 
 
 Click on "Save Changes" on the admin page of the plugin, even if you did not change any buttons. This will force TinyMCE to reload the css files.
 
-= I’ve just installed this plugin, but it doesn’t do anything. =
+= I have just installed this plugin, but it does not do anything. =
 
 Log out of WordPress, clear your browser cache, quit and restart the browser and try again. If that does not work, there may be a caching proxy or network cache somewhere between you and your host. You may need to wait for a few hours until this cache expires.
 
