@@ -1,7 +1,16 @@
 /* fix TinyMCE iframe css */
 body#mceSpanFonts {
-background-color: #fff;
+background: #fff;
 color: #000;
+font-size: 12px;
+font-style: normal;
+font-weight: normal;
+font-family: Verdana, Arial, Helvetica, sans-serif;
+line-height: 18px;
+}
+#mceSpanFonts td {
+font-size: 11px;
+line-height: 16px;
 }
 ul, ol {
 margin : 10px 0 10px 20px;
