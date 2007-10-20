@@ -17,9 +17,6 @@ Released under the GPL, http://www.gnu.org/copyleft/gpl.html
     GNU General Public License for more details.
 */
 
-if ('tinymce-advanced.php' == basename($_SERVER['SCRIPT_FILENAME']))
-    exit;
-
 if( ! function_exists(tadv_admin_head) ) {
 function tadv_admin_head() {
     global $is_winIE;
@@ -40,11 +37,8 @@ $tadv_toolbars = (array) get_option('tadv_toolbars');
 $tadv_options = (array) get_option('tadv_options');
 $imgpath = get_bloginfo('wpurl') . '/wp-content/plugins/tinymce-advanced/images/';
 
-if( isset($_POST) && ! empty($_POST) )
-    check_admin_referer( 'tadv-save-buttons-order' );
-
 if( isset( $_POST['save'] ) ) {
-    
+    check_admin_referer( 'tadv-save-buttons-order' );
 	parse_str( $_POST['toolbar-1order'], $tb1 );
 	parse_str( $_POST['toolbar-2order'], $tb2 );
 	parse_str( $_POST['toolbar-3order'], $tb3 );
@@ -60,7 +54,7 @@ if( isset( $_POST['save'] ) ) {
 }
 	
 if( isset( $_POST['reset'] ) ) {
-//    check_admin_referer( 'tadv-save-buttons-order' );
+    check_admin_referer( 'tadv-save-buttons-order' );
     $tadv_toolbars = '';
     $tadv_options = '';
 }
@@ -375,6 +369,7 @@ if( is_array($buttons) ) {
                 }
             
                 if( isset( $_POST['tadv_lang'] ) ) {
+                    check_admin_referer( 'tadv-save-buttons-order' );
                     if( in_array( $_POST['tadv_lang'], (array) $tadv_langs ) ) {
                         if( $tadv_options['tadv_lang'] != $_POST['tadv_lang'] ) {
                             $tadv_options['tadv_lang'] = $_POST['tadv_lang'];
