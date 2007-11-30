@@ -75,6 +75,10 @@ This version of TinyMCE Advanced is self-contained. It does not require separate
 
 == Frequently Asked Questions ==
 
+= After installing the plugin, the editor background is black/dark or the font is too small =
+
+This is due to TinyMCE importing the styles from your theme and trying to make the editor look as close to your site as possible. However that does not work well in some themes. To fix it either check "reset some of the css styles" checkbox in the advanced settings or uncheck the "import the css classes" checkbox.
+
 = No styles are imported in the Styles drop-down menu. =
 
 These styles (just the classes) are imported from your current theme style.css file. However some themes use @import to load the actual css file(s). Tiny does not follow these links. To make the classes appear, add their names to tinymce.css file located in "tinymce-advanced/css". You do not need to copy the whole classes, just add the names, like that:
