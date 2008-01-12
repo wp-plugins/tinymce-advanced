@@ -119,4 +119,4 @@ Please visit the homepage for [TinyMCE Advanced](http://www.laptoptips.ca/projec
 
 == Screenshots ==
 
-1. The TinyMCE Advanced options page
+1. The TinyMCE Advanced options page.
