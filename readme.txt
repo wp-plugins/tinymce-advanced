@@ -112,11 +112,11 @@ Click on "Save and continue editing" to refresh it.
 
 Make sure the "Use the visual editor when writing" checkbox under "Users - Your Profile" is checked.
 
+= Other questions? More screenshots? =
+
+Please visit the homepage for [TinyMCE Advanced](http://www.laptoptips.ca/projects/tinymce-advanced/). 
+
 
 == Screenshots ==
 
 1. The TinyMCE Advanced options page
-
-= Other questions? More screenshots? =
-
-Please visit the homepage for [TinyMCE Advanced](http://www.laptoptips.ca/projects/tinymce-advanced/). 
