@@ -3,7 +3,7 @@
 Plugin Name: TinyMCE Advanced
 Plugin URI: http://www.laptoptips.ca/projects/tinymce-advanced/
 Description: Enables advanced features and plugins in TinyMCE.
-Version: 2.1
+Version: 2.2
 Author: Andrew Ozz
 Author URI: http://www.laptoptips.ca/
 
@@ -17,7 +17,10 @@ Released under the GPL, http://www.gnu.org/copyleft/gpl.html
     GNU General Public License for more details.
 */
 
-if( ! function_exists(tadv_admin_head) ) {
+if ('tinymce-advanced.php' == basename($_SERVER['SCRIPT_NAME']))
+    exit;
+
+if( ! function_exists('tadv_admin_head') ) {
 function tadv_admin_head() {
     global $is_winIE;
 ?>
@@ -26,7 +29,7 @@ function tadv_admin_head() {
 <?php
 } } // end tadv_admin_head
 
-if( ! function_exists(tadv_page) ) {
+if( ! function_exists('tadv_page') ) {
 function tadv_page() {
     global $is_winIE;
 
@@ -159,7 +162,7 @@ if( get_option('tadv_plugins') != $plugins ) update_option( 'tadv_plugins', $plu
 if( get_option('tadv_btns1') != $btns1 ) update_option( 'tadv_btns1', $btns1 );
 if( get_option('tadv_btns2') != $btns2 ) update_option( 'tadv_btns2', $btns2 ); 
 
-$buttons = array( 'Bold' => 'bold', 'Italic' => 'italic', 'Strikethrough' => 'strikethrough', 'Underline' => 'underline', 'Bullet List' => 'bullist', 'Numbered List' => 'numlist', 'Outdent' => 'outdent', 'Indent' => 'indent', 'Allign Left' => 'justifyleft', 'Center' => 'justifycenter', 'Alligh Right' => 'justifyright', 'Justify' => 'justifyfull', 'Cut' => 'cut', 'Copy' => 'copy', 'Paste' => 'paste', 'Link' => 'link', 'Remove Link' => 'unlink', 'Insert Image' => 'image', 'More Tag' => 'wp_more', 'Split Page' => 'wp_page', 'Search' => 'search', 'Replace' => 'replace', 'Select Font' => 'fontselect', 'Help' => 'wp_help', 'Full Screen' => 'fullscreen', 'CSS Styles' => 'styleselect', 'Format' => 'formatselect', 'Text Color' => 'forecolor', 'Paste as Text' => 'pastetext', 'Paste from Word' => 'pasteword', 'Remove Format' => 'removeformat', 'Clean Code' => 'cleanup', 'Check Spelling' => 'spellchecker', 'IE Spell' => 'iespell', 'Character Map' => 'charmap', 'Print' => 'print', 'Undo' => 'undo', 'Redo' => 'redo', 'Table' => 'tablecontrols', 'Citation' => 'cite', 'Inserted Text' => 'ins', 'Deleted Text' => 'del', 'Abbreviation' => 'abbr', 'Acronym' => 'acronym', 'XHTML Attribs' => 'attribs', 'Layer' => 'layer', 'Advanced HR' => 'advhr', 'View HTML' => 'code', 'Hidden Chars' => 'visualchars', 'NB Space' => 'nonbreaking', 'Sub' => 'sub', 'Sup' => 'sup', 'Visual Aids' => 'visualaid', 'Anchor' => 'anchor', 'Style' => 'styleprops', 'Smilies' => 'emotions' );
+$buttons = array( 'Bold' => 'bold', 'Italic' => 'italic', 'Strikethrough' => 'strikethrough', 'Underline' => 'underline', 'Bullet List' => 'bullist', 'Numbered List' => 'numlist', 'Outdent' => 'outdent', 'Indent' => 'indent', 'Allign Left' => 'justifyleft', 'Center' => 'justifycenter', 'Alligh Right' => 'justifyright', 'Justify' => 'justifyfull', 'Cut' => 'cut', 'Copy' => 'copy', 'Paste' => 'paste', 'Link' => 'link', 'Remove Link' => 'unlink', 'Insert Image' => 'image', 'More Tag' => 'wp_more', 'Split Page' => 'wp_page', 'Search' => 'search', 'Replace' => 'replace', 'Select Font' => 'fontselect', 'Font Size' => 'fontsizeselect', 'Help' => 'wp_help', 'Full Screen' => 'fullscreen', 'CSS Styles' => 'styleselect', 'Format' => 'formatselect', 'Text Color' => 'forecolor', 'Paste as Text' => 'pastetext', 'Paste from Word' => 'pasteword', 'Remove Format' => 'removeformat', 'Clean Code' => 'cleanup', 'Check Spelling' => 'spellchecker', 'IE Spell' => 'iespell', 'Character Map' => 'charmap', 'Print' => 'print', 'Undo' => 'undo', 'Redo' => 'redo', 'Table' => 'tablecontrols', 'Citation' => 'cite', 'Inserted Text' => 'ins', 'Deleted Text' => 'del', 'Abbreviation' => 'abbr', 'Acronym' => 'acronym', 'XHTML Attribs' => 'attribs', 'Layer' => 'layer', 'Advanced HR' => 'advhr', 'View HTML' => 'code', 'Hidden Chars' => 'visualchars', 'NB Space' => 'nonbreaking', 'Sub' => 'sub', 'Sup' => 'sup', 'Visual Aids' => 'visualaid', 'Anchor' => 'anchor', 'Style' => 'styleprops', 'Smilies' => 'emotions' );  
 
 if( ! $is_winIE ) $buttons['Insert Movie'] = 'media';
 
@@ -455,23 +458,26 @@ Sortable.create("tadvpalette", {
 
 } } // end tadv_page
 
-if( ! class_exists(tadv_mceClass) ) {
+if( ! class_exists('tadv_mceClass') ) {
 class tadv_mceClass {
     var $extra_btns = array();
 
     function tadv_mceClass() {
     
-    if( 'plugins.php' == basename($_SERVER['SCRIPT_FILENAME']) && $_GET['action'] == 'deactivate' && $_GET['plugin'] == 'tinymce-advanced/tinymce-advanced.php') $this->tadv_deactivate();
+        if( ( 'plugins.php' == basename($_SERVER['SCRIPT_NAME']) || 'plugins.php' == basename($_SERVER['PHP_SELF']) ) && $_GET['action'] == 'deactivate' && $_GET['plugin'] == 'tinymce-advanced/tinymce-advanced.php') $this->tadv_deactivate();
     }
-    
+
     function tadv_mce_opt() { 
 ?>
         valid_child_elements : "table[thead|tbody|tfoot|tr|td|th],object[param|embed|%itrans|#text]",
         extended_valid_elements : "object[*],param[name|value|valuetype|type|id],embed[*]",
         fix_table_elements : true,
         convert_fonts_to_spans : true,
+        font_size_style_values : "8pt,10pt,12pt,14pt,18pt,24pt,36pt",
         paste_auto_cleanup_on_paste : true,
         cleanup_on_startup : false,
+        force_hex_style_colors : true,
+        inline_styles : true,
 <?php 
         $tadv_options = (array) get_option('tadv_options');
         $mce_locale = ( '' == get_locale() ) ? 'en' : strtolower(get_locale());
@@ -569,7 +575,7 @@ class tadv_mceClass {
         $tb3 = array( 'styleselect', 'formatselect', 'paste', 'pastetext', 'pasteword', 'separator7', 'cleanup', 'separator8', 'charmap', 'print', 'separator9', 'emotions', 'separator10', 'sup', 'sub', 'separator11', 'undo', 'redo', 'attribs' );
     
         $tadv_toolbars = array( 'toolbar-1' => $tb1, 'toolbar-2' => $tb2, 'toolbar-3' => $tb3 );
-        $tadv_options = array( 'advlink' => '1', 'advimage' => '1', 'importcss' => '1', 'refresh' => '1' );
+        $tadv_options = array( 'advlink' => '1', 'advimage' => '1', 'importcss' => '1', 'refresh' => '1', 'fixcss' => '1' );
         $tadv_plugins = array( 'table', 'media', 'fullscreen', 'style', 'emotions', 'print', 'searchreplace', 'xhtmlxtras', 'advlink', 'advimage' );
         $btns1 = array( 'bold', 'italic', 'strikethrough', 'underline', 'separator', 'bullist', 'numlist', 'outdent', 'indent', 'separator', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'separator', 'link', 'unlink', 'separator', 'image', 'styleprops', 'separator', 'wp_more', 'wp_page', 'separator', 'spellchecker', 'search', 'separator', 'wp_help', 'fullscreen', 'wp_adv', 'wp_adv_start', 'styleselect', 'formatselect', 'paste', 'pastetext', 'pasteword', 'separator', 'cleanup', 'separator', 'charmap', 'print', 'separator', 'emotions', 'separator', 'sup', 'sub', 'separator', 'undo', 'redo', 'attribs', 'wp_adv_end' );
 
@@ -583,6 +589,7 @@ class tadv_mceClass {
     
     function tadv_deactivate() {
         
+        if ($_GET['action'] == 'deactivate-all') return;
         switch ($_GET['tadv_remove']) {
 			case 'all':
 				delete_option('tadv_options');
@@ -595,19 +602,43 @@ class tadv_mceClass {
 			case 'none':
 				break;
 			default: 
+
+@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 ?>
-<script language="JavaScript" type="text/javascript">
-// <![CDATA[
-var remove_options = confirm('Remove the TinyMCE Advanced toolbar buttons arrangement and options from the database?');
-if (remove_options) {
-	window.location = "plugins.php?action=deactivate&plugin=tinymce-advanced/tinymce-advanced.php&tadv_remove=all&_wpnonce=<?php echo $_GET['_wpnonce']; ?>";
-} else if (!remove_options) {
-    window.location = "plugins.php?action=deactivate&plugin=tinymce-advanced/tinymce-advanced.php&tadv_remove=none&_wpnonce=<?php echo $_GET['_wpnonce']; ?>";
-}
-// ]]>
-</script>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
+<head>
+<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
+<title><?php bloginfo('name') ?> &rsaquo; <?php echo wp_specialchars( strip_tags( $title ) ); ?> &#8212; WordPress</title>
+<?php wp_admin_css(); ?>
+</head>
+<body class="wp-admin <?php echo apply_filters( 'admin_body_class', '' ); ?>">
+<div id="wphead">
+<h1><?php bloginfo('name'); ?> <span id="viewsite">(<a href="<?php echo get_option('home') . '/'; ?>"><?php _e('View site &raquo;') ?></a>)</span></h1>
+</div>
+
+<div class="wrap">
+<h2>TinyMCE Advanced deactivation options</h2>
+<table class="optiontable" style="width:80%;margin:auto;">
+    <tr>
+    <td style="padding:30px;width:50%;vertical-align:top;">
+    <p class="button" style="background-color:#eee;border:1px solid #ddd;"><a href="plugins.php?action=deactivate&plugin=tinymce-advanced/tinymce-advanced.php&tadv_remove=all&_wpnonce=<?php echo $_GET['_wpnonce']; ?>" class="delete" title="Uninstall TinyMCE Advanced"><strong>Uninstall</strong></a></p>
+    <p>Uninstalling will remove all saved settings and buttons arrangement from the database. Choose it if you are not planning to use TinyMCE Advanced any more.</p>
+    
+    </td><td style="padding:30px;width:50%;vertical-align:top;">
+    
+    <p class="button" style="background-color:#eee;border:1px solid #ddd;"><a href="plugins.php?action=deactivate&plugin=tinymce-advanced/tinymce-advanced.php&tadv_remove=none&_wpnonce=<?php echo $_GET['_wpnonce']; ?>" class="edit" title="Deactivate TinyMCE Advanced"><strong>Deactivate</strong></a></p>
+    <p>Deactivating will not remove the settings and the buttons arrangement from the database. Choose it if you are planning to use TinyMCE Advanced again and do not want to loose your settings.</p>
+    
+    </td></tr>
+    <tr><td colspan="2" style="padding:0 25%;">
+    <p class="button" style="background-color:#eee;border:1px solid #ddd;"><a href="plugins.php" class="edit" title="Cancel"><strong>Cancel</strong></a></p>
+    </td></tr>
+    </table>
+</div>
 <?php
-				exit;
+            include(ABSPATH . 'wp-admin/admin-footer.php');
+            exit;
 		}
     }
     

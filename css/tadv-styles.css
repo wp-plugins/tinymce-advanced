@@ -121,6 +121,9 @@ vertical-align: middle;
 #pre_styleselect.tadvmodule .tadvitem  {
 width: 248px;
 }
+#pre_fontsizeselect.tadvmodule .tadvitem {
+width: 185px;
+}
 #pre_fontselect.tadvmodule .tadvitem {
 width: 185px;
 }
@@ -135,6 +138,9 @@ width: 80px;
 }
 .tadvdropzone #pre_styleselect, .tadvdropzone #pre_styleselect .tadvitem {
 width: 173px;
+}
+.tadvdropzone #pre_fontsizeselect, .tadvdropzone #pre_fontsizeselect .tadvitem {
+width: 105px;
 }
 .tadvdropzone #pre_fontselect, .tadvdropzone #pre_fontselect .tadvitem {
 width: 105px;

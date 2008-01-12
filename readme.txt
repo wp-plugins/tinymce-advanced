@@ -3,8 +3,8 @@ Contributors: Andrew Ozz
 Donate link: 
 Tags: wysiwyg, formatting, tinymce, write, edit, post
 Requires at least: 2.2.1
-Tested up to: 2.3
-Stable tag: 2.1
+Tested up to: 2.3.2
+Stable tag: 2.2
 
 Enables most of the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
@@ -15,6 +15,8 @@ This plugin adds 16 plugins to TinyMCE: Advanced hr, Advanced Image, Advanced Li
 Version 2.0 includes an admin page for arranging the TinyMCE toolbar buttons, easy installation, a lot of bugfixes, customized "Smilies" plugin that uses the built-in WordPress smilies, etc. The admin page uses Scriptaculous and Prototype.js (similar to the "Widgets" admin page) that lets you "drag and drop" the TinyMCE buttons to arrange your own toolbars and enables/disables the corresponding plugins depending on the used buttons.
 
 New in version 2.1: Improved language selection, improved compatibility with WordPress 2.3 and TinyMCE 2.1.1.1, option to override some of the imported css classes and other small improvements and bugfixes.
+
+New in version 2.2: Deactivate/Uninstall option page, font size drop-down menu and other small changes.
 
 **Language Support:** The plugin interface in only in English, but the TinyMCE plugins include several translations: German, French, Italian, Spanish, Portuguese, Russian and Chinese. Another 36 translations are available as a [separate download](http://svn.wp-plugins.org/tinymce-advanced/branches/tinymce-advanced_extra-languages.zip).
 
@@ -77,7 +79,7 @@ This version of TinyMCE Advanced is self-contained. It does not require separate
 
 = After installing the plugin, the editor background is black/dark or the font is too small =
 
-This is due to TinyMCE importing the styles from your theme and trying to make the editor look as close to your site as possible. However that does not work well in some themes. To fix it either check "reset some of the css styles" checkbox in the advanced settings or uncheck the "import the css classes" checkbox.
+This is due to TinyMCE importing the styles from your theme and trying to make the editor look as close to your site as possible. However that may not work well in some themes. To fix it uncheck the "import the css classes" checkbox and then paste the names of the css classes you want to use in tadv-tinymce.css file located in "tinymce-advanced/css".
 
 = No styles are imported in the Styles drop-down menu. =
 
@@ -110,8 +112,11 @@ Click on "Save and continue editing" to refresh it.
 
 Make sure the "Use the visual editor when writing" checkbox under "Users - Your Profile" is checked.
 
+
 == Screenshots ==
 
-= Other questions? Screenshots? =
+1. The TinyMCE Advanced options page
+
+= Other questions? More screenshots? =
 
 Please visit the homepage for [TinyMCE Advanced](http://www.laptoptips.ca/projects/tinymce-advanced/). 
