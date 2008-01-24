@@ -7,7 +7,7 @@ Version: 2.2
 Author: Andrew Ozz
 Author URI: http://www.laptoptips.ca/
 
-Some code and ideas from WordPress(http://www.wordpress.org/). The options page for this plugin uses Prototype.js by Sam Stephenson(http://prototype.conio.net/) and Scriptaculous by Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us). The Javascript files have been compressed and concatenated for faster loading.
+Some code and ideas from WordPress(http://wordpress.org/). The options page for this plugin uses Prototype.js by Sam Stephenson(http://prototype.conio.net/) and Scriptaculous by Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us). The Javascript files have been compressed and concatenated for faster loading.
 
 Released under the GPL, http://www.gnu.org/copyleft/gpl.html
 
@@ -464,7 +464,9 @@ class tadv_mceClass {
 
     function tadv_mceClass() {
     
-        if( ( 'plugins.php' == basename($_SERVER['SCRIPT_NAME']) || 'plugins.php' == basename($_SERVER['PHP_SELF']) ) && $_GET['action'] == 'deactivate' && $_GET['plugin'] == 'tinymce-advanced/tinymce-advanced.php') $this->tadv_deactivate();
+        if ( 'plugins.php' == basename($_SERVER['SCRIPT_NAME']) || 'plugins.php' == basename($_SERVER['PHP_SELF']) ) 
+            if ( isset($_GET['action']) && $_GET['action'] == 'deactivate' && $_GET['plugin'] == 'tinymce-advanced/tinymce-advanced.php') 
+                $this->tadv_deactivate();
     }
 
     function tadv_mce_opt() { 
@@ -559,6 +561,8 @@ class tadv_mceClass {
     function tadv_refresh_mceconfig($loc) {
         
         $tadv_options = (array) get_option('tadv_options');
+        $tadv_options['refresh'] = isset($tadv_options['refresh']) ? $tadv_options['refresh'] : '';
+        
         if( $tadv_options['refresh'] == '1' ) {
             $tadv_options['refresh'] = rand(1000, 9999);
             update_option( 'tadv_options', $tadv_options );
@@ -567,7 +571,11 @@ class tadv_mceClass {
     }
     
     function tadv_activate() {
-    
+        global $wp_version;
+        
+        if ( empty($wp_version) || version_compare($wp_version, '2.2.1', '<') ) // if WP 2.2 or less
+        exit('<h2>This plugin requires WordPress version 2.2.1 or newer. Please upgrade your WordPress installation or remove the plugin.</h2>');
+        
         $tb1 = array( 'bold', 'italic', 'strikethrough', 'underline', 'separator1', 'bullist', 'numlist', 'outdent',  'indent', 'separator2', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'separator3', 'link', 'unlink', 'separator4', 'image', 'styleprops', 'separator12', 'wp_more', 'wp_page', 'separator5', 'spellchecker', 'search', 'separator6', 'wp_help', 'fullscreen' );
 
         $tb2 = '';
@@ -590,7 +598,9 @@ class tadv_mceClass {
     function tadv_deactivate() {
         
         if ($_GET['action'] == 'deactivate-all') return;
-        switch ($_GET['tadv_remove']) {
+        
+        $rem = isset($_GET['tadv_remove']) ? $_GET['tadv_remove'] : '';
+        switch ($rem) {
 			case 'all':
 				delete_option('tadv_options');
                 delete_option('tadv_toolbars');
