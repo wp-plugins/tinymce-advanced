@@ -1,0 +1,26 @@
+/* You can add css class names below */
+.shutter {}
+.shutterset {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* styles for the TinyMCE editor */
+body#tinymce {
+	text-align: left;
+	background: #fff;
+	color: #000;
+	font: 13px/19px "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
+	padding: 0.6em;
+	margin: 0;
+}
