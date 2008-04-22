@@ -13,12 +13,9 @@ if ( isset( $_POST['tadv_uninstall'] ) ) {
     delete_option('tadv_btns2');
     delete_option('tadv_btns3');
     delete_option('tadv_btns4');
+    delete_option('tadv_allbtns');
 
-?>
-<h3 style="margin:60px auto auto;text-align:center;"><a href="plugins.php?action=deactivate&amp;plugin=tinymce-advanced%2Ftinymce-advanced.php&amp;_wpnonce=<?php echo wp_create_nonce('deactivate-plugin_tinymce-advanced/tinymce-advanced.php'); ?>">Deactivate TinyMCE Advanced</a></h3>
-
-<?php
-include('admin-footer.php');
+echo '<script type="text/javascript">window.location="plugins.php?action=deactivate&plugin=tinymce-advanced/tinymce-advanced.php&_wpnonce=' . wp_create_nonce('deactivate-plugin_tinymce-advanced/tinymce-advanced.php') . '";</script>';
 exit;
 }
 
@@ -26,106 +23,65 @@ $update_tadv_options = false;
 $imgpath = get_bloginfo('wpurl') . '/wp-content/plugins/tinymce-advanced/images/';
 
 $tadv_toolbars = get_option('tadv_toolbars');
-if ( ! is_array($tadv_toolbars) ) {
-	$tadv_toolbars = tadv_defaults();
-    update_option( 'tadv_toolbars', $tadv_toolbars );
-}
-
-$tadv_options = get_option('tadv_options');
-if ( ! is_array($tadv_options) ) {
-	$tadv_options = array( 'advlink' => '1', 'advimage' => '1' );
-    $update_tadv_options = true;
-}
+if ( ! is_array($tadv_toolbars) )
+	@include_once( dirname(__FILE__) . '/tadv_defaults.php');
+else $tadv_options = get_option('tadv_options');
 
 if ( isset( $_POST['save'] ) ) {
     check_admin_referer( 'tadv-save-buttons-order' );
-	$tb1 = $tb2 = $tb3 = $tb4 = array();
+	$tb1 = $tb2 = $tb3 = $tb4 = $btns = array();
 	parse_str( $_POST['toolbar_1order'], $tb1 );
 	parse_str( $_POST['toolbar_2order'], $tb2 );
 	parse_str( $_POST['toolbar_3order'], $tb3 );
 	parse_str( $_POST['toolbar_4order'], $tb4 );
-	$tadv_toolbars = $tb1 + $tb2 + $tb3 + $tb4;
+	
+	$tadv_toolbars['toolbar_1'] = (array) $tb1['toolbar_1'];
+	$tadv_toolbars['toolbar_2'] = (array) $tb2['toolbar_2'];
+	$tadv_toolbars['toolbar_3'] = (array) $tb3['toolbar_3'];
+	$tadv_toolbars['toolbar_4'] = (array) $tb4['toolbar_4'];
+
 	update_option( 'tadv_toolbars', $tadv_toolbars );
 
     $tadv_options['advlink'] = $_POST['advlink'] ? 1 : 0;
     $tadv_options['advimage'] = $_POST['advimage'] ? 1 : 0;
     $tadv_options['contextmenu'] = $_POST['contextmenu'] ? 1 : 0;
     $tadv_options['importcss'] = $_POST['importcss'] ? 1 : 0;
+    $tadv_options['fix_autop'] = $_POST['fix_autop'] ? 1 : 0;
     $update_tadv_options = true;
 }
 
-$btns1 = $btns2 = $btns3 = $btns4 = array();
-$hidden_row = false;
+$hidden_row = 0;
+$i = 0;
+foreach ( $tadv_toolbars as $toolbar ) {
+	$vv = $l = false;
+    $i++;
 
-if ( is_array($tadv_toolbars['toolbar_1']) ) {
-    $btns1 = $tadv_toolbars['toolbar_1'];
-    
-    if ( ! empty($btns1) ) {
-    	foreach( $btns1 as $k => $v ) {
-        	if ( strpos($v, 'separator') !== false ) $btns1[$k] = 'separator';
-        	if ( 'layer' == $v ) $l = $k;
-        	if ( 'wp_adv' == $v ) $hidden_row = 2;
-        	if ( empty($v) ) unset($btns1[$k]);
-    	}
-    	if ( $l ) array_splice( $btns1, $l, 1, array('insertlayer', 'moveforward', 'movebackward', 'absolute') );
-    }
-}
-
-if ( is_array($tadv_toolbars['toolbar_2']) ) {
-    $btns2 = $tadv_toolbars['toolbar_2'];
-    
-    if ( ! empty($btns2) ) {
-
-		foreach( $btns2 as $k => $v ) {
-        	if ( strpos($v, 'separator') !== false ) $btns2[$k] = 'separator';
-        	if ( 'layer' == $v ) $l = $k;
-        	if ( 'wp_adv' == $v ) $hidden_row = 3;
-        	if ( empty($v) ) unset($btns2[$k]);
-    	}
-
-    	if ( $l ) array_splice( $btns2, $l, 1, array('insertlayer', 'moveforward', 'movebackward', 'absolute') );
+	if ( empty($toolbar) ) {
+		$btns["toolbar_$i"] = array();
+		continue;
 	}
-}
 
-if ( is_array($tadv_toolbars['toolbar_3']) ) {
-    $btns3 = $tadv_toolbars['toolbar_3'];
-    
-    if ( ! empty($btns3) ) {
-    
-		foreach( $btns3 as $k => $v ) {
-        	if ( strpos($v, 'separator') !== false ) $btns3[$k] = 'separator';
-        	if ( 'layer' == $v ) $l = $k;
-        	if ( 'wp_adv' == $v ) $hidden_row = 4;
-        	if ( empty($v) ) unset($btns3[$k]);
-    	}
-    	
-		if ( $l ) array_splice( $btns3, $l, 1, array('insertlayer', 'moveforward', 'movebackward', 'absolute') );
+    foreach( $toolbar as $k => $v ) {
+        if ( strpos($v, 'separator') !== false ) $toolbar[$k] = 'separator';
+        if ( 'layer' == $v ) $l = $k;
+        if ( 'vipersvideoquicktags' == $v ) $vv = $k;
+        if ( 'wp_adv' == $v ) $hidden_row = ($i + 1);
+        if ( empty($v) ) unset($toolbar[$k]);
     }
+    if ( $l ) array_splice( $toolbar, $l, 1, array('insertlayer', 'moveforward', 'movebackward', 'absolute') );
+
+    $btns["toolbar_$i"] = $toolbar;
 }
+extract($btns);
 
-if ( $hidden_row ) $tadv_options['hidden_row'] = $hidden_row;
-$update_tadv_options = true;
+if ( $hidden_row > 0 && $hidden_row < 4 ) $tadv_options['hidden_row'] = $hidden_row;
+else $tadv_options['hidden_row'] = false;
 
-if ( is_array($tadv_toolbars['toolbar_4']) ) {
-    $btns4 = $tadv_toolbars['toolbar_4'];
-    
-	if ( ! empty($btns4) ) {
-	
-		foreach( $btns4 as $k => $v ) {
-        	if ( strpos($v, 'separator') !== false ) $btns4[$k] = 'separator';
-        	if ( 'layer' == $v ) $l = $k;
-        	if ( empty($v) ) unset($btns4[$k]);
-    	}
-    	
-		if ( $l ) array_splice( $btns4, $l, 1, array('insertlayer', 'moveforward', 'movebackward', 'absolute') );
-	}
-}
-
-if ( empty($btns1) && empty($btns2) && empty($btns3) && empty($btns4) ) {
+if ( empty($toolbar_1) && empty($toolbar_2) && empty($toolbar_3) && empty($toolbar_4) ) {
     $allbtns = array();
     ?><div class="error" id="message"><p>All toolbars are empty!</p></div><?php
 } else {
-    $allbtns = array_merge( $btns1, $btns2, $btns3, $btns4 );
+    $allbtns = array_merge( $toolbar_1, $toolbar_2, $toolbar_3, $toolbar_4 );
 
 	if ( in_array('advhr', $allbtns) ) $plugins[] = 'advhr';
 	if ( in_array('insertlayer', $allbtns) ) $plugins[] = 'layer';
@@ -154,34 +110,25 @@ if ( empty($btns1) && empty($btns2) && empty($btns3) && empty($btns4) ) {
 	if ( $tadv_options['contextmenu'] == '1' ) $plugins[] = 'contextmenu';
 }
 
+$buttons = array( 'Kitchen Sink' => 'wp_adv', 'Bold' => 'bold', 'Italic' => 'italic', 'Strikethrough' => 'strikethrough', 'Underline' => 'underline', 'Bullet List' => 'bullist', 'Numbered List' => 'numlist', 'Outdent' => 'outdent', 'Indent' => 'indent', 'Allign Left' => 'justifyleft', 'Center' => 'justifycenter', 'Alligh Right' => 'justifyright', 'Justify' => 'justifyfull', 'Cut' => 'cut', 'Copy' => 'copy', 'Paste' => 'paste', 'Link' => 'link', 'Remove Link' => 'unlink', 'Insert Image' => 'image', 'More Tag' => 'wp_more', 'Split Page' => 'wp_page', 'Search' => 'search', 'Replace' => 'replace', '<!--fontselect-->' => 'fontselect', '<!--fontsizeselect-->' => 'fontsizeselect', 'Help' => 'wp_help', 'Full Screen' => 'fullscreen', '<!--styleselect-->' => 'styleselect', '<!--formatselect-->' => 'formatselect', 'Text Color' => 'forecolor', 'Paste as Text' => 'pastetext', 'Paste from Word' => 'pasteword', 'Remove Format' => 'removeformat', 'Clean Code' => 'cleanup', 'Check Spelling' => 'spellchecker', 'Character Map' => 'charmap', 'Print' => 'print', 'Undo' => 'undo', 'Redo' => 'redo', 'Table' => 'tablecontrols', 'Citation' => 'cite', 'Inserted Text' => 'ins', 'Deleted Text' => 'del', 'Abbreviation' => 'abbr', 'Acronym' => 'acronym', 'XHTML Attribs' => 'attribs', 'Layer' => 'layer', 'Advanced HR' => 'advhr', 'View HTML' => 'code', 'Hidden Chars' => 'visualchars', 'NB Space' => 'nonbreaking', 'Sub' => 'sub', 'Sup' => 'sup', 'Visual Aids' => 'visualaid', 'Insert Date' => 'insertdate', 'Insert Time' => 'inserttime', 'Anchor' => 'anchor', 'Style' => 'styleprops', 'Smilies' => 'emotions', 'Insert Movie' => 'media', 'Quote' => 'blockquote' );
+
+$tadv_allbtns = array_values($buttons);
+$tadv_allbtns[] = 'separator';
+$tadv_allbtns[] = '|';
+
 if ( get_option('tadv_plugins') != $plugins ) update_option( 'tadv_plugins', $plugins ); 
-if ( get_option('tadv_btns1') != $btns1 ) update_option( 'tadv_btns1', $btns1 );
-if ( get_option('tadv_btns2') != $btns2 ) update_option( 'tadv_btns2', $btns2 );
-if ( get_option('tadv_btns3') != $btns3 ) update_option( 'tadv_btns3', $btns3 );
-if ( get_option('tadv_btns4') != $btns4 ) update_option( 'tadv_btns4', $btns4 ); 
+if ( get_option('tadv_btns1') != $toolbar_1 ) update_option( 'tadv_btns1', $toolbar_1 );
+if ( get_option('tadv_btns2') != $toolbar_2 ) update_option( 'tadv_btns2', $toolbar_2 );
+if ( get_option('tadv_btns3') != $toolbar_3 ) update_option( 'tadv_btns3', $toolbar_3 );
+if ( get_option('tadv_btns4') != $toolbar_4 ) update_option( 'tadv_btns4', $toolbar_4 );
+if ( get_option('tadv_allbtns') != $tadv_allbtns ) update_option( 'tadv_allbtns', $tadv_allbtns );
 
-$buttons = array( 'Kitchen Sink' => 'wp_adv', 'Bold' => 'bold', 'Italic' => 'italic', 'Strikethrough' => 'strikethrough', 'Underline' => 'underline', 'Bullet List' => 'bullist', 'Numbered List' => 'numlist', 'Outdent' => 'outdent', 'Indent' => 'indent', 'Allign Left' => 'justifyleft', 'Center' => 'justifycenter', 'Alligh Right' => 'justifyright', 'Justify' => 'justifyfull', 'Cut' => 'cut', 'Copy' => 'copy', 'Paste' => 'paste', 'Link' => 'link', 'Remove Link' => 'unlink', 'Insert Image' => 'image', 'More Tag' => 'wp_more', 'Split Page' => 'wp_page', 'Search' => 'search', 'Replace' => 'replace', '<!--fontselect-->' => 'fontselect', '<!--fontsizeselect-->' => 'fontsizeselect', 'Help' => 'wp_help', 'Full Screen' => 'fullscreen', '<!--styleselect-->' => 'styleselect', '<!--formatselect-->' => 'formatselect', 'Text Color' => 'forecolor', 'Paste as Text' => 'pastetext', 'Paste from Word' => 'pasteword', 'Remove Format' => 'removeformat', 'Clean Code' => 'cleanup', 'Check Spelling' => 'spellchecker', 'Character Map' => 'charmap', 'Print' => 'print', 'Undo' => 'undo', 'Redo' => 'redo', 'Table' => 'tablecontrols', 'Citation' => 'cite', 'Inserted Text' => 'ins', 'Deleted Text' => 'del', 'Abbreviation' => 'abbr', 'Acronym' => 'acronym', 'XHTML Attribs' => 'attribs', 'Layer' => 'layer', 'Advanced HR' => 'advhr', 'View HTML' => 'code', 'Hidden Chars' => 'visualchars', 'NB Space' => 'nonbreaking', 'Sub' => 'sub', 'Sup' => 'sup', 'Visual Aids' => 'visualaid', 'Insert Date' => 'insertdate', 'Insert Time' => 'inserttime', 'Anchor' => 'anchor', 'Style' => 'styleprops', 'Smilies' => 'emotions', 'Insert Movie' => 'media' );  
+for ( $i = 1; $i < 21; $i++ ) 
+	$buttons["s$i"] = "separator$i";
 
-$active_plugins = get_settings('active_plugins');
-$add = array();
-foreach( $active_plugins as $plug ) {
-    if ( strpos( $plug, 'wpg2' ) !== false ) $add['Gallery 2'] = 'g2image';
-    if ( strpos( $plug, 'nextgen-gallery' ) !== false ) $add['Nextgen Gallery'] = 'NextGEN';
-    if ( strpos( $plug, 'vipers-video' ) !== false ) $add["Viper's Video"] = 'vipersvideoquicktags';
-    if ( strpos( $plug, 'embedded-video' ) !== false ) $add['EmbeddedVideo'] = 'embeddedvideo';
-    if ( strpos( $plug, 'imagemanager' ) !== false ) $add['Image Manager'] = 'ps_imagemanager_tinymceplugin';
-}
-
-if ( ! empty($add) ) $buttons += $add;
-
-$separators = array( 's1' => 'separator1', 's2' => 'separator2', 's3' => 'separator3', 's4' => 'separator4', 's5' => 'separator5', 's6' => 'separator6', 's7' => 'separator7', 's8' => 'separator8', 's9' => 'separator9', 's10' => 'separator10', 's11' => 'separator11', 's12' => 'separator12', 's13' => 'separator13', 's14' => 'separator14', 's15' => 'separator15', 's16' => 'separator16', 's17' => 'separator17', 's18' => 'separator18', 's19' => 'separator19', 's20' => 'separator20' );
-
-$buttons += $separators;
-
-if ( isset( $_POST['tadv'] ) ) { 
-    if ( isset($_POST['save']) ) { ?><div class="updated" id="message"><p>Options saved</p></div><?php }
-    if ( isset($_POST['reset']) ) { ?><div class="updated" id="message"><p>Defaults loaded</p></div><?php }
-} ?>
+if ( isset($_POST['tadv']) && isset($_POST['save']) ) {	?>
+	<div class="updated" id="message"><p>Options saved</p></div>
+<?php } ?>
 
 <div class="wrap">
 
@@ -215,13 +162,12 @@ if ( is_array($tadv_toolbars['toolbar_1']) ) {
 <?php	} else { ?>
 
 <li class="tadvmodule" id="pre_<?php echo $btn; ?>">
-<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" alt="<?php echo $name; ?>" title="<?php echo $name; ?>" />
+<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" title="<?php echo $name; ?>" />
 <span class="descr"> <?php echo $name; ?></span></div></li>
 <?php   }
     }
     $buttons = array_diff( $buttons, $tb1 );
 } ?>
-
         </ul></div>
         <br class="clear" />
 
@@ -242,13 +188,12 @@ if ( is_array($tadv_toolbars['toolbar_2']) ) {
 <?php	} else { ?>
 
 <li class="tadvmodule" id="pre_<?php echo $btn; ?>">
-<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" alt="<?php echo $name; ?>" title="<?php echo $name; ?>" />
+<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" title="<?php echo $name; ?>" />
 <span class="descr"> <?php echo $name; ?></span></div></li>
 <?php   }
     }
     $buttons = array_diff( $buttons, $tb2 );
 } ?>
-
         </ul></div>
         <br class="clear" />
 
@@ -269,13 +214,12 @@ if ( is_array($tadv_toolbars['toolbar_3']) ) {
 <?php	} else { ?>
 
 <li class="tadvmodule" id="pre_<?php echo $btn; ?>">
-<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" alt="<?php echo $name; ?>" title="<?php echo $name; ?>" />
+<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" title="<?php echo $name; ?>" />
 <span class="descr"> <?php echo $name; ?></span></div></li>
 <?php   }
     }
     $buttons = array_diff( $buttons, $tb3 );
 } ?>
-
         </ul></div>
         <br class="clear" />
 
@@ -296,16 +240,12 @@ if ( is_array($tadv_toolbars['toolbar_4']) ) {
 <?php	} else { ?>
 
 <li class="tadvmodule" id="pre_<?php echo $btn; ?>">
-<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" alt="<?php echo $name; ?>" title="<?php echo $name; ?>" />
+<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" title="<?php echo $name; ?>" />
 <span class="descr"> <?php echo $name; ?></span></div></li>
 <?php   }
     }
     $buttons = array_diff( $buttons, $tb4 );
-}
-
-$tadv_btns_left = is_array($buttons) ? array_values($buttons) : array();
-if ( get_option('tadv_btns_left') != $tadv_btns_left ) update_option( 'tadv_btns_left', $tadv_btns_left ); ?>
-
+} ?>
         </ul></div>
         <br class="clear" />
     </div>
@@ -324,7 +264,7 @@ if ( is_array($buttons) ) {
 <?php	} else { ?>
 
 <li class="tadvmodule" id="pre_<?php echo $btn; ?>">
-<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" alt="<?php echo $name; ?>" title="<?php echo $name; ?>" />
+<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" title="<?php echo $name; ?>" />
 <span class="descr"> <?php echo $name; ?></span></div></li>
 <?php   }
     } 
@@ -348,17 +288,17 @@ if ( is_array($buttons) ) {
         <tr><td style="border:1px solid #CD0000;padding:2px 12px 8px;">
         <p style="font-weight:bold;color:#CD0000;">Advanced</p> 
         
-        <p>&middot; Import the current theme's 
-        <label for="importcss" class="tadv-box">CSS classes &nbsp;
+        <p><label for="importcss" class="tadv-box">Import the current theme's CSS classes &nbsp;
         <input type="checkbox" class="tadv-chk"  name="importcss" id="importcss" <?php if ( $tadv_options['importcss'] == '1' ) echo ' checked="checked"'; ?> /></label></p>
-        <p>Custom CSS styles can be added in /wp-content/plugins/tinymce-advanced/css/tadv-mce.css. They will be imported in the Style Select menu. The file has to be downloaded with FTP, edited and uploaded, overwriting the original.</p>
-        </td></tr>
+        <p style="font-size:10px;">Custom CSS styles can be added in /wp-content/plugins/tinymce-advanced/css/tadv-mce.css. They will be imported and used in TinyMCE. The file has to be downloaded with FTP, edited and uploaded, overwriting the original. Only CSS classes can be added, also <strong>div.my-class</strong> would not work, but <strong>.my-class</strong> will.</p>
+        <p><label for="fix_autop" class="tadv-box">Stop removing the &lt;p&gt; and &lt;br /&gt; tags when saving and show them in the HTML editor &nbsp;
+        <input type="checkbox" class="tadv-chk"  name="fix_autop" id="fix_autop" <?php if ( $tadv_options['fix_autop'] == '1' ) echo ' checked="checked"'; ?> /></label></p>
+        <p style="font-size:10px;">This will make it possible to use more advanced HTML without the back-end filtering affecting it much. It also adds two new buttons to the HTML editor: &quot;autop&quot; that allows wpautop to be run on demand and &quot;undo&quot; that can undo the last changes.</p>
+		</td></tr>
 <?php
     $mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) );
     if ( $mce_locale != 'en' ) {
-        
-        if ( ! file_exists(ABSPATH . PLUGINDIR . '/tinymce-advanced/mce/advlink/langs/' . $mce_locale . '_dlg.js') ) {
-?>
+        if ( ! file_exists(ABSPATH . PLUGINDIR . '/tinymce-advanced/mce/advlink/langs/' . $mce_locale . '_dlg.js') ) { ?>
         <tr><td style="padding:2px 12px 8px;">
         <p style="font-weight:bold;">Language Settings</p>
         <p>Your WordPress language is set to <strong><?php echo get_locale(); ?></strong>. However there is no matching language installed for TinyMCE's plugins. This plugin includes several translations: German, French, Italian, Spanish, Portuguese, Russian, Japanese and Chinese. More translations are available at <a href="http://services.moxiecode.com/i18n/">TinyMCE's web site</a>.</p>
