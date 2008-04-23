@@ -10,7 +10,9 @@ Enables most of the advanced features of TinyMCE, the WordPress WYSIWYG editor.
 
 == Description ==
 
-This plugin adds 14 plugins to TinyMCE: Advanced hr, Advanced Image, Advanced Link, Context Menu, Emotions (Smilies), Date and Time, Layer, Nonbreaking, Print, Search and Replace, Style, Table, Visual Characters and XHTML Extras. 
+This plugin adds 14 plugins to TinyMCE: Advanced hr, Advanced Image, Advanced Link, Context Menu, Emotions (Smilies), Date and Time, Layer, Nonbreaking, Print, Search and Replace, Style, Table, Visual Characters and XHTML Extras.
+
+Version 3.0.1-beta is [available](http://downloads.wordpress.org/plugin/tinymce-advanced.zip). It fixes issues with removal of non-default buttons in TinyMCE, adds an option to disable the removal of P and BR tags when saving and in the HTML editor (autop) and two more buttons to the HTML editor: autop and undo.
 
 Version 2.0 includes an admin page for arranging the TinyMCE toolbar buttons, easy installation, a lot of bugfixes, customized "Smilies" plugin that uses the built-in WordPress smilies, etc. The admin page uses Scriptaculous and Prototype.js (similar to the "Widgets" admin page) that lets you "drag and drop" the TinyMCE buttons to arrange your own toolbars and enables/disables the corresponding plugins depending on the used buttons.
 
