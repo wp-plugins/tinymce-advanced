@@ -25,7 +25,13 @@ $imgpath = get_bloginfo('wpurl') . '/wp-content/plugins/tinymce-advanced/images/
 $tadv_toolbars = get_option('tadv_toolbars');
 if ( ! is_array($tadv_toolbars) )
 	@include_once( dirname(__FILE__) . '/tadv_defaults.php');
-else $tadv_options = get_option('tadv_options');
+else {
+	$tadv_options = get_option('tadv_options');
+	$tadv_toolbars['toolbar_1'] = isset($tadv_toolbars['toolbar_1']) ? (array) $tadv_toolbars['toolbar_1'] : array();
+	$tadv_toolbars['toolbar_2'] = isset($tadv_toolbars['toolbar_2']) ? (array) $tadv_toolbars['toolbar_2'] : array();
+	$tadv_toolbars['toolbar_3'] = isset($tadv_toolbars['toolbar_3']) ? (array) $tadv_toolbars['toolbar_3'] : array();
+	$tadv_toolbars['toolbar_4'] = isset($tadv_toolbars['toolbar_4']) ? (array) $tadv_toolbars['toolbar_4'] : array();
+}
 
 if ( isset( $_POST['save'] ) ) {
     check_admin_referer( 'tadv-save-buttons-order' );
@@ -53,7 +59,7 @@ if ( isset( $_POST['save'] ) ) {
 $hidden_row = 0;
 $i = 0;
 foreach ( $tadv_toolbars as $toolbar ) {
-	$vv = $l = false;
+	$l = false;
     $i++;
 
 	if ( empty($toolbar) ) {
@@ -64,8 +70,6 @@ foreach ( $tadv_toolbars as $toolbar ) {
     foreach( $toolbar as $k => $v ) {
         if ( strpos($v, 'separator') !== false ) $toolbar[$k] = 'separator';
         if ( 'layer' == $v ) $l = $k;
-        if ( 'vipersvideoquicktags' == $v ) $vv = $k;
-        if ( 'wp_adv' == $v ) $hidden_row = ($i + 1);
         if ( empty($v) ) unset($toolbar[$k]);
     }
     if ( $l ) array_splice( $toolbar, $l, 1, array('insertlayer', 'moveforward', 'movebackward', 'absolute') );
@@ -73,9 +77,6 @@ foreach ( $tadv_toolbars as $toolbar ) {
     $btns["toolbar_$i"] = $toolbar;
 }
 extract($btns);
-
-if ( $hidden_row > 0 && $hidden_row < 4 ) $tadv_options['hidden_row'] = $hidden_row;
-else $tadv_options['hidden_row'] = false;
 
 if ( empty($toolbar_1) && empty($toolbar_2) && empty($toolbar_3) && empty($toolbar_4) ) {
     $allbtns = array();
@@ -110,7 +111,7 @@ if ( empty($toolbar_1) && empty($toolbar_2) && empty($toolbar_3) && empty($toolb
 	if ( $tadv_options['contextmenu'] == '1' ) $plugins[] = 'contextmenu';
 }
 
-$buttons = array( 'Kitchen Sink' => 'wp_adv', 'Bold' => 'bold', 'Italic' => 'italic', 'Strikethrough' => 'strikethrough', 'Underline' => 'underline', 'Bullet List' => 'bullist', 'Numbered List' => 'numlist', 'Outdent' => 'outdent', 'Indent' => 'indent', 'Allign Left' => 'justifyleft', 'Center' => 'justifycenter', 'Alligh Right' => 'justifyright', 'Justify' => 'justifyfull', 'Cut' => 'cut', 'Copy' => 'copy', 'Paste' => 'paste', 'Link' => 'link', 'Remove Link' => 'unlink', 'Insert Image' => 'image', 'More Tag' => 'wp_more', 'Split Page' => 'wp_page', 'Search' => 'search', 'Replace' => 'replace', '<!--fontselect-->' => 'fontselect', '<!--fontsizeselect-->' => 'fontsizeselect', 'Help' => 'wp_help', 'Full Screen' => 'fullscreen', '<!--styleselect-->' => 'styleselect', '<!--formatselect-->' => 'formatselect', 'Text Color' => 'forecolor', 'Paste as Text' => 'pastetext', 'Paste from Word' => 'pasteword', 'Remove Format' => 'removeformat', 'Clean Code' => 'cleanup', 'Check Spelling' => 'spellchecker', 'Character Map' => 'charmap', 'Print' => 'print', 'Undo' => 'undo', 'Redo' => 'redo', 'Table' => 'tablecontrols', 'Citation' => 'cite', 'Inserted Text' => 'ins', 'Deleted Text' => 'del', 'Abbreviation' => 'abbr', 'Acronym' => 'acronym', 'XHTML Attribs' => 'attribs', 'Layer' => 'layer', 'Advanced HR' => 'advhr', 'View HTML' => 'code', 'Hidden Chars' => 'visualchars', 'NB Space' => 'nonbreaking', 'Sub' => 'sub', 'Sup' => 'sup', 'Visual Aids' => 'visualaid', 'Insert Date' => 'insertdate', 'Insert Time' => 'inserttime', 'Anchor' => 'anchor', 'Style' => 'styleprops', 'Smilies' => 'emotions', 'Insert Movie' => 'media', 'Quote' => 'blockquote' );
+$buttons = array( 'Kitchen Sink' => 'wp_adv', 'Quote' => 'blockquote', 'Bold' => 'bold', 'Italic' => 'italic', 'Strikethrough' => 'strikethrough', 'Underline' => 'underline', 'Bullet List' => 'bullist', 'Numbered List' => 'numlist', 'Outdent' => 'outdent', 'Indent' => 'indent', 'Allign Left' => 'justifyleft', 'Center' => 'justifycenter', 'Alligh Right' => 'justifyright', 'Justify' => 'justifyfull', 'Cut' => 'cut', 'Copy' => 'copy', 'Paste' => 'paste', 'Link' => 'link', 'Remove Link' => 'unlink', 'Insert Image' => 'image', 'More Tag' => 'wp_more', 'Split Page' => 'wp_page', 'Search' => 'search', 'Replace' => 'replace', '<!--fontselect-->' => 'fontselect', '<!--fontsizeselect-->' => 'fontsizeselect', 'Help' => 'wp_help', 'Full Screen' => 'fullscreen', '<!--styleselect-->' => 'styleselect', '<!--formatselect-->' => 'formatselect', 'Text Color' => 'forecolor', 'Paste as Text' => 'pastetext', 'Paste from Word' => 'pasteword', 'Remove Format' => 'removeformat', 'Clean Code' => 'cleanup', 'Check Spelling' => 'spellchecker', 'Character Map' => 'charmap', 'Print' => 'print', 'Undo' => 'undo', 'Redo' => 'redo', 'Table' => 'tablecontrols', 'Citation' => 'cite', 'Inserted Text' => 'ins', 'Deleted Text' => 'del', 'Abbreviation' => 'abbr', 'Acronym' => 'acronym', 'XHTML Attribs' => 'attribs', 'Layer' => 'layer', 'Advanced HR' => 'advhr', 'View HTML' => 'code', 'Hidden Chars' => 'visualchars', 'NB Space' => 'nonbreaking', 'Sub' => 'sub', 'Sup' => 'sup', 'Visual Aids' => 'visualaid', 'Insert Date' => 'insertdate', 'Insert Time' => 'inserttime', 'Anchor' => 'anchor', 'Style' => 'styleprops', 'Smilies' => 'emotions', 'Insert Movie' => 'media' );
 
 $tadv_allbtns = array_values($buttons);
 $tadv_allbtns[] = 'separator';
