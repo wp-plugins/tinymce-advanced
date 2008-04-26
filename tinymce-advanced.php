@@ -133,7 +133,7 @@ if ( ! function_exists('tdav_css') ) {
 add_filter( 'mce_css', 'tdav_css' );
 
 $tadv_allbtns = array();
-$tadv_hidden_row = false;
+$tadv_hidden_row = 0;
 
 if ( ! function_exists('tadv_mce_btns') ) {
 	function tadv_mce_btns($orig) {
@@ -206,8 +206,9 @@ if ( ! function_exists('tadv_mce_options') ) {
 		global $tadv_hidden_row;
 		$tadv_options = get_option('tadv_options');
 
-		if ( $tadv_hidden_row )
+		if ( $tadv_hidden_row > 0 )
 			$init['wordpress_adv_toolbar'] = 'toolbar' . $tadv_hidden_row;
+		else $init['wordpress_adv_hidden'] = false;
 
 		if ( isset($tadv_options['fix_autop']) && $tadv_options['fix_autop'] == 1 ) {
 			$init['apply_source_formatting'] = true;
