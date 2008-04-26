@@ -240,7 +240,7 @@ if ( ! function_exists('tmce_init') ) {
     	
     	$queue = $wp_scripts->queue;
     	if ( is_array($queue) && in_array( 'autosave', $queue ) )
-    		wp_enqueue_script( 'tadv_replace', get_option('siteurl') . '/wp-content/plugins/tinymce-advanced/js/tadv_replace.js', array('editor_functions'), '20080420' );
+    		wp_enqueue_script( 'tadv_replace', get_option('siteurl') . '/wp-content/plugins/tinymce-advanced/js/tadv_replace.js', array('editor_functions'), '20080425' );
     }
 }
 add_action( 'admin_print_scripts', 'tmce_init' );

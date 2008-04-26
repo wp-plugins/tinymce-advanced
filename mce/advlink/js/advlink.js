@@ -235,7 +235,7 @@ function parseLink(link) {
 		regExp += "\\);?";
 
 		// Build variable array
-		var variables = new Array();
+		var variables = [];
 		variables["_function"] = fnName;
 		var variableValues = link.replace(new RegExp(regExp, "gi"), replaceStr).split('<delim>');
 		for (var i=0; i<variableNames.length; i++)
@@ -249,7 +249,7 @@ function parseLink(link) {
 
 function parseOptions(opts) {
 	if (opts == null || opts == "")
-		return new Array();
+		return [];
 
 	// Cleanup the options
 	opts = opts.toLowerCase();
@@ -405,43 +405,18 @@ function insertAction() {
 		tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
 
 		elementArray = tinymce.grep(inst.dom.select("a"), function(n) {return inst.dom.getAttrib(n, 'href') == '#mce_temp_url#';});
-		for (i=0; i<elementArray.length; i++) {
-			elm = elementArray[i];
-
-			// Move cursor to end
-			try {
-				tinyMCEPopup.editor.selection.collapse(false);
-			} catch (ex) {
-				// Ignore
-			}
-
-			// Move cursor behind the new anchor
-			// Don't remember why this was needed so it's now removed
-			/*
-			if (tinyMCE.isGecko) {
-				var sp = inst.getDoc().createTextNode(" ");
-
-				if (elm.nextSibling)
-					elm.parentNode.insertBefore(sp, elm.nextSibling);
-				else
-					elm.parentNode.appendChild(sp);
-
-				// Set range after link
-				var rng = inst.getDoc().createRange();
-				rng.setStartAfter(elm);
-				rng.setEndAfter(elm);
-
-				// Update selection
-				var sel = inst.getSel();
-				sel.removeAllRanges();
-				sel.addRange(rng);
-			}
-			*/
-
-			setAllAttribs(elm);
-		}
+		for (i=0; i<elementArray.length; i++)
+			setAllAttribs(elm = elementArray[i]);
 	} else
 		setAllAttribs(elm);
+
+	// Don't move caret if selection was image
+	if (elm.childNodes.length != 1 || elm.firstChild.nodeName != 'IMG') {
+		inst.focus();
+		inst.selection.select(elm);
+		inst.selection.collapse(0);
+		tinyMCEPopup.storeSelection();
+	}
 
 	tinyMCEPopup.execCommand("mceEndUndoLevel");
 	tinyMCEPopup.close();

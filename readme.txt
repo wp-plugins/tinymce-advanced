@@ -4,7 +4,7 @@ Donate link:
 Tags: wysiwyg, formatting, tinymce, write, edit, post
 Requires at least: 2.5
 Tested up to: 2.5
-Stable tag: 3.0
+Stable tag: 3.0.1
 
 Enables most of the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
@@ -19,6 +19,8 @@ New in version 2.1: Improved language selection, improved compatibility with Wor
 New in version 2.2: Deactivate/Uninstall option page, font size drop-down menu and other small changes.
 
 New in version 3.0: Support for WordPress 2.5 and TinyMCE 3.0.
+
+New in version 3.0.1: Compatibility with WordPress 2.5.1 and TinyMCE 3.0.7, dded option to disable the removal of P and BR tags when saving and in the HTML editor (autop), added two more buttons to the HTML editor: autop and undo, fixed the removal of non-default TinyMCE buttons.
 
 **Language Support:** The plugin interface in only in English, but the TinyMCE plugins include several translations: German, French, Italian, Spanish, Portuguese, Russian, Chinese and Japanese. More translations are available at the [TinyMCE web site](http://services.moxiecode.com/i18n/).
 
