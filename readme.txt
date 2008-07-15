@@ -2,15 +2,15 @@
 Contributors: Andrew Ozz
 Donate link: 
 Tags: wysiwyg, formatting, tinymce, write, edit, post
-Requires at least: 2.5.1
-Tested up to: 2.5.1
-Stable tag: 3.0.1
+Requires at least: 2.6
+Tested up to: 2.6
+Stable tag: 3.1
 
 Enables most of the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
 == Description ==
 
-This plugin adds 14 plugins to TinyMCE: Advanced hr, Advanced Image, Advanced Link, Context Menu, Emotions (Smilies), Date and Time, Layer, Nonbreaking, Print, Search and Replace, Style, Table, Visual Characters and XHTML Extras. 
+This plugin adds 15 plugins to TinyMCE: Advanced hr, Advanced Image, Advanced Link, Context Menu, Emotions (Smilies), Date and Time, IESpell, Layer, Nonbreaking, Print, Search and Replace, Style, Table, Visual Characters and XHTML Extras. 
 
 Version 2.0 includes an admin page for arranging the TinyMCE toolbar buttons, easy installation, a lot of bugfixes, customized "Smilies" plugin that uses the built-in WordPress smilies, etc. The admin page uses Scriptaculous and Prototype.js (similar to the "Widgets" admin page) that lets you "drag and drop" the TinyMCE buttons to arrange your own toolbars and enables/disables the corresponding plugins depending on the used buttons.
 
@@ -21,6 +21,8 @@ New in version 2.2: Deactivate/Uninstall option page, font size drop-down menu a
 New in version 3.0: Support for WordPress 2.5 and TinyMCE 3.0.
 
 New in version 3.0.1: Compatibility with WordPress 2.5.1 and TinyMCE 3.0.7, added option to disable the removal of P and BR tags when saving and in the HTML editor (autop), added two more buttons to the HTML editor: autop and undo, fixed the removal of non-default TinyMCE buttons.
+
+New in version 3.1: Compatibility with WordPress 2.6 and TinyMCE 3.1, keeps empty paragrarhs when disabling the removal of P and BR tags.
 
 **Language Support:** The plugin interface in only in English, but the TinyMCE plugins include several translations: German, French, Italian, Spanish, Portuguese, Russian, Chinese and Japanese. More translations are available at the [TinyMCE web site](http://services.moxiecode.com/i18n/).
 
