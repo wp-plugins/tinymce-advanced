@@ -22,7 +22,7 @@ New in version 3.0: Support for WordPress 2.5 and TinyMCE 3.0.
 
 New in version 3.0.1: Compatibility with WordPress 2.5.1 and TinyMCE 3.0.7, added option to disable the removal of P and BR tags when saving and in the HTML editor (autop), added two more buttons to the HTML editor: autop and undo, fixed the removal of non-default TinyMCE buttons.
 
-New in version 3.1: Compatibility with WordPress 2.6 and TinyMCE 3.1, keeps empty paragrarhs when disabling the removal of P and BR tags.
+New in version 3.1: Compatibility with WordPress 2.6 and TinyMCE 3.1, keeps empty paragrarhs when disabling the removal of P and BR tags, the buttons for MCImageManager and MCFileManager can be arranged (if installed).
 
 **Language Support:** The plugin interface in only in English, but the TinyMCE plugins include several translations: German, French, Italian, Spanish, Portuguese, Russian, Chinese and Japanese. More translations are available at the [TinyMCE web site](http://services.moxiecode.com/i18n/).
 
