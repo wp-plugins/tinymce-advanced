@@ -19,9 +19,18 @@ echo '<script type="text/javascript">window.location="plugins.php?action=deactiv
 exit;
 }
 
-if ( ! isset($GLOBALS['wp_version']) || version_compare($GLOBALS['wp_version'], '2.6', '<') ) { // if less than 2.6
-	echo '<h2>'.__('This plugin requires WordPress version 2.6 or newer. Please upgrade your WordPress installation or download an', 'tadv').' <a href="http://wordpress.org/extend/plugins/tinymce-advanced/download/">'.__('older version of the plugin.', 'tadv').'</a></h2>';
-	exit;
+if ( ! isset($GLOBALS['wp_version']) || version_compare($GLOBALS['wp_version'], '2.6', '<') ) { // if less than 2.6 ?>
+<div class="error" style="text-align:center;margin-top:20px;">
+<form method="post" action="">
+<?php 
+	wp_nonce_field( 'tadv-uninstall' );
+	echo '<p>'.__('This plugin requires WordPress version 2.6 or newer. Please upgrade your WordPress installation or download an', 'tadv').' <a href="http://wordpress.org/extend/plugins/tinymce-advanced/download/">'.__('older version of the plugin.', 'tadv').'</a></p>';
+?>
+<p><input class="button tadv_btn" type="submit" name="tadv_uninstall" value="<?php _e('Uninstall', 'tadv'); ?>" /></p>
+</form>
+</div>
+<?php
+return;
 }
 
 $update_tadv_options = false;
