@@ -36,9 +36,6 @@ if ( ! function_exists('tadv_add_scripts') ) {
 if ( ! function_exists('tadv_activate') ) {
 	function tadv_activate() {
 
-		if ( ! isset($GLOBALS['wp_version']) || version_compare($GLOBALS['wp_version'], '2.6', '<') ) // if less than 2.6
-		exit('<h2>This plugin requires WordPress version 2.6 or newer. Please upgrade your WordPress installation or download an older version of the plugin.</h2>');
-
 		@include_once( WP_PLUGIN_DIR . '/tinymce-advanced/tadv_defaults.php');
 		$tadv_options = array( 'advlink' => 1, 'advimage' => 1, 'importcss' => 0, 'contextmenu' => 0, 'tadvreplace' => 0 );
 
