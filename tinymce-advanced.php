@@ -217,8 +217,8 @@ if ( ! function_exists('tadv_page') ) {
 
 if ( ! function_exists('tadv_menu') ) {
 	function tadv_menu() {
-		if ( function_exists('add_management_page') ) {
-			$page = add_management_page( 'TinyMCE Advanced', 'TinyMCE Advanced', 9, __FILE__, 'tadv_page' );
+		if ( function_exists('add_options_page') ) {
+			$page = add_options_page( 'TinyMCE Advanced', 'TinyMCE Advanced', 9, __FILE__, 'tadv_page' );
 			add_action( "admin_print_scripts-$page", 'tadv_add_scripts' );
 			add_action( "admin_head-$page", 'tadv_admin_head' );
 		}

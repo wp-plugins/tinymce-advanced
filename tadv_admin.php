@@ -48,7 +48,7 @@ if ( ! is_array($tadv_toolbars) ) {
 	$tadv_toolbars['toolbar_4'] = isset($tadv_toolbars['toolbar_4']) ? (array) $tadv_toolbars['toolbar_4'] : array();
 }
 
-if ( isset( $_POST['tadv'] ) ) {
+if ( isset( $_POST['tadv-save'] ) ) {
 	check_admin_referer( 'tadv-save-buttons-order' );
 
 	$tb1 = $tb2 = $tb3 = $tb4 = $btns = array();
@@ -149,7 +149,7 @@ if ( get_option('tadv_allbtns') != $tadv_allbtns ) update_option( 'tadv_allbtns'
 for ( $i = 1; $i < 21; $i++ )
 	$buttons["s$i"] = "separator$i";
 
-if ( isset($_POST['tadv']) && isset($_POST['save']) ) {	?>
+if ( isset($_POST['tadv-save']) ) {	?>
 	<div class="updated" id="message"><p><?php _e('Options saved', 'tadv'); ?></p></div>
 <?php } ?>
 
@@ -165,7 +165,7 @@ if ( isset($_POST['tadv']) && isset($_POST['save']) ) {	?>
 		<input id="toolbar_2order" name="toolbar_2order" value="" type="hidden" />
 		<input id="toolbar_3order" name="toolbar_3order" value="" type="hidden" />
 		<input id="toolbar_4order" name="toolbar_4order" value="" type="hidden" />
-		<input name="tadv" value="1" type="hidden" />
+		<input name="tadv-save" value="1" type="hidden" />
 
 	<div class="tadvdropzone">
 	<ul style="position: relative;" id="toolbar_1" class="container">
@@ -318,7 +318,7 @@ if ( is_array($buttons) ) {
 		<p style="font-size:11px;"><?php _e('Custom CSS styles can be added in /wp-content/plugins/tinymce-advanced/css/tadv-mce.css. They will be imported and used in TinyMCE. The file has to be downloaded with FTP, edited and uploaded, overwriting the original. Only CSS classes can be added, also <strong>div.my-class</strong> would not work, but <strong>.my-class</strong> will.', 'tadv'); ?></p>
 		<p><label for="fix_autop" class="tadv-box"><?php _e('Stop removing the &lt;p&gt; and &lt;br /&gt; tags when saving and show them in the HTML editor', 'tadv'); ?> &nbsp;
 		<input type="checkbox" class="tadv-chk"  name="fix_autop" id="fix_autop" <?php if ( $tadv_options['fix_autop'] == '1' ) echo ' checked="checked"'; ?> /></label></p>
-		<p style="font-size:11px;"><?php _e('This will make it possible to use more advanced HTML without the back-end filtering affecting it much. It also adds two new buttons to the HTML editor: &quot;autop&quot; that allows wpautop to be run on demand and &quot;undo&quot; that can undo the last changes.', 'tadv'); ?></p>
+		<p style="font-size:11px;"><?php _e('This will make it possible to use more advanced HTML without the back-end filtering affecting it much. It also preserves empty new lines in the editor by padding them with &lt;br /&gt; tags.', 'tadv'); ?></p>
 		</td></tr>
 <?php
 	$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) );
@@ -335,8 +335,8 @@ if ( is_array($buttons) ) {
 
 <p class="submit">
 	<?php wp_nonce_field( 'tadv-save-buttons-order' ); ?>
-	<input type="button" name="save" value="<?php _e('Save Changes', 'tadv'); ?>" onclick="tadvSortable.serialize();" />
-	<input type="button" name="uninstall" class="tadv_btn" value="<?php _e('Uninstall', 'tadv'); ?>" onclick="document.getElementById('tadv_uninst_div').style.display = 'block';" />
+	<input type="button" value="<?php _e('Save Changes', 'tadv'); ?>" onclick="tadvSortable.serialize();" />
+	<input type="button" class="tadv_btn" value="<?php _e('Uninstall', 'tadv'); ?>" onclick="document.getElementById('tadv_uninst_div').style.display = 'block';" />
 </p>
 </form>
 
@@ -357,4 +357,3 @@ if ( is_array($buttons) ) {
 <?php
 	if ( $update_tadv_options )
 		update_option( 'tadv_options', $tadv_options );
-?>
