@@ -10,7 +10,7 @@ Enables most of the advanced features of TinyMCE, the WordPress WYSIWYG editor.
 
 == Description ==
 
-This plugin adds 15 plugins to TinyMCE: Advanced hr, Advanced Image, Advanced Link, Context Menu, Emotions (Smilies), Date and Time, IESpell, Layer, Nonbreaking, Print, Search and Replace, Style, Table, Visual Characters and XHTML Extras. 
+This plugin adds 15 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advanced hr, Advanced Image, Advanced Link, Context Menu, Emotions (Smilies), Date and Time, IESpell, Layer, Nonbreaking, Print, Search and Replace, Style, Table, Visual Characters and XHTML Extras. 
 
 Version 2.0 includes an admin page for arranging the TinyMCE toolbar buttons, easy installation, a lot of bugfixes, customized "Smilies" plugin that uses the built-in WordPress smilies, etc. The admin page uses Scriptaculous and Prototype.js (similar to the "Widgets" admin page) that lets you "drag and drop" the TinyMCE buttons to arrange your own toolbars and enables/disables the corresponding plugins depending on the used buttons.
 
@@ -24,7 +24,7 @@ New in version 3.0.1: Compatibility with WordPress 2.5.1 and TinyMCE 3.0.7, adde
 
 New in version 3.1: Compatibility with WordPress 2.6 and TinyMCE 3.1, keeps empty paragrarhs when disabling the removal of P and BR tags, the buttons for MCImageManager and MCFileManager can be arranged (if installed).
 
-**Language Support:** The plugin interface in only in English, but the TinyMCE plugins include several translations: German, French, Italian, Spanish, Portuguese, Russian, Chinese and Japanese. More translations are available at the [TinyMCE web site](http://services.moxiecode.com/i18n/).
+**Language Support:** The plugin interface in only in English, but the TinyMCE plugins include several translations: German, French, Italian, Spanish, Portuguese, Russian, Chinese and Japanese. More translations are available at the [TinyMCE web site](http://tinymce.moxiecode.com/download_i18n.php).
 
 
 = Some of the features added by this plugin =
