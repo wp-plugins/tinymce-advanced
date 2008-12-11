@@ -79,6 +79,7 @@
 
 		reset : function() {
 			var pd = this.I('tadvpalette');
+			if ( ! pd ) return;
 			if( pd.childNodes.length > 6 ) {
 				var last = pd.lastChild.previousSibling;
 			    pd.style.height = last.offsetTop + last.offsetHeight + 30 + "px";

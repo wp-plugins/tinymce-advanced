@@ -51,7 +51,7 @@ form#tadvadmin {
 	margin-left: 8px;
 }
 #tadvzones {
-	margin-right: 240px;
+	margin-right: 280px;
 }
 .tadvdropzone {
 	float: left;
@@ -75,7 +75,7 @@ form#tadvadmin {
 }
 .tadvdropzone ul {
 	height: 30px;
-	background-color: #83B4D5;
+	background-color: #E5E5E5;
 	width: 99.99%;
 	float: left;
 	margin: 0;
@@ -183,7 +183,7 @@ form#tadvadmin {
 	width: 1px;
 }
 #tadvpalette .separator .tadvitem {
-	background: #83B4D5 none repeat scroll 0% 50%;
+	background-color: #e5e5e5;
 	border: 1px solid #AAAAAA;
 	display: block;
 	height: 20px;

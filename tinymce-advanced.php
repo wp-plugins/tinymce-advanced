@@ -3,7 +3,7 @@
 Plugin Name: TinyMCE Advanced
 Plugin URI: http://www.laptoptips.ca/projects/tinymce-advanced/
 Description: Enables advanced features and plugins in TinyMCE.
-Version: 3.1
+Version: 3.2
 Author: Andrew Ozz
 Author URI: http://www.laptoptips.ca/
 
@@ -65,8 +65,44 @@ if ( ! function_exists('tdav_css') ) {
 }
 add_filter( 'mce_css', 'tdav_css' );
 
+if ( ! function_exists('tdav_get_file') ) {
+	function tdav_get_file($path) {
+	
+		if ( function_exists('realpath') )
+			$path = realpath($path);
+	
+		if ( ! $path || ! @is_file($path) )
+			return '';
+	
+		if ( function_exists('file_get_contents') )
+			return @file_get_contents($path);
+	
+		$content = '';
+		$fp = @fopen($path, 'r');
+		if ( ! $fp )
+			return '';
+	
+		while ( ! feof($fp) )
+			$content .= fgets($fp);
+	
+		fclose($fp);
+		return $content;
+	}
+}
+
 $tadv_allbtns = array();
 $tadv_hidden_row = 0;
+
+if ( is_admin() && ! defined('DOING_AJAX') ) {
+	get_option('tadv_options');
+	get_option('tadv_toolbars');
+	get_option('tadv_plugins');
+	get_option('tadv_btns1');
+	get_option('tadv_btns2');
+	get_option('tadv_btns3');
+	get_option('tadv_btns4');
+	get_option('tadv_allbtns');
+}
 
 if ( ! function_exists('tadv_mce_btns') ) {
 	function tadv_mce_btns($orig) {
@@ -174,7 +210,7 @@ if ( ! function_exists('tmce_init') ) {
 
 		$queue = $wp_scripts->queue;
 		if ( is_array($queue) && in_array( 'autosave', $queue ) )
-			wp_enqueue_script( 'tadv_replace', WP_PLUGIN_URL . '/tinymce-advanced/js/tadv_replace.js', array('editor_functions'), '20080425' );
+			wp_enqueue_script( 'tadv_replace', WP_PLUGIN_URL . '/tinymce-advanced/js/tadv_replace.js', array('editor'), '20080425' );
 	}
 }
 add_action( 'admin_print_scripts', 'tmce_init' );
@@ -196,7 +232,7 @@ add_action( 'mce_external_plugins', 'tadv_load_plugins', 999 );
 if ( ! function_exists('tadv_load_langs') ) {
 	function tadv_load_langs($langs) {
 		$tadv_plugins = (array) get_option('tadv_plugins');
-		$langpath = WP_PLUGIN_URL . '/tinymce-advanced/mce/';
+		$langpath = WP_PLUGIN_DIR . '/tinymce-advanced/mce/';
 		$nolangs = array( 'bbcode', 'contextmenu', 'insertdatetime', 'layer', 'nonbreaking', 'print', 'visualchars', 'emotions', 'tadvreplace' );
 
 		$langs = (array) $langs;
@@ -218,7 +254,7 @@ if ( ! function_exists('tadv_page') ) {
 if ( ! function_exists('tadv_menu') ) {
 	function tadv_menu() {
 		if ( function_exists('add_options_page') ) {
-			$page = add_options_page( 'TinyMCE Advanced', 'TinyMCE Advanced', 9, __FILE__, 'tadv_page' );
+			$page = add_options_page( 'TinyMCE Advanced', 'TinyMCE Advanced', 9, 'tinymce-advanced', 'tadv_page' );
 			add_action( "admin_print_scripts-$page", 'tadv_add_scripts' );
 			add_action( "admin_head-$page", 'tadv_admin_head' );
 		}
