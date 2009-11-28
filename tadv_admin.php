@@ -36,7 +36,7 @@ $imgpath = WP_PLUGIN_URL . '/tinymce-advanced/images/';
 $tadv_toolbars = get_option('tadv_toolbars');
 if ( ! is_array($tadv_toolbars) ) {
 	@include_once( WP_PLUGIN_DIR . '/tinymce-advanced/tadv_defaults.php');
-	$tadv_options = array( 'advlink' => 1, 'advimage' => 1, 'importcss' => 0, 'contextmenu' => 0, 'tadvreplace' => 0 );
+	$tadv_options = array( 'advlink' => 1, 'advimage' => 1, 'importcss' => 0, 'contextmenu' => 0, 'fix_autop' => 0 );
 } else {
 	$tadv_options = get_option('tadv_options');
 	$tadv_toolbars['toolbar_1'] = isset($tadv_toolbars['toolbar_1']) ? (array) $tadv_toolbars['toolbar_1'] : array();
