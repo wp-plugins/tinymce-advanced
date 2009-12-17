@@ -309,7 +309,10 @@ if ( is_array($buttons) ) {
 		</td></tr>
 
 		<tr><td style="border:1px solid #CD0000;padding:2px 12px 8px;">
-		<p style="font-weight:bold;color:#CD0000;"><?php _e('Advanced', 'tadv'); ?></p>
+		<p style="font-weight:bold;color:#CD0000;"><?php _e('Advanced', 'tadv'); ?></p><?php
+
+		if ( function_exists('mceopt_admin') )
+			echo '<p><a href="' . admin_url('options-general.php?page=tinymce-options/tinymce-options.php') . '">' . __('Manage TinyMCE Options', 'tadv') . '</a></p>'; ?>
 
 		<p><label for="importcss" class="tadv-box"><?php _e('Import the current theme CSS classes', 'tadv'); ?> &nbsp;
 		<input type="checkbox" class="tadv-chk"  name="importcss" id="importcss" <?php if ( $tadv_options['importcss'] == '1' ) echo ' checked="checked"'; ?> /></label></p>
