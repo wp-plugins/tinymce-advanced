@@ -1,0 +1,72 @@
+/*
+ * Example styles for use in the visual editor.
+ *
+ * Two types of styles can be defined here: general styles to make the editor look
+ * more like the theme and CSS classes that can be selected by the user.
+ *
+ * @package TinyMCE Kit
+ *
+ * Released under the GPL v.2, http://www.gnu.org/copyleft/gpl.html
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+ 
+
+/**
+ * Example of general styles for the editor
+ *
+ * If you're styling the image caption, in the editor it's in 
+ * <dl.wp-caption> <dt.wp-caption-dt> <dd.wp-caption-dd> structure.
+ */
+html .mceContentBody {
+	font: 14px/22px Arial, Helvetica, sans-serif;
+}
+
+img {
+	margin: 5px 10px;
+}
+
+p {
+	margin: 0.5em 0 1.5em;
+}
+
+h1 {
+	color: red;
+}
+
+h2 {
+	color: blue;
+}
+
+h3 {
+	color: green;
+}
+
+/**
+ * Example of styles that will be selectable by the user.
+ *
+ * The class names have to match the $classes array in tinymce-kit.php
+ * and the styles must also be defined in your theme.
+ *
+ * These classes are applied either to the <p> tag if the whole patagraph is selected
+ * or to a <span> tag if only some text is selected. For best results they have
+ * to contain only "inline" styling, like color, font, text-decoration, etc.
+ */
+.attention {
+	color: red;
+	font: 1.4em/2em Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+	word-spacing: 2px;
+}
+
+.bigger {
+	color: #555;
+	font: 1.2em/1.8em Verdana, Arial, Helvetica, sans-serif;
+}
+
+.smaller {
+	color: #44a;
+	font: 0.8em/1.2em Verdana, Arial, Helvetica, sans-serif;
+}
