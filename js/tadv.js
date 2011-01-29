@@ -9,6 +9,7 @@
 				items : 'li',
 				stop : tadvSortable.update,
 				revert : true,
+				opacity : 0.7,
 				containment : '#contain'
 			});
 
@@ -17,6 +18,7 @@
 				items : 'li',
 				stop : tadvSortable.update,
 				revert : true,
+				opacity : 0.7,
 				containment : '#contain'
 			});
 
@@ -25,6 +27,7 @@
 				items : 'li',
 				stop : tadvSortable.update,
 				revert : true,
+				opacity : 0.7,
 				containment : '#contain'
 			});
 
@@ -33,6 +36,7 @@
 				items : 'li',
 				stop : tadvSortable.update,
 				revert : true,
+				opacity : 0.7,
 				containment : '#contain'
 			});
 
@@ -41,6 +45,7 @@
 				items : 'li',
 				stop : tadvSortable.update,
 				revert : true,
+				opacity : 0.7,
 				containment : '#contain'
 			});
 

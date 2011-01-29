@@ -185,8 +185,9 @@ if ( is_array($tadv_toolbars['toolbar_1']) ) {
 <?php	} else { ?>
 
 	<li class="tadvmodule" id="pre_<?php echo $btn; ?>">
-	<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" title="<?php echo $name; ?>" />
-	<span class="descr"> <?php echo $name; ?></span></div></li>
+	<div class="tadvitem"><div id="<?php echo $btn; ?>" title="<?php echo $name; ?>"></div>
+	<span class="descr"> <?php echo $name; ?></span>
+	</div></li>
 <?php   }
 	}
 	$buttons = array_diff( $buttons, $tb1 );
@@ -211,7 +212,7 @@ if ( is_array($tadv_toolbars['toolbar_2']) ) {
 <?php	} else { ?>
 
 	<li class="tadvmodule" id="pre_<?php echo $btn; ?>">
-	<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" title="<?php echo $name; ?>" />
+	<div class="tadvitem"><div id="<?php echo $btn; ?>" title="<?php echo $name; ?>"></div>
 	<span class="descr"> <?php echo $name; ?></span></div></li>
 <?php   }
 	}
@@ -237,7 +238,7 @@ if ( is_array($tadv_toolbars['toolbar_3']) ) {
 <?php	} else { ?>
 
 	<li class="tadvmodule" id="pre_<?php echo $btn; ?>">
-	<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" title="<?php echo $name; ?>" />
+	<div class="tadvitem"><div id="<?php echo $btn; ?>" title="<?php echo $name; ?>"></div>
 	<span class="descr"> <?php echo $name; ?></span></div></li>
 <?php   }
 	}
@@ -263,7 +264,7 @@ if ( is_array($tadv_toolbars['toolbar_4']) ) {
 <?php	} else { ?>
 
 	<li class="tadvmodule" id="pre_<?php echo $btn; ?>">
-	<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" title="<?php echo $name; ?>" />
+	<div class="tadvitem"><div id="<?php echo $btn; ?>" title="<?php echo $name; ?>"></div>
 	<span class="descr"> <?php echo $name; ?></span></div></li>
 <?php   }
 	}
@@ -289,7 +290,7 @@ if ( is_array($buttons) ) {
 <?php	} else { ?>
 
 	<li class="tadvmodule" id="pre_<?php echo $btn; ?>">
-	<div class="tadvitem"><img src="<?php echo $imgpath . $btn . '.gif'; ?>" title="<?php echo $name; ?>" />
+	<div class="tadvitem"><div id="<?php echo $btn; ?>" title="<?php echo $name; ?>"></div>
 	<span class="descr"> <?php echo $name; ?></span></div></li>
 <?php   }
 	}
@@ -308,25 +309,22 @@ if ( is_array($buttons) ) {
 
 		<label for="contextmenu" class="tadv-box"><?php _e('Context Menu', 'tadv'); ?> &nbsp;
 		<input type="checkbox" class="tadv-chk"  name="contextmenu" id="contextmenu" <?php if ( $tadv_options['contextmenu'] == '1' ) echo ' checked="checked"'; ?> /></label>
-		<?php _e('(to show the context menu in Firefox and use the spellchecker, hold down the Ctrl key).', 'tadv'); ?>
+		<?php _e('(to show the browser context menu in Firefox, hold down the Ctrl key).', 'tadv'); ?>
 		</td></tr>
 
 		<tr><td style="border:1px solid #CD0000;padding:2px 12px 8px;">
-		<p style="font-weight:bold;color:#CD0000;"><?php _e('Advanced', 'tadv'); ?></p><?php
+		<p style="font-weight:bold;color:#CD0000;"><?php _e('Advanced Options', 'tadv'); ?></p><?php
 
 		if ( function_exists('mceopt_admin') )
 			echo '<p><a href="' . admin_url('options-general.php?page=tinymce-options/tinymce-options.php') . '">' . __('Manage TinyMCE Options', 'tadv') . '</a></p>'; ?>
 
-		<p><label for="advlink1" class="tadv-box"><?php _e('Advanced Link', 'tadv'); ?> &nbsp;
-		<input type="checkbox" class="tadv-chk"  name="advlink1" id="advlink1" <?php if ( $tadv_options['advlink1'] == '1' ) echo ' checked="checked"'; ?> /> .</label> <?php _e('Enabling this TinyMCE plugin will overwrite the new internal links feature in WordPress 3.1. Cuttently there is no way to enable both of them at the same time.', 'tadv'); ?></p>
+		<p><input type="checkbox" class="tadv-chk"  name="advlink1" id="advlink1" <?php if ( $tadv_options['advlink1'] == '1' ) echo ' checked="checked"'; ?> /> <label for="advlink1" class="tadv-box"><?php _e('Advanced Link', 'tadv'); ?></label> <?php _e('Enabling this TinyMCE plugin will overwrite the new internal links feature in WordPress 3.1. Cuttently there is no way to enable both of them at the same time.', 'tadv'); ?></p>
 		
 		<p><?php _e('Custom CSS styles can be added in', 'tadv'); ?> <a href="plugin-editor.php?file=tinymce-advanced/css/tadv-mce.css&amp;plugin=tinymce-advanced/tinymce-advanced.php"> <?php _e('/wp-content/plugins/tinymce-advanced/css/tadv-mce.css.', 'tadv'); ?></a> <?php _e('They will be imported and used in TinyMCE. Only CSS classes will be used, also <strong>div.my-class</strong> would not work, but <strong>.my-class</strong> will.', 'tadv'); ?></p>
 
-		<p><label for="importcss" class="tadv-box"><?php _e('Import the current theme CSS classes', 'tadv'); ?> &nbsp;
-		<input type="checkbox" class="tadv-chk"  name="importcss" id="importcss" <?php if ( $tadv_options['importcss'] == '1' ) echo ' checked="checked"'; ?> /> .</label> <?php _e('Alternatively you can try to import all styles from your theme\'s stylesheet. This is not necessary for many new and updated themes (like  Twenty Ten) as they style the visual editor automatically.', 'tadv'); ?></p>
+		<p><input type="checkbox" class="tadv-chk"  name="importcss" id="importcss" <?php if ( $tadv_options['importcss'] == '1' ) echo ' checked="checked"'; ?> /> <label for="importcss" class="tadv-box"><?php _e('Import the current theme CSS classes.', 'tadv'); ?></label> <?php _e('You can try to import all styles from your theme\'s stylesheet. This can improve the look of the visual editor and make it more like your theme. However this is not necessary for many new and updated themes (like Twenty Ten) as they style the visual editor automatically.', 'tadv'); ?></p>
 
-		<p><label for="no_autop" class="tadv-box"><?php _e('Stop removing the &lt;p&gt; and &lt;br /&gt; tags when saving and show them in the HTML editor', 'tadv'); ?> &nbsp;
-		<input type="checkbox" class="tadv-chk"  name="no_autop" id="no_autop" <?php if ( $tadv_options['no_autop'] == '1' ) echo ' checked="checked"'; ?> /> .</label> <?php _e('This will make it possible to use more advanced coding in the HTML editor without the back-end filtering affecting it much. However it may behave unexpectedly in some (rare) cases, so test it thoroughly before enabling. Also line breaks in the HTML editor would still affect the output. In particular do not use empty lines or line breaks inside HTML tags.', 'tadv'); ?></p>
+		<p><input type="checkbox" class="tadv-chk"  name="no_autop" id="no_autop" <?php if ( $tadv_options['no_autop'] == '1' ) echo ' checked="checked"'; ?> /> <label for="no_autop" class="tadv-box"><?php _e('Stop removing the &lt;p&gt; and &lt;br /&gt; tags when saving and show them in the HTML editor', 'tadv'); ?></label> <?php _e('This will make it possible to use more advanced coding in the HTML editor without the back-end filtering affecting it much. However it may behave unexpectedly in some (rare) cases, so test it thoroughly before enabling. Also line breaks in the HTML editor would still affect the output. In particular do not use empty lines or line breaks inside HTML tags.', 'tadv'); ?></p>
 		</td></tr>
 <?php
 	$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) );
