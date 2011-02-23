@@ -2,15 +2,15 @@
 Contributors: Andrew Ozz
 Donate link: 
 Tags: wysiwyg, formatting, tinymce, write, edit, post
-Requires at least: 2.9
-Tested up to: 3.0
-Stable tag: 3.2.7
+Requires at least: 3.1
+Tested up to: 3.1
+Stable tag: 3.3.9
 
 Enables the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
 == Description ==
 
-This plugin adds 15 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advanced HR, Advanced Image, Advanced Link, Context Menu, Emotions (Smilies), Date and Time, IESpell, Layer, Nonbreaking, Print, Search and Replace, Style, Table, Visual Characters and XHTML Extras. 
+This plugin adds 17 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advanced HR, Advanced Image, Advanced Link, Advanced List, Context Menu, Emotions (Smilies), Date and Time, IESpell, Layer, Embed Media, Nonbreaking, Print, Search and Replace, Style, Table, Visual Characters and XHTML Extras. 
 
 **Language Support:** The plugin interface in only in English, but the TinyMCE plugins include several translations: German, French, Italian, Spanish, Portuguese, Russian, Chinese and Japanese. More translations are available at the [TinyMCE web site](http://tinymce.moxiecode.com/download_i18n.php).
 
@@ -20,7 +20,7 @@ This plugin adds 15 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advance
 * Imports all CSS classes from the main theme stylesheet and add them to a drop-down list.
 * Support for making and editing tables.
 * In-line css styles.
-* Advanced link and image dialogs that offer a lot of options.
+* Advanced list and image dialogs that offer a lot of options.
 * Search and Replace while editing.
 * Support for XHTML specific tags and for (div based) layers.
 
@@ -31,7 +31,7 @@ This plugin adds 15 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advance
 2. Unzip.
 3. Upload to the plugins directory (wp-content/plugins).
 4. Activate the plugin.
-5. Set your preferences at "Tools - TinyMCE Advanced".
+5. Set your preferences at "Settings - TinyMCE Advanced".
 6. Clear your browser cache.
 
 
@@ -43,6 +43,9 @@ This plugin adds 15 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advance
 
 
 == Changelog ==
+
+= 3.3.9 =
+Compatibility with WordPress 3.1 and TinyMCE 3.3.9, improved P and BR tags option.
 
 = 3.2.7 =
 Compatibility with WordPress 2.9 and TinyMCE 3.2.7, several minor bug fixes.
@@ -95,7 +98,7 @@ Make sure the "Disable the visual editor when writing" checkbox under "Users - Y
 
 = I still see the "old" buttons in the editor =
 
-Click on "Remove options" on the plugin settings page and then on "reload this page" to reset all buttons.
+Click the "Remove Settings" button on the plugin settings page and then on "reload this page" to reset all buttons.
 
 = Other questions? More screenshots? =
 

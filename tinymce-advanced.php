@@ -3,7 +3,7 @@
 Plugin Name: TinyMCE Advanced
 Plugin URI: http://www.laptoptips.ca/projects/tinymce-advanced/
 Description: Enables advanced features and plugins in TinyMCE, the visual editor in WordPress.
-Version: 3.3.9-beta
+Version: 3.3.9
 Author: Andrew Ozz
 Author URI: http://www.laptoptips.ca/
 
@@ -20,7 +20,7 @@ Released under the GPL v.2, http://www.gnu.org/copyleft/gpl.html
 
 if ( ! function_exists('tadv_paths') ) {
 	/*
-	If using domain mapping or other plugins that change the path dinamically, edit these to set the proper path and URL.
+	If using domain mapping or plugins that change the path dinamically, edit these to set the proper path and URL.
 	*/
 	function tadv_paths() {
 		if ( !defined('TADV_URL') )
@@ -36,8 +36,8 @@ if ( ! function_exists('tadv_paths') ) {
 if ( ! function_exists('tadv_add_scripts') ) {
 	function tadv_add_scripts($page) {
 		if ( 'settings_page_tinymce-advanced' == $page ) {
-			wp_enqueue_script( 'tadv-js', TADV_URL . 'js/tadv.js', array('jquery-ui-sortable'), '3.2.7', true );
-			wp_enqueue_style( 'tadv-css', TADV_URL . 'css/tadv-styles.css', array(), '3.2.7' );
+			wp_enqueue_script( 'tadv-js', TADV_URL . 'js/tadv.js', array('jquery-ui-sortable'), '3.3.9', true );
+			wp_enqueue_style( 'tadv-css', TADV_URL . 'css/tadv-styles.css', array(), '3.3.9' );
 		}
 	}
 } // end tadv_add_scripts
@@ -47,7 +47,7 @@ if ( ! function_exists('tadv_activate') ) {
 	function tadv_activate() {
 
 		@include_once('tadv_defaults.php');
-		$tadv_options = array( 'advlink' => 1, 'advimage' => 1, 'importcss' => 0, 'contextmenu' => 0, 'no_autop' => 0 );
+		$tadv_options = array( 'advlink1' => 0, 'advimage' => 1, 'importcss' => 0, 'contextmenu' => 0, 'no_autop' => 0 );
 
 		if ( isset($tadv_toolbars) ) {
 			add_option( 'tadv_toolbars', $tadv_toolbars, '', 'no' );
@@ -106,16 +106,6 @@ if ( ! function_exists('tdav_get_file') ) {
 $tadv_allbtns = array();
 $tadv_hidden_row = 0;
 
-if ( is_admin() && !defined('DOING_AJAX') && !defined('DOING_CRON') ) {
-	get_option('tadv_options');
-	get_option('tadv_toolbars');
-	get_option('tadv_plugins');
-	get_option('tadv_btns1');
-	get_option('tadv_btns2');
-	get_option('tadv_btns3');
-	get_option('tadv_btns4');
-	get_option('tadv_allbtns');
-}
 
 if ( ! function_exists('tadv_mce_btns') ) {
 	function tadv_mce_btns($orig) {

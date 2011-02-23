@@ -1,6 +1,6 @@
 <?php
 
-$tadv_plugins = array( 'style', 'emotions', 'print', 'searchreplace', 'xhtmlxtras', 'advlink', 'advimage' );
+$tadv_plugins = array( 'style', 'emotions', 'print', 'searchreplace', 'xhtmlxtras', 'advimage' );
 
 $tadv_toolbars = array( 
 	'toolbar_1' => array( 'bold', 'italic', 'strikethrough', 'underline', 'separator1', 'bullist', 'numlist', 'outdent',  'indent', 'separator2', 'justifyleft', 'justifycenter', 'justifyright', 'separator3', 'link', 'unlink', 'separator4', 'image', 'styleprops', 'separator12', 'wp_more', 'wp_page', 'separator5', 'spellchecker', 'search', 'separator6', 'fullscreen', 'wp_adv' ), 
