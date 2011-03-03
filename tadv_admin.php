@@ -22,7 +22,7 @@ if ( isset( $_POST['tadv_uninstall'] ) ) {
 return;
 }
 
-if ( ! isset($GLOBALS['wp_version']) || version_compare($GLOBALS['wp_version'], '3.0', '<') ) { // if less than ... ?>
+if ( ! isset($GLOBALS['wp_version']) || version_compare($GLOBALS['wp_version'], '3.1', '<') ) { // if less than ... ?>
 <div class="error" style="margin-top:30px;">
 <p><?php _e('This plugin requires WordPress version 3.1 or newer. Please upgrade your WordPress installation or download an', 'tadv'); ?> <a href="http://wordpress.org/extend/plugins/tinymce-advanced/download/"><?php _e('older version of the plugin.', 'tadv'); ?></a></p>
 </div>
@@ -59,15 +59,15 @@ if ( isset( $_POST['tadv-save'] ) ) {
 	$tadv_toolbars['toolbar_3'] = (array) $tb3['pre'];
 	$tadv_toolbars['toolbar_4'] = (array) $tb4['pre'];
 
-	update_option( 'tadv_toolbars', $tadv_toolbars );
-
 	$tadv_options['advlink1'] = $_POST['advlink1'] ? 1 : 0;
 	$tadv_options['advimage'] = $_POST['advimage'] ? 1 : 0;
 	$tadv_options['advlist'] = $_POST['advlist'] ? 1 : 0;
 	$tadv_options['contextmenu'] = $_POST['contextmenu'] ? 1 : 0;
 	$tadv_options['importcss'] = $_POST['importcss'] ? 1 : 0;
 	$tadv_options['no_autop'] = $_POST['no_autop'] ? 1 : 0;
-	$update_tadv_options = true;
+	
+	update_option( 'tadv_toolbars', $tadv_toolbars );
+	update_option( 'tadv_options', $tadv_options );
 }
 
 $hidden_row = 0;
@@ -100,33 +100,35 @@ if ( empty($toolbar_1) && empty($toolbar_2) && empty($toolbar_3) && empty($toolb
 } else {
 	$allbtns = array_merge( $toolbar_1, $toolbar_2, $toolbar_3, $toolbar_4 );
 }
-	if ( in_array('advhr', $allbtns) ) $plugins[] = 'advhr';
-	if ( in_array('insertlayer', $allbtns) ) $plugins[] = 'layer';
-	if ( in_array('visualchars', $allbtns) ) $plugins[] = 'visualchars';
 
-	if ( in_array('nonbreaking', $allbtns) ) $plugins[] = 'nonbreaking';
-	if ( in_array('styleprops', $allbtns) ) $plugins[] = 'style';
-	if ( in_array('emotions', $allbtns) ) $plugins[] = 'emotions';
-	if ( in_array('insertdate', $allbtns) ||
-		in_array('inserttime', $allbtns) ) $plugins[] = 'insertdatetime';
+if ( in_array('media', $allbtns) ) $plugins[] = 'media';
+if ( in_array('advhr', $allbtns) ) $plugins[] = 'advhr';
+if ( in_array('insertlayer', $allbtns) ) $plugins[] = 'layer';
+if ( in_array('visualchars', $allbtns) ) $plugins[] = 'visualchars';
 
-	if ( in_array('tablecontrols', $allbtns) ) $plugins[] = 'table';
-	if ( in_array('print', $allbtns) ) $plugins[] = 'print';
-	if ( in_array('iespell', $allbtns) ) $plugins[] = 'iespell';
-	if ( in_array('search', $allbtns) ||
-		in_array('replace', $allbtns) ) $plugins[] = 'searchreplace';
+if ( in_array('nonbreaking', $allbtns) ) $plugins[] = 'nonbreaking';
+if ( in_array('styleprops', $allbtns) ) $plugins[] = 'style';
+if ( in_array('emotions', $allbtns) ) $plugins[] = 'emotions';
+if ( in_array('insertdate', $allbtns) ||
+	in_array('inserttime', $allbtns) ) $plugins[] = 'insertdatetime';
 
-	if ( in_array('cite', $allbtns) ||
-		in_array('ins', $allbtns) ||
-		in_array('del', $allbtns) ||
-		in_array('abbr', $allbtns) ||
-		in_array('acronym', $allbtns) ||
-		in_array('attribs', $allbtns) ) $plugins[] = 'xhtmlxtras';
+if ( in_array('tablecontrols', $allbtns) ) $plugins[] = 'table';
+if ( in_array('print', $allbtns) ) $plugins[] = 'print';
+if ( in_array('iespell', $allbtns) ) $plugins[] = 'iespell';
+if ( in_array('search', $allbtns) ||
+	in_array('replace', $allbtns) ) $plugins[] = 'searchreplace';
 
-	if ( $tadv_options['advlink1'] == '1' ) $plugins[] = 'advlink';
-	if ( $tadv_options['advlist'] == '1' ) $plugins[] = 'advlist';
-	if ( $tadv_options['advimage'] == '1' ) $plugins[] = 'advimage';
-	if ( $tadv_options['contextmenu'] == '1' ) $plugins[] = 'contextmenu';
+if ( in_array('cite', $allbtns) ||
+	in_array('ins', $allbtns) ||
+	in_array('del', $allbtns) ||
+	in_array('abbr', $allbtns) ||
+	in_array('acronym', $allbtns) ||
+	in_array('attribs', $allbtns) ) $plugins[] = 'xhtmlxtras';
+
+if ( $tadv_options['advlink1'] == '1' ) $plugins[] = 'advlink';
+if ( $tadv_options['advlist'] == '1' ) $plugins[] = 'advlist';
+if ( $tadv_options['advimage'] == '1' ) $plugins[] = 'advimage';
+if ( $tadv_options['contextmenu'] == '1' ) $plugins[] = 'contextmenu';
 
 $buttons = array( 'Hide next row' => 'wp_adv', 'Quote' => 'blockquote', 'Bold' => 'bold', 'Italic' => 'italic', 'Strikethrough' => 'strikethrough', 'Underline' => 'underline', 'Bullet List' => 'bullist', 'Numbered List' => 'numlist', 'Outdent' => 'outdent', 'Indent' => 'indent', 'Allign Left' => 'justifyleft', 'Center' => 'justifycenter', 'Alligh Right' => 'justifyright', 'Justify' => 'justifyfull', 'Cut' => 'cut', 'Copy' => 'copy', 'Paste' => 'paste', 'Link' => 'link', 'Remove Link' => 'unlink', 'Insert Image' => 'image', 'More Tag' => 'wp_more', 'Split Page' => 'wp_page', 'Search' => 'search', 'Replace' => 'replace', '<!--fontselect-->' => 'fontselect', '<!--fontsizeselect-->' => 'fontsizeselect', 'Help' => 'wp_help', 'Full Screen' => 'fullscreen', '<!--styleselect-->' => 'styleselect', '<!--formatselect-->' => 'formatselect', 'Text Color' => 'forecolor', 'Back Color' => 'backcolor', 'Paste as Text' => 'pastetext', 'Paste from Word' => 'pasteword', 'Remove Format' => 'removeformat', 'Clean Code' => 'cleanup', 'Check Spelling' => 'spellchecker', 'Character Map' => 'charmap', 'Print' => 'print', 'Undo' => 'undo', 'Redo' => 'redo', 'Table' => 'tablecontrols', 'Citation' => 'cite', 'Inserted Text' => 'ins', 'Deleted Text' => 'del', 'Abbreviation' => 'abbr', 'Acronym' => 'acronym', 'XHTML Attribs' => 'attribs', 'Layer' => 'layer', 'Advanced HR' => 'advhr', 'View HTML' => 'code', 'Hidden Chars' => 'visualchars', 'NB Space' => 'nonbreaking', 'Sub' => 'sub', 'Sup' => 'sup', 'Visual Aids' => 'visualaid', 'Insert Date' => 'insertdate', 'Insert Time' => 'inserttime', 'Anchor' => 'anchor', 'Style' => 'styleprops', 'Smilies' => 'emotions', 'Insert Movie' => 'media', 'IE Spell' => 'iespell' );
 
@@ -139,17 +141,17 @@ $tadv_allbtns = array_values($buttons);
 $tadv_allbtns[] = 'separator';
 $tadv_allbtns[] = '|';
 
-if ( get_option('tadv_plugins') != $plugins ) update_option( 'tadv_plugins', $plugins );
-if ( get_option('tadv_btns1') != $toolbar_1 ) update_option( 'tadv_btns1', $toolbar_1 );
-if ( get_option('tadv_btns2') != $toolbar_2 ) update_option( 'tadv_btns2', $toolbar_2 );
-if ( get_option('tadv_btns3') != $toolbar_3 ) update_option( 'tadv_btns3', $toolbar_3 );
-if ( get_option('tadv_btns4') != $toolbar_4 ) update_option( 'tadv_btns4', $toolbar_4 );
-if ( get_option('tadv_allbtns') != $tadv_allbtns ) update_option( 'tadv_allbtns', $tadv_allbtns );
-
 for ( $i = 1; $i < 21; $i++ )
 	$buttons["s$i"] = "separator$i";
 
-if ( isset($_POST['tadv-save']) ) {	?>
+if ( isset($_POST['tadv-save']) ) {
+	update_option( 'tadv_plugins', $plugins );
+	update_option( 'tadv_btns1', $toolbar_1 );
+	update_option( 'tadv_btns2', $toolbar_2 );
+	update_option( 'tadv_btns3', $toolbar_3 );
+	update_option( 'tadv_btns4', $toolbar_4 );
+	update_option( 'tadv_allbtns', $tadv_allbtns );
+?>
 	<div class="updated" id="message"><p><?php _e('Options saved', 'tadv'); ?></p></div>
 <?php } ?>
 
@@ -359,7 +361,3 @@ if ( is_array($buttons) ) {
 </form>
 </div>
 </div>
-
-<?php
-	if ( $update_tadv_options )
-		update_option( 'tadv_options', $tadv_options );
