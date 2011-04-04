@@ -1,5 +1,7 @@
 <?php
 
+$tadv_options = array( 'advlink1' => 0, 'advimage' => 1, 'editorstyle' => 0, 'hideclasses' => 0, 'contextmenu' => 0, 'no_autop' => 0 );
+
 $tadv_plugins = array( 'style', 'emotions', 'print', 'searchreplace', 'xhtmlxtras', 'advimage' );
 
 $tadv_toolbars = array( 

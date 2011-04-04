@@ -3,7 +3,7 @@
 Plugin Name: TinyMCE Advanced
 Plugin URI: http://www.laptoptips.ca/projects/tinymce-advanced/
 Description: Enables advanced features and plugins in TinyMCE, the visual editor in WordPress.
-Version: 3.3.9.1
+Version: 3.3.9.1-beta2
 Author: Andrew Ozz
 Author URI: http://www.laptoptips.ca/
 
@@ -43,15 +43,17 @@ if ( ! function_exists('tadv_add_scripts') ) {
 } // end tadv_add_scripts
 
 
-if ( ! function_exists('tadv_activate') ) {
-	function tadv_activate() {
+if ( ! function_exists('tadv_load_defaults') ) {
+	function tadv_load_defaults() {
+		$tadv_options = get_option('tadv_options');
+		if ( ! empty($tadv_options) )
+			return;
 
 		@include_once('tadv_defaults.php');
-		$tadv_options = array( 'advlink1' => 0, 'advimage' => 1, 'importcss' => 0, 'contextmenu' => 0, 'no_autop' => 0 );
 
 		if ( isset($tadv_toolbars) ) {
+			add_option( 'tadv_options', $tadv_options );
 			add_option( 'tadv_toolbars', $tadv_toolbars, '', 'no' );
-			add_option( 'tadv_options', $tadv_options, '', 'no' );
 			add_option( 'tadv_plugins', $tadv_plugins, '', 'no' );
 			add_option( 'tadv_btns1', $tadv_btns1, '', 'no' );
 			add_option( 'tadv_btns2', $tadv_btns2, '', 'no' );
@@ -60,23 +62,8 @@ if ( ! function_exists('tadv_activate') ) {
 			add_option( 'tadv_allbtns', $tadv_allbtns, '', 'no' );
 		}
 	}
-	add_action( 'activate_tinymce-advanced/tinymce-advanced.php', 'tadv_activate' );
+	add_action( 'admin_init', 'tadv_load_defaults' );
 }
-
-
-if ( ! function_exists('tdav_css') ) {
-	function tdav_css($wp) {
-		$tadv_options = get_option('tadv_options', array());
-
-		if ( $tadv_options['importcss'] == '1' )
-			$wp .= ',' . get_bloginfo('stylesheet_url');
-
-		$wp .= ',' . TADV_URL . 'css/tadv-mce.css';
-		return trim($wp, ' ,');
-	}
-	add_filter( 'mce_css', 'tdav_css' );
-}
-
 
 if ( ! function_exists('tdav_get_file') ) {
 	function tdav_get_file($path) {
@@ -112,6 +99,7 @@ if ( ! function_exists('tadv_mce_btns') ) {
 		global $tadv_allbtns, $tadv_hidden_row;
 		$tadv_btns1 = (array) get_option('tadv_btns1', array());
 		$tadv_allbtns = (array) get_option('tadv_allbtns', array());
+		$tadv_options = get_option('tadv_options', array());
 
 		if ( in_array( 'wp_adv', $tadv_btns1 ) )
 			$tadv_hidden_row = 2;
@@ -120,6 +108,10 @@ if ( ! function_exists('tadv_mce_btns') ) {
 			$orig = array_diff( $orig, $tadv_allbtns );
 			$tadv_btns1 = array_merge( $tadv_btns1, $orig );
 		}
+
+		if ( $tadv_options['editorstyle'] == '1' )
+			add_editor_style(); // import user created editor-style.css
+
 		return $tadv_btns1;
 	}
 	add_filter( 'mce_buttons', 'tadv_mce_btns', 999 );
@@ -181,6 +173,7 @@ if ( ! function_exists('tadv_mce_options') ) {
 	function tadv_mce_options($init) {
 		global $tadv_hidden_row;
 		$tadv_options = get_option('tadv_options', array());
+		$ext_elements = '';
 
 		if ( $tadv_hidden_row > 0 )
 			$init['wordpress_adv_toolbar'] = 'toolbar' . $tadv_hidden_row;
@@ -189,6 +182,23 @@ if ( ! function_exists('tadv_mce_options') ) {
 
 		if ( isset($tadv_options['no_autop']) && $tadv_options['no_autop'] == 1 )
 			$init['apply_source_formatting'] = true;
+
+		if ( isset($tadv_options['hideclasses']) && $tadv_options['hideclasses'] == 1 )
+			$init['class_filter'] = '[function(){return false;}]';
+
+		if ( isset($tadv_options['iframe']) && $tadv_options['iframe'] == 1 )
+			$ext_elements = ',iframe[*]';
+
+		if ( isset($tadv_options['html5']) && $tadv_options['html5'] == 1 )
+			$ext_elements .= ',article[*],aside[*],audio[*],canvas[*],command[*],datalist[*],details[*],embed[*],figcaption[*],figure[*],footer[*],header[*],hgroup[*],keygen[*],mark[*],meter[*],nav[*],output[*],progress[*],section[*],source[*],summary,time[*],video[*],wbr';
+
+		if ( !empty($ext_elements) ) {
+
+			if ( !empty($init['extended_valid_elements']) )
+				$init['extended_valid_elements'] .= $ext_elements;
+			else
+				$init['extended_valid_elements'] = trim($ext_elements, ',');
+		}
 
 		return $init;
 	}

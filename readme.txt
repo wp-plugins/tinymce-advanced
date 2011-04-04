@@ -44,6 +44,9 @@ This plugin adds 17 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advance
 
 == Changelog ==
 
+= 3.3.9.1 =
+Added several advanced options: stop removing iframes, stop removing HTML 5.0 elements, etc. Moved support for custom editor styles to editor-style.css in the current theme. Attention: if you have a customized tadv_styles.css file, please download it, rename it to editor-style.css and upload it to your current theme directory. Alternatively you can add there the editor-style.css from the Twenty Ten theme.
+
 = 3.3.9 =
 Compatibility with WordPress 3.1 and TinyMCE 3.3.9, improved P and BR tags option.
 
