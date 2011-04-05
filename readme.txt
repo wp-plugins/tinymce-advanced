@@ -1,7 +1,7 @@
 === TinyMCE Advanced ===
-Contributors: Andrew Ozz
+Contributors: azaozz
 Donate link: 
-Tags: wysiwyg, formatting, tinymce, write, edit, post
+Tags: wysiwyg, formatting, tinymce, write, editor
 Requires at least: 3.1
 Tested up to: 3.1
 Stable tag: 3.3.9
@@ -27,25 +27,20 @@ This plugin adds 17 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advance
 
 == Installation ==
 
+= Manual installation (FTP) =
+
 1. Download.
 2. Unzip.
-3. Upload to the plugins directory (wp-content/plugins).
+3. Upload to the plugins directory.
 4. Activate the plugin.
 5. Set your preferences at "Settings - TinyMCE Advanced".
 6. Clear your browser cache.
 
 
-= Upgrading from TinyMCE Advanced 2.x  =
-
-1. Deactivate the previous version.
-2. Delete the "tinymce-advanced" folder from the WordPress plugins directory.
-3. Follow the above steps to install the new version.
-
-
 == Changelog ==
 
 = 3.3.9.1 =
-Added several advanced options: stop removing iframes, stop removing HTML 5.0 elements, etc. Moved support for custom editor styles to editor-style.css in the current theme. Attention: if you have a customized tadv_styles.css file, please download it, rename it to editor-style.css and upload it to your current theme directory. Alternatively you can add there the editor-style.css from the Twenty Ten theme.
+Added advanced options: stop removing iframes, stop removing HTML 5.0 elements, moved support for custom editor styles to editor-style.css in the current theme. Attention: if you have a customized tadv-styles.css file, please download it, rename it to editor-style.css and upload it to your current theme directory. Alternatively you can add there the editor-style.css from the Twenty Ten theme.
 
 = 3.3.9 =
 Compatibility with WordPress 3.1 and TinyMCE 3.3.9, improved P and BR tags option.
