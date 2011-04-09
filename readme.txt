@@ -4,11 +4,13 @@ Donate link:
 Tags: wysiwyg, formatting, tinymce, write, editor
 Requires at least: 3.1
 Tested up to: 3.1
-Stable tag: 3.3.9
+Stable tag: 3.3.9.1
 
 Enables the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
 == Description ==
+
+Attention: if you are using customized tadv-mce.css and are updating to version 3.3.9.1 or newer, see the release notes.
 
 This plugin adds 17 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advanced HR, Advanced Image, Advanced Link, Advanced List, Context Menu, Emotions (Smilies), Date and Time, IESpell, Layer, Embed Media, Nonbreaking, Print, Search and Replace, Style, Table, Visual Characters and XHTML Extras. 
 
@@ -40,7 +42,9 @@ This plugin adds 17 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advance
 == Changelog ==
 
 = 3.3.9.1 =
-Added advanced options: stop removing iframes, stop removing HTML 5.0 elements, moved support for custom editor styles to editor-style.css in the current theme. Attention: if you have a customized tadv-styles.css file, please download it, rename it to editor-style.css and upload it to your current theme directory. Alternatively you can add there the editor-style.css from the Twenty Ten theme.
+Added advanced options: stop removing iframes, stop removing HTML 5.0 elements, moved the support for custom editor styles to editor-style.css in the current theme.
+
+Attention: if you have a customized tadv-mce.css file and your theme doesn't have editor-style.css, please download tadv-mce.css, rename it to editor-style.css and upload it to your current theme directory. Alternatively you can add there the editor-style.css from the Twenty Ten theme. If your theme has editor-style.css you can add any custom styles there.
 
 = 3.3.9 =
 Compatibility with WordPress 3.1 and TinyMCE 3.3.9, improved P and BR tags option.
@@ -77,10 +81,7 @@ Includes an admin page for arranging the TinyMCE toolbar buttons, easy installat
 
 = No styles are imported in the Styles drop-down menu. =
 
-These styles (just the classes) are imported from your current theme style.css file. However some themes use @import to load the actual css file(s). Tiny does not follow these links. To make the classes appear, add their names to tadv-mce.css file located in "tinymce-advanced/css". You do not need to copy the whole classes if you do not want them to appear in the editor, just add the names, like that:
-
-    .my-class{}
-    .my-other-class{}
+These styles (just the classes) are imported from your current theme editor-style.css file. However some themes do not have this functionality. For these themes TinyMCE Advanced will let you add a customized editor-style.css and import it into the editor.
 
 = I have just installed this plugin, but it does not do anything. =
 
