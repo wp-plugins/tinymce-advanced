@@ -4,7 +4,7 @@ Donate link:
 Tags: wysiwyg, formatting, tinymce, write, editor
 Requires at least: 3.1
 Tested up to: 3.1
-Stable tag: 3.3.9.1
+Stable tag: 3.3.9.2
 
 Enables the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
