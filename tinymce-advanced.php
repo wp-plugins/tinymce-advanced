@@ -36,8 +36,8 @@ if ( ! function_exists('tadv_paths') ) {
 if ( ! function_exists('tadv_add_scripts') ) {
 	function tadv_add_scripts($page) {
 		if ( 'settings_page_tinymce-advanced' == $page ) {
-			wp_enqueue_script( 'tadv-js', TADV_URL . 'js/tadv.js', array('jquery-ui-sortable'), '3.3.9', true );
-			wp_enqueue_style( 'tadv-css', TADV_URL . 'css/tadv-styles.css', array(), '3.3.9' );
+			wp_enqueue_script( 'tadv-js', TADV_URL . 'js/tadv.js', array('jquery-ui-sortable'), '3.4.2', true );
+			wp_enqueue_style( 'tadv-css', TADV_URL . 'css/tadv-styles.css', array(), '3.4.2' );
 		}
 	}
 } // end tadv_add_scripts
@@ -173,7 +173,6 @@ if ( ! function_exists('tadv_mce_options') ) {
 	function tadv_mce_options($init) {
 		global $tadv_hidden_row;
 		$tadv_options = get_option('tadv_options', array());
-		$ext_elements = '';
 
 		if ( $tadv_hidden_row > 0 )
 			$init['wordpress_adv_toolbar'] = 'toolbar' . $tadv_hidden_row;
@@ -185,20 +184,6 @@ if ( ! function_exists('tadv_mce_options') ) {
 
 		if ( isset($tadv_options['hideclasses']) && $tadv_options['hideclasses'] == 1 )
 			$init['class_filter'] = '[function(){return false;}]';
-
-		if ( isset($tadv_options['iframe']) && $tadv_options['iframe'] == 1 )
-			$ext_elements = ',iframe[*]';
-
-		if ( isset($tadv_options['html5']) && $tadv_options['html5'] == 1 )
-			$ext_elements .= ',article[*],aside[*],audio[*],canvas[*],command[*],datalist[*],details[*],embed[*],figcaption[*],figure[*],footer[*],header[*],hgroup[*],keygen[*],mark[*],meter[*],nav[*],output[*],progress[*],section[*],source[*],summary,time[*],video[*],wbr';
-
-		if ( !empty($ext_elements) ) {
-
-			if ( !empty($init['extended_valid_elements']) )
-				$init['extended_valid_elements'] .= $ext_elements;
-			else
-				$init['extended_valid_elements'] = trim($ext_elements, ',');
-		}
 
 		return $init;
 	}
@@ -271,7 +256,7 @@ square:"\u25a0"
 //]]>
 </script>
 <?php
-		}
+		}	
 	}
 	add_action( 'admin_print_footer_scripts', 'tmce_replace', 50 );
 }

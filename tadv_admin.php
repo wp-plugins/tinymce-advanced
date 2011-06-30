@@ -62,8 +62,6 @@ if ( isset( $_POST['tadv-save'] ) ) {
 	$tadv_options['advlist'] = $_POST['advlist'] ? 1 : 0;
 	$tadv_options['contextmenu'] = $_POST['contextmenu'] ? 1 : 0;
 
-	$tadv_options['iframe'] = $_POST['iframe'] ? 1 : 0;
-	$tadv_options['html5'] = $_POST['html5'] ? 1 : 0;
 	$tadv_options['editorstyle'] = $_POST['editorstyle'] ? 1 : 0;
 	$tadv_options['hideclasses'] = $_POST['hideclasses'] ? 1 : 0;
 	$tadv_options['no_autop'] = $_POST['no_autop'] ? 1 : 0;
@@ -116,7 +114,6 @@ if ( empty($toolbar_1) && empty($toolbar_2) && empty($toolbar_3) && empty($toolb
 	$allbtns = array_merge( $toolbar_1, $toolbar_2, $toolbar_3, $toolbar_4 );
 }
 
-if ( in_array('media', $allbtns) ) $plugins[] = 'media';
 if ( in_array('advhr', $allbtns) ) $plugins[] = 'advhr';
 if ( in_array('insertlayer', $allbtns) ) $plugins[] = 'layer';
 if ( in_array('visualchars', $allbtns) ) $plugins[] = 'visualchars';
@@ -145,7 +142,7 @@ if ( $tadv_options['advlist'] == '1' ) $plugins[] = 'advlist';
 if ( $tadv_options['advimage'] == '1' ) $plugins[] = 'advimage';
 if ( $tadv_options['contextmenu'] == '1' ) $plugins[] = 'contextmenu';
 
-$buttons = array( 'Hide next row' => 'wp_adv', 'Quote' => 'blockquote', 'Bold' => 'bold', 'Italic' => 'italic', 'Strikethrough' => 'strikethrough', 'Underline' => 'underline', 'Bullet List' => 'bullist', 'Numbered List' => 'numlist', 'Outdent' => 'outdent', 'Indent' => 'indent', 'Allign Left' => 'justifyleft', 'Center' => 'justifycenter', 'Alligh Right' => 'justifyright', 'Justify' => 'justifyfull', 'Cut' => 'cut', 'Copy' => 'copy', 'Paste' => 'paste', 'Link' => 'link', 'Remove Link' => 'unlink', 'Insert Image' => 'image', 'More Tag' => 'wp_more', 'Split Page' => 'wp_page', 'Search' => 'search', 'Replace' => 'replace', '<!--fontselect-->' => 'fontselect', '<!--fontsizeselect-->' => 'fontsizeselect', 'Help' => 'wp_help', 'Full Screen' => 'fullscreen', '<!--styleselect-->' => 'styleselect', '<!--formatselect-->' => 'formatselect', 'Text Color' => 'forecolor', 'Back Color' => 'backcolor', 'Paste as Text' => 'pastetext', 'Paste from Word' => 'pasteword', 'Remove Format' => 'removeformat', 'Clean Code' => 'cleanup', 'Check Spelling' => 'spellchecker', 'Character Map' => 'charmap', 'Print' => 'print', 'Undo' => 'undo', 'Redo' => 'redo', 'Table' => 'tablecontrols', 'Citation' => 'cite', 'Inserted Text' => 'ins', 'Deleted Text' => 'del', 'Abbreviation' => 'abbr', 'Acronym' => 'acronym', 'XHTML Attribs' => 'attribs', 'Layer' => 'layer', 'Advanced HR' => 'advhr', 'View HTML' => 'code', 'Hidden Chars' => 'visualchars', 'NB Space' => 'nonbreaking', 'Sub' => 'sub', 'Sup' => 'sup', 'Visual Aids' => 'visualaid', 'Insert Date' => 'insertdate', 'Insert Time' => 'inserttime', 'Anchor' => 'anchor', 'Style' => 'styleprops', 'Smilies' => 'emotions', 'Insert Movie' => 'media', 'IE Spell' => 'iespell' );
+$buttons = array( 'Horizontal rule' => 'hr', 'Hide next row' => 'wp_adv', 'Quote' => 'blockquote', 'Bold' => 'bold', 'Italic' => 'italic', 'Strikethrough' => 'strikethrough', 'Underline' => 'underline', 'Bullet List' => 'bullist', 'Numbered List' => 'numlist', 'Outdent' => 'outdent', 'Indent' => 'indent', 'Allign Left' => 'justifyleft', 'Center' => 'justifycenter', 'Alligh Right' => 'justifyright', 'Justify' => 'justifyfull', 'Cut' => 'cut', 'Copy' => 'copy', 'Paste' => 'paste', 'Link' => 'link', 'Remove Link' => 'unlink', 'Insert Image' => 'image', 'More Tag' => 'wp_more', 'Split Page' => 'wp_page', 'Search' => 'search', 'Replace' => 'replace', '<!--fontselect-->' => 'fontselect', '<!--fontsizeselect-->' => 'fontsizeselect', 'Help' => 'wp_help', 'Full Screen' => 'fullscreen', '<!--styleselect-->' => 'styleselect', '<!--formatselect-->' => 'formatselect', 'Text Color' => 'forecolor', 'Back Color' => 'backcolor', 'Paste as Text' => 'pastetext', 'Paste from Word' => 'pasteword', 'Remove Format' => 'removeformat', 'Clean Code' => 'cleanup', 'Check Spelling' => 'spellchecker', 'Character Map' => 'charmap', 'Print' => 'print', 'Undo' => 'undo', 'Redo' => 'redo', 'Table' => 'tablecontrols', 'Citation' => 'cite', 'Inserted Text' => 'ins', 'Deleted Text' => 'del', 'Abbreviation' => 'abbr', 'Acronym' => 'acronym', 'XHTML Attribs' => 'attribs', 'Layer' => 'layer', 'Advanced HR' => 'advhr', 'View HTML' => 'code', 'Hidden Chars' => 'visualchars', 'NB Space' => 'nonbreaking', 'Sub' => 'sub', 'Sup' => 'sup', 'Visual Aids' => 'visualaid', 'Insert Date' => 'insertdate', 'Insert Time' => 'inserttime', 'Anchor' => 'anchor', 'Style' => 'styleprops', 'Smilies' => 'emotions', 'Insert Movie' => 'media', 'IE Spell' => 'iespell' );
 
 if ( function_exists('moxiecode_plugins_url') ) {
 	if ( moxiecode_plugins_url('imagemanager') ) $buttons['MCFileManager'] = 'insertimage';
@@ -339,10 +336,6 @@ if ( is_array($buttons) ) {
 
 		<p><input type="checkbox" class="tadv-chk"  name="editorstyle" id="editorstyle" <?php if ( $tadv_options['editorstyle'] == '1' ) echo ' checked="checked"'; ?> /> <label for="editorstyle" class="tadv-box"><?php _e('Import editor-style.css.', 'tadv'); ?></label> <?php _e('This is only needed if you created that file. Themes that style the editor will import the stylesheet automatically.', 'tadv'); ?></p>
 <?php	} ?>
-
-		<p><input type="checkbox" class="tadv-chk"  name="iframe" id="iframe" <?php if ( $tadv_options['iframe'] == '1' ) echo ' checked="checked"'; ?> /> <label for="iframe" class="tadv-box"><?php _e('Do not remove IFRAME tags.', 'tadv'); ?></label> <?php _e('This will allow you to paste the new style video embed code from Vimeo and YouTube. Note that this may be a security concern if pasting arbitrary HTML.', 'tadv'); ?></p>
-
-		<p><input type="checkbox" class="tadv-chk"  name="html5" id="html5" <?php if ( $tadv_options['html5'] == '1' ) echo ' checked="checked"'; ?> /> <label for="html5" class="tadv-box"><?php _e('Do not remove HTML 5.0 tags.', 'tadv'); ?></label> <?php _e('This will stop the visual editor from removing HTML 5.0 tags when serializing the code. However only some browsers support some of these tags so the editor may behave unexpectedly depending on your browser and its version.', 'tadv'); ?></p>
 
 		<p><input type="checkbox" class="tadv-chk"  name="hideclasses" id="hideclasses" <?php if ( $tadv_options['hideclasses'] == '1' ) echo ' checked="checked"'; ?> /> <label for="hideclasses" class="tadv-box"><?php _e('Hide all CSS classes in the editor menus.', 'tadv'); ?></label> <?php _e('Note that selecting this will also disable the Styles drop-down menu.', 'tadv'); ?></p>
 

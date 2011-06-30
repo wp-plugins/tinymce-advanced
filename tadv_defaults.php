@@ -5,7 +5,7 @@ $tadv_options = array( 'advlink1' => 0, 'advimage' => 1, 'editorstyle' => 0, 'hi
 $tadv_plugins = array( 'style', 'emotions', 'print', 'searchreplace', 'xhtmlxtras', 'advimage' );
 
 $tadv_toolbars = array( 
-	'toolbar_1' => array( 'bold', 'italic', 'strikethrough', 'underline', 'separator1', 'bullist', 'numlist', 'outdent',  'indent', 'separator2', 'justifyleft', 'justifycenter', 'justifyright', 'separator3', 'link', 'unlink', 'separator4', 'image', 'styleprops', 'separator12', 'wp_more', 'wp_page', 'separator5', 'spellchecker', 'search', 'separator6', 'fullscreen', 'wp_adv' ), 
+	'toolbar_1' => array( 'bold', 'italic', 'strikethrough', 'underline', 'separator1', 'bullist', 'numlist', 'outdent',  'indent', 'separator2', 'justifyleft', 'justifycenter', 'justifyright', 'separator3', 'link', 'unlink', 'separator4', 'image', 'styleprops', 'separator12', 'wp_more', 'wp_page', 'separator5', 'spellchecker', 'search', 'separator6', 'fullscreen' ), 
 	'toolbar_2' => array( 'fontsizeselect', 'formatselect', 'pastetext', 'pasteword', 'removeformat', 'separator8', 'charmap', 'print', 'separator9', 'forecolor', 'backcolor', 'emotions', 'separator10', 'sup', 'sub', 'media', 'separator11', 'undo', 'redo', 'attribs', 'wp_help' ), 
 	'toolbar_3' => array(), 
 	'toolbar_4' => array() 
