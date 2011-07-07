@@ -329,7 +329,7 @@ if ( is_array($buttons) ) {
 		<tr><td style="border:1px solid #CD0000;padding:2px 12px 8px;">
 		<p style="font-weight:bold;color:#CD0000;"><?php _e('Advanced Options', 'tadv'); ?></p>
 
-		<p><input type="checkbox" class="tadv-chk"  name="advlink1" id="advlink1" <?php if ( $tadv_options['advlink1'] == '1' ) echo ' checked="checked"'; ?> /> <label for="advlink1" class="tadv-box"><?php _e('Advanced Link', 'tadv'); ?></label> <?php _e('Enabling this TinyMCE plugin will overwrite the new internal links feature in WordPress 3.1. Cuttently there is no way to enable both of them at the same time.', 'tadv'); ?></p>
+		<p><input type="checkbox" class="tadv-chk"  name="advlink1" id="advlink1" <?php if ( $tadv_options['advlink1'] == '1' ) echo ' checked="checked"'; ?> /> <label for="advlink1" class="tadv-box"><?php _e('Advanced Link', 'tadv'); ?></label> <?php _e('Enabling this TinyMCE plugin will overwrite the internal links feature in WordPress 3.1 and newer. Cuttently there is no way to enable both of them at the same time.', 'tadv'); ?></p>
 		
 <?php	if ( ! current_theme_supports( 'editor-style' ) ) { ?>
 		<p><?php _e('It seems your theme (still) doesn\'t support customised styles for the editor. If you would like to use that, you can create a file named <i>editor-style.css</i> and add it to your theme\'s directory. You can use the editor-style.css from the Twenty Ten theme as a template.', 'tadv'); ?></p>

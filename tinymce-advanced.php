@@ -24,12 +24,27 @@ if ( ! function_exists('tadv_paths') ) {
 	*/
 	function tadv_paths() {
 		if ( !defined('TADV_URL') )
-			define('TADV_URL', WP_PLUGIN_URL . '/tinymce-advanced/');
+			define('TADV_URL', plugin_dir_url(__FILE__));
 			
 		if ( !defined('TADV_PATH') )
-			define('TADV_PATH', WP_PLUGIN_DIR . '/tinymce-advanced/');
+			define('TADV_PATH', plugin_dir_path(__FILE__));
 	}
 	add_action( 'plugins_loaded', 'tadv_paths', 50 );
+}
+
+
+if ( ! function_exists('tadv_version') ) {
+	function tadv_version() {
+		$ver = get_option('tadv_version', 0);
+
+		if ( $ver < 3420 ) {
+			update_option('tadv_version', 3420);
+
+			$plugins = array_diff( get_option('tadv_plugins', array()), array('media') );
+			update_option('tadv_plugins', $plugins);
+		}
+	}
+	add_action( 'admin_init', 'tadv_version' );
 }
 
 
@@ -40,7 +55,7 @@ if ( ! function_exists('tadv_add_scripts') ) {
 			wp_enqueue_style( 'tadv-css', TADV_URL . 'css/tadv-styles.css', array(), '3.4.2' );
 		}
 	}
-} // end tadv_add_scripts
+}
 
 
 if ( ! function_exists('tadv_load_defaults') ) {
@@ -287,7 +302,7 @@ if ( ! function_exists('tadv_load_langs') ) {
 			return $langs;
 
 		$langpath = TADV_PATH . 'mce/';
-		$dolangs = array( 'advhr', 'advimage', 'advlink', 'media', 'searchreplace', 'style', 'table', 'xhtmlxtras' );
+		$dolangs = array( 'advhr', 'advimage', 'advlink', 'searchreplace', 'style', 'table', 'xhtmlxtras' );
 
 		$langs = (array) $langs;
 		foreach( $tadv_plugins as $plugin ) {
