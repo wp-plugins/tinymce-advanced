@@ -4,7 +4,7 @@ Donate link:
 Tags: wysiwyg, formatting, tinymce, write, editor
 Requires at least: 3.2
 Tested up to: 3.2
-Stable tag: 3.4.2
+Stable tag: 3.4.2.1
 
 Enables the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
@@ -40,6 +40,9 @@ This plugin adds 16 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advance
 
 
 == Changelog ==
+
+= 3.4.2.1 =
+Fix the removal of the *media* plugin so it does not require re-saving the settings.
 
 = 3.4.2 =
 Compatibility with WordPress 3.2 and TinyMCE 3.4.2, removed the options for suport for iframe and HTML 5.0 elements as they are supported by default in WordPress 3.2, removed the *media* plugin as it is included by default.
