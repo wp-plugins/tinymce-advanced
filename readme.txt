@@ -34,6 +34,9 @@ Best is to install directly from WordPress. If manual installation is required, 
 
 == Changelog ==
 
+= 3.4.9 =
+Updated for WordPress 3.4 and TinyMCE 3.4.9.
+
 = 3.4.5.1 =
 Fixed a bug preventing TinyMCE from importing CSS classes from editor-style.css.
 
