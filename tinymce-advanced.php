@@ -196,7 +196,8 @@ if ( ! function_exists('tadv_htmledit') ) {
 		if ( isset($tadv_options['no_autop']) && $tadv_options['no_autop'] == 1 ) {
 			$c = str_replace( array('&amp;', '&lt;', '&gt;'), array('&', '<', '>'), $c );
 			$c = wpautop($c);
-			$c = htmlspecialchars($c, ENT_NOQUOTES);
+			$c = preg_replace( '/<p>(https?:\/\/[^<>]+?)<\/p>/', '$1', $c );
+			$c = htmlspecialchars( $c, ENT_NOQUOTES, get_option( 'blog_charset' ) );
 		}
 		return $c;
 	}
@@ -207,24 +208,24 @@ if ( ! function_exists('tadv_htmledit') ) {
 if ( ! function_exists('tmce_replace') ) {
 	function tmce_replace() {
 		$tadv_options = get_option('tadv_options', array());
-		$tadv_plugins = get_option('tadv_plugins', array());
 
-		if ( isset($tadv_options['no_autop']) && $tadv_options['no_autop'] == 1 ) { ?>
-
-<script type="text/javascript">
-if ( typeof(jQuery) != 'undefined' ) {
-  jQuery('body').bind('afterPreWpautop', function(e, o){
-    o.data = o.unfiltered
-    .replace(/caption\]\[caption/g, 'caption] [caption')
-    .replace(/<object[\s\S]+?<\/object>/g, function(a) {
-      return a.replace(/[\r\n]+/g, ' ');
-    });
-  }).bind('afterWpautop', function(e, o){
-    o.data = o.unfiltered;
-  });
-}
-</script>
-<?php
+		if ( ! empty( $tadv_options['no_autop'] ) ) {
+			?>
+			<script type="text/javascript">
+			if ( typeof(jQuery) != 'undefined' ) {
+				jQuery('body').bind('afterPreWpautop', function(e, o){
+					o.data = o.unfiltered
+					.replace(/<p>(https?:\/\/[^<>]+?)<\/p>/g, '$1')
+					.replace(/caption\]\[caption/g, 'caption] [caption')
+					.replace(/<object[\s\S]+?<\/object>/g, function(a) {
+						return a.replace(/[\r\n]+/g, ' ');
+					});
+				}).bind('afterWpautop', function(e, o){
+					o.data = o.unfiltered;
+				});
+			}
+			</script>
+			<?php
 		}
 	}
 	add_action( 'after_wp_tiny_mce', 'tmce_replace' );
