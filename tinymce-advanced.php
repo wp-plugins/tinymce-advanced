@@ -3,7 +3,7 @@
 Plugin Name: TinyMCE Advanced
 Plugin URI: http://www.laptoptips.ca/projects/tinymce-advanced/
 Description: Enables advanced features and plugins in TinyMCE, the visual editor in WordPress.
-Version: 4.0
+Version: 4.0.1
 Author: Andrew Ozz
 Author URI: http://www.laptoptips.ca/
 
@@ -302,6 +302,10 @@ class Tinymce_Advanced {
 	}
 
 	function mce_buttons_1($orig) {
+		if ( ! is_array( $this->options ) ) {
+			$this->load_settings();
+		}
+
 		$buttons_1 = $this->toolbar_1;
 
 		if ( is_array($orig) && ! empty($orig) ) {
@@ -313,6 +317,10 @@ class Tinymce_Advanced {
 	}
 
 	function mce_buttons_2($orig) {
+		if ( ! is_array( $this->options ) ) {
+			$this->load_settings();
+		}
+
 		$buttons_2 = $this->toolbar_2;
 
 		if ( is_array($orig) && ! empty($orig) ) {
@@ -324,6 +332,10 @@ class Tinymce_Advanced {
 	}
 
 	function mce_buttons_3($orig) {
+		if ( ! is_array( $this->options ) ) {
+			$this->load_settings();
+		}
+
 		$buttons_3 = $this->toolbar_3;
 
 		if ( is_array($orig) && ! empty($orig) ) {
@@ -335,6 +347,10 @@ class Tinymce_Advanced {
 	}
 
 	function mce_buttons_4($orig) {
+		if ( ! is_array( $this->options ) ) {
+			$this->load_settings();
+		}
+
 		$buttons_4 = $this->toolbar_4;
 
 		if ( is_array($orig) && ! empty($orig) ) {

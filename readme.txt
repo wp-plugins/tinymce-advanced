@@ -4,7 +4,7 @@ Tags: wysiwyg, formatting, tinymce, write, editor
 License: GPL v2
 Requires at least: 3.9
 Tested up to: 3.9
-Stable tag: 4.0
+Stable tag: 4.0.1
 
 Enables the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
@@ -23,18 +23,14 @@ It includes 14 plugins for [TinyMCE](http://tinymce.com/) that are automatically
 
 With this plugin you will also be able to enable the TinyMCE menu. It is a convenient way to access a lot of features that are not used frequently.
 
-= Language Support =
-
-The plugin includes several translations for the TinyMCE components: German, French, Italian, Spanish, Portuguese, Russian, Chinese and Japanese.
-
-More translations are available as a separate plugin: [TinyMCE Advanced Language Pack](http://wordpress.org/plugins/tinymce-advanced-language-pack/).
-
-
 == Installation ==
 
 Best is to install directly from WordPress. If manual installation is required, please make sure that the plugin files are in a folder named "tinymce-advanced" (not two nested folders) in the WordPress plugins folder, usually "wp-content/plugins".
 
 == Changelog ==
+
+= 4.0.1 =
+Fix warnings on pages other than Edit Post. Update the description.
 
 = 4.0 =
 Updated for WordPress 3.9 and TinyMCE 4.0. Refreshed the settings screen. Added support for exporting and importing of the settings.
