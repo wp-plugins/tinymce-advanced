@@ -48,6 +48,16 @@ class Tinymce_Advanced {
 	function __construct() {
 		add_action( 'plugins_loaded', array( &$this, 'set_paths' ), 50 );
 
+		if ( is_admin() ) {
+			add_action( 'admin_menu', array( &$this, 'menu' ) );
+			add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
+		}
+
+		// Don't load on non-supported WP versions
+		if ( ! $this->check_minimum_supported_version() ) {
+			return;
+		}
+
 		add_filter( 'mce_buttons', array( &$this, 'mce_buttons_1' ), 999 );
 		add_filter( 'mce_buttons_2', array( &$this, 'mce_buttons_2' ), 999 );
 		add_filter( 'mce_buttons_3', array( &$this, 'mce_buttons_3' ), 999 );
@@ -57,11 +67,6 @@ class Tinymce_Advanced {
 		add_filter( 'htmledit_pre', array( &$this, 'htmledit' ), 999 );
 		add_action( 'after_wp_tiny_mce', array( &$this, 'tmce_replace' ) );
 		add_filter( 'mce_external_plugins', array( &$this, 'load_plugins' ), 999 );
-
-		if ( is_admin() ) {
-			add_action( 'admin_menu', array( &$this, 'menu' ) );
-			add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
-		}
 	}
 
 	// When using a plugin that changes the paths dinamically, set these earlier than 'plugins_loaded' 50.
@@ -101,7 +106,7 @@ class Tinymce_Advanced {
 
 	function load_settings() {
 		if ( empty( $_POST ) ) {
-			$this->check_version();
+			$this->check_plugin_version();
 		}
 
 		if ( empty( $this->settings ) ) {
@@ -129,7 +134,12 @@ class Tinymce_Advanced {
 		$this->get_all_buttons();
 	}
 
-	private function check_version() {
+	// Min version 3.9-RC1
+	private function check_minimum_supported_version() {
+		return ( isset( $GLOBALS['wp_db_version'] ) && $GLOBALS['wp_db_version'] > 27000 );
+	}
+
+	private function check_plugin_version() {
 		$version = get_option( 'tadv_version', 0 );
 
 		if ( ! $version || $version < 4000 ) {

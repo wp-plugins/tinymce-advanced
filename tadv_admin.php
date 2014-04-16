@@ -25,7 +25,7 @@ if ( isset( $_POST['tadv_uninstall'] ) ) {
 	return;
 }
 
-if ( ! isset( $GLOBALS['wp_version'] ) || version_compare( $GLOBALS['wp_version'], '3.9-alpha', '<' ) ) { // if less than ...
+if ( ! $this->check_minimum_supported_version() ) {
 	?>
 	<div class="error" style="margin-top:30px;">
 	<p><?php _e( 'This plugin requires WordPress version 3.9 or newer. Please upgrade your WordPress installation or download an', 'tadv'); ?> <a href="http://wordpress.org/extend/plugins/tinymce-advanced/download/"><?php _e('older version of the plugin.', 'tadv'); ?></a></p>
