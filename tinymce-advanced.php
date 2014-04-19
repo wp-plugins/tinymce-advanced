@@ -3,7 +3,7 @@
 Plugin Name: TinyMCE Advanced
 Plugin URI: http://www.laptoptips.ca/projects/tinymce-advanced/
 Description: Enables advanced features and plugins in TinyMCE, the visual editor in WordPress.
-Version: 4.0.1
+Version: 4.0.2-beta
 Author: Andrew Ozz
 Author URI: http://www.laptoptips.ca/
 
@@ -65,8 +65,8 @@ class Tinymce_Advanced {
 
 		add_filter( 'tiny_mce_before_init', array( &$this, 'mce_options' ) );
 		add_filter( 'htmledit_pre', array( &$this, 'htmledit' ), 999 );
-		add_action( 'after_wp_tiny_mce', array( &$this, 'tmce_replace' ) );
-		add_filter( 'mce_external_plugins', array( &$this, 'load_plugins' ), 999 );
+		add_filter( 'mce_external_plugins', array( &$this, 'mce_external_plugins' ), 999 );
+		add_filter( 'tiny_mce_plugins', array( &$this, 'tiny_mce_plugins' ), 999 );
 	}
 
 	// When using a plugin that changes the paths dinamically, set these earlier than 'plugins_loaded' 50.
@@ -280,7 +280,7 @@ class Tinymce_Advanced {
 		if ( $this->check_setting( 'advlist' ) )
 			$plugins[] = 'advlist';
 
-		if ( $this->check_setting( 'importcss', true ) )
+		if ( $this->check_admin_setting( 'importcss' ) )
 			$plugins[] = 'importcss';
 
 		if ( $this->check_setting( 'contextmenu' ) )
@@ -299,6 +299,10 @@ class Tinymce_Advanced {
 
 		$array = $admin ? $this->admin_options : $this->options;
 		return in_array( $setting, $array, true );
+	}
+
+	private function check_admin_setting( $setting ) {
+		return $this->check_setting( $setting, true );
 	}
 
 	function mce_buttons_1($orig) {
@@ -362,8 +366,8 @@ class Tinymce_Advanced {
 	}
 
 	function mce_options( $init ) {
-		if ( $this->check_setting( 'no_autop', true ) ) {
-	//		$init['wpautop'] = false;
+		if ( $this->check_admin_setting( 'no_autop' ) ) {
+			$init['wpautop'] = false;
 			$init['indent'] = true;
 		}
 
@@ -371,7 +375,11 @@ class Tinymce_Advanced {
 			$init['menubar'] = true;
 		}
 
-		if ( $this->check_setting( 'importcss', true ) ) {
+		if ( $this->check_setting('image') ) {
+			$init['image_advtab'] = true;
+		}
+
+		if ( $this->check_admin_setting( 'importcss' ) ) {
 	//		$init['importcss_selector_filter'] = 'function(sel){return /^\.[a-z0-9]+$/i.test(sel);}';
 			$init['importcss_file_filter'] = 'editor-style.css';
 		}
@@ -380,7 +388,7 @@ class Tinymce_Advanced {
 	}
 
 	function htmledit( $c ) {
-		if ( $this->check_setting( 'no_autop', true ) ) {
+		if ( $this->check_admin_setting( 'no_autop' ) ) {
 			$c = str_replace( array('&amp;', '&lt;', '&gt;'), array('&', '<', '>'), $c );
 			$c = wpautop( $c );
 			$c = preg_replace( '/^<p>(https?:\/\/[^<> "]+?)<\/p>$/im', '$1', $c );
@@ -389,76 +397,18 @@ class Tinymce_Advanced {
 		return $c;
 	}
 
-	function tmce_replace( $mce_settings ) {
-		if ( empty( $mce_settings ) || ! $this->check_setting( 'no_autop', true ) ) {
-			return;
-		}
-
-		?>
-		<script type="text/javascript">
-		if ( typeof(jQuery) != 'undefined' ) {
-			jQuery('body').on( 'afterPreWpautop', function( event, obj ) {
-				var regex = [
-					new RegExp('https?://(www\.)?youtube\.com/watch.*', 'i'),
-					new RegExp('http://youtu.be/*'),
-					new RegExp('http://blip.tv/*'),
-					new RegExp('https?://(www\.)?vimeo\.com/.*', 'i'),
-					new RegExp('https?://(www\.)?dailymotion\.com/.*', 'i'),
-					new RegExp('http://dai.ly/*'),
-					new RegExp('https?://(www\.)?flickr\.com/.*', 'i'),
-					new RegExp('http://flic.kr/*'),
-					new RegExp('https?://(.+\.)?smugmug\.com/.*', 'i'),
-					new RegExp('https?://(www\.)?hulu\.com/watch/.*', 'i'),
-					new RegExp('https?://(www\.)?viddler\.com/.*', 'i'),
-					new RegExp('http://qik.com/*'),
-					new RegExp('http://revision3.com/*'),
-					new RegExp('http://i*.photobucket.com/albums/*'),
-					new RegExp('http://gi*.photobucket.com/groups/*'),
-					new RegExp('https?://(www\.)?scribd\.com/.*', 'i'),
-					new RegExp('http://wordpress.tv/*'),
-					new RegExp('https?://(.+\.)?polldaddy\.com/.*', 'i'),
-					new RegExp('https?://(www\.)?funnyordie\.com/videos/.*', 'i'),
-					new RegExp('https?://(www\.)?twitter\.com/.+?/status(es)?/.*', 'i'),
-					new RegExp('https?://(www\.)?soundcloud\.com/.*', 'i'),
-					new RegExp('https?://(www\.)?slideshare\.net/*', 'i'),
-					new RegExp('http://instagr(\.am|am\.com)/p/.*', 'i'),
-					new RegExp('https?://(www\.)?rdio\.com/.*', 'i'),
-					new RegExp('https?://rd\.io/x/.*', 'i'),
-					new RegExp('https?://(open|play)\.spotify\.com/.*', 'i')
-				];
-
-				obj.data = obj.unfiltered
-				.replace(/<p>(https?:\/\/[^<> "]+?)<\/p>/ig, function( all, match ) {
-					for( var i in regex ) {
-						if ( regex[i].test( match ) ) {
-							return '\n' + match + '\n';
-						}
-					}
-					return all;
-				})
-				.replace(/caption\]\[caption/g, 'caption] [caption')
-				.replace(/<object[\s\S]+?<\/object>/g, function(a) {
-					return a.replace(/[\r\n]+/g, ' ');
-				}).replace( /<pre[^>]*>[\s\S]+?<\/pre>/g, function( match ) {
-					match = match.replace( /<br ?\/?>(\r\n|\n)?/g, '\n' );
-					return match.replace( /<\/?p( [^>]*)?>(\r\n|\n)?/g, '\n' );
-				});
-			}).on( 'afterWpautop', function( event, obj ) {
-				obj.data = obj.unfiltered;
-			});
-		}
-		</script>
-		<?php
-	}
-
-	function load_plugins( $mce_plugins ) {
+	function mce_external_plugins( $mce_plugins ) {
 		// import user created editor-style.css
-		if ( $this->check_setting( 'editorstyle', true ) ) {
+		if ( $this->check_admin_setting( 'editorstyle' ) ) {
 			add_editor_style();
 		}
 
-		if ( empty( $this->plugins ) || ! is_array( $this->plugins ) ) {
-			return $mce_plugins;
+		if ( ! is_array( $this->plugins ) ) {
+			$this->plugins = array();
+		}
+
+		if ( $this->check_admin_setting( 'no_autop' ) ) {
+			$this->plugins[] = 'wptadv';
 		}
 
 		$plugpath = TADV_URL . 'mce/';
@@ -470,6 +420,14 @@ class Tinymce_Advanced {
 		}
 
 		return $mce_plugins;
+	}
+
+	function tiny_mce_plugins( $plugins ) {
+		if ( $this->check_setting('image') && ! in_array( 'image', (array) $plugins, true ) ) {
+			$plugins[] = 'image';
+		}
+
+		return $plugins;
 	}
 
 	private function parse_buttons( $toolbar_id = false, $buttons = false ) {

@@ -45,7 +45,15 @@ if ( isset( $_POST['tadv-save'] ) ) {
 
 	// User settings
 	for ( $i = 1; $i < 5; $i++ ) {
-		$buttons = $this->parse_buttons( 'tb' . $i );
+		$tb = 'tb' . $i;
+
+		if ( $i > 1 && ! empty( $_POST[$tb] ) && is_array( $_POST[$tb] ) &&
+			( $wp_adv = array_search( 'wp_adv', $_POST[$tb] ) ) !== false ) {
+			// Remove the "Toolbar toggle" button from row 2, 3 or 4.
+			unset( $_POST[$tb][$wp_adv] );
+		}
+
+		$buttons = $this->parse_buttons( $tb );
 		// Layer plugin buttons??
 		$buttons = str_replace( 'insertlayer', 'insertlayer,moveforward,movebackward,absolute', $buttons );
 		$settings['toolbar_' . $i] = $buttons;
@@ -94,12 +102,19 @@ if ( isset( $_POST['tadv-save'] ) ) {
 
 	// User options
 	// TODO allow editors, authors and contributors some access
-	$settings['options'] = implode( ',', $options_array );
 	$this->settings = $settings;
 	$this->load_settings();
 
+	// Special case
+	if ( in_array( 'image', $this->used_buttons, true ) ) {
+		$options_array[] = 'image';
+	}
+
+	$settings['options'] = implode( ',', $options_array );
+
 	// Merge the submitted plugins and from the buttons
 	$settings['plugins'] = implode( ',', $this->get_plugins( $plugins_array ) );
+	$this->settings = $settings;
 	$this->plugins = $settings['plugins'];
 
 	// Save the new settings
@@ -359,7 +374,7 @@ if ( ! is_multisite() && current_user_can( 'manage_options' ) ) {
 		?></p>
 
 		<p>
-			<label><input type="checkbox" name="editorstyle" id="editorstyle" <?php if ( $this->check_setting( 'editorstyle', true ) ) echo ' checked="checked"'; ?> />
+			<label><input type="checkbox" name="editorstyle" id="editorstyle" <?php if ( $this->check_admin_setting( 'editorstyle' ) ) echo ' checked="checked"'; ?> />
 			<?php _e('Import editor-style.css.', 'tadv'); ?></label>
 		</p>
 		<?php
@@ -367,12 +382,12 @@ if ( ! is_multisite() && current_user_can( 'manage_options' ) ) {
 
 	?>
 	<p>
-		<label><input type="checkbox" name="importcss" id="importcss" <?php if ( $this->check_setting( 'importcss', true ) ) echo ' checked="checked"'; ?> />
+		<label><input type="checkbox" name="importcss" id="importcss" <?php if ( $this->check_admin_setting( 'importcss' ) ) echo ' checked="checked"'; ?> />
 		<?php _e('Load the CSS classes used in editor-style.css and replace the Styles sub-menu.', 'tadv'); ?></label>
 	</p>
 
 	<p>
-		<label><input type="checkbox" name="no_autop" id="no_autop" <?php if ( $this->check_setting( 'no_autop', true ) ) echo ' checked="checked"'; ?> />
+		<label><input type="checkbox" name="no_autop" id="no_autop" <?php if ( $this->check_admin_setting( 'no_autop' ) ) echo ' checked="checked"'; ?> />
 		<?php _e('Stop removing the &lt;p&gt; and &lt;br /&gt; tags when saving and show them in the Text editor', 'tadv'); ?></label>
 		<br>
 		<?php

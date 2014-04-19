@@ -56,15 +56,6 @@
 			$(window).resize( function() {
   				self.update();
 			});
-
-			$('#tadvadmin').on( 'submit', function(e) {
-				var toolbars234 = $('#tb2, #tb3, #tb4');
-
-				if ( toolbars234.find('li#wp_adv').length || ! toolbars234.find('li').length ) {
-					$(document.body).addClass('wp-adv-error');
-					e.preventDefault();
-				}
-			});
 		},
 
 		reset : function() {
@@ -147,5 +138,7 @@
 
 			$importError.text( 'No errors.' );
 		});
+
+		setUserSetting( 'hidetb', '1' );
 	});
 }(jQuery));
