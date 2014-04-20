@@ -29,9 +29,9 @@ class Tinymce_Advanced {
 	private $toolbar_2;
 	private $toolbar_3;
 	private $toolbar_4;
-	private $used_buttons;
-	private $all_buttons;
-	private $buttons_filter;
+	private $used_buttons = array();
+	private $all_buttons = array();
+	private $buttons_filter = array();
 	private $all_plugins = array( 'advlist','anchor','code','contextmenu','emoticons','importcss','insertdatetime','nonbreaking','print','searchreplace','table','visualblocks','visualchars' );
 
 	private $default_settings = array(
@@ -423,8 +423,15 @@ class Tinymce_Advanced {
 	}
 
 	function tiny_mce_plugins( $plugins ) {
+		// This calls load_settings()
 		if ( $this->check_setting('image') && ! in_array( 'image', (array) $plugins, true ) ) {
 			$plugins[] = 'image';
+		}
+
+		if ( ( in_array( 'rtl', $this->used_buttons, true ) || in_array( 'ltr', $this->used_buttons, true ) ) &&
+			! in_array( 'directionality', (array) $plugins, true ) ) {
+
+			$plugins[] = 'directionality';
 		}
 
 		return $plugins;
