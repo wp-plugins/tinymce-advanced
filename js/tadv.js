@@ -97,22 +97,13 @@
 	}
 
 	$( document ).ready( function() {
-		var $uninstall = $('#tadv-confirm-uninstall'),
-			$importElement = $('#tadv-import'),
+		var $importElement = $('#tadv-import'),
 			$importError = $('#tadv-import-error');
 
 		tadvSortable.init();
 
 		$( '#menubar' ).on( 'change', function() {
 			$( '#tadv-menu-img' ).toggleClass( 'enabled', $(this).prop('checked') );
-		});
-
-		$('#tadv-remove-settings').click( function() {
-			$uninstall.show();
-		});
-
-		$('#tadv-cancel').click( function() {
-			$uninstall.hide();
 		});
 
 		$('#tadv-export-select').click( function() {
@@ -124,21 +115,17 @@
 		});
 
 		$('#tadv-import-verify').click( function() {
-			var string, parsed;
+			var string;
 
 			string = ( $importElement.val() || '' ).replace( /^[^{]*/, '' ).replace( /[^}]*$/, '' );
 			$importElement.val( string );
 
 			try {
-				parsed = JSON.parse( string );
+				JSON.parse( string );
+				$importError.text( 'No errors.' );
 			} catch( error ) {
 				$importError.text( error );
-				return;
 			}
-
-			$importError.text( 'No errors.' );
 		});
-
-		setUserSetting( 'hidetb', '1' );
 	});
 }(jQuery));

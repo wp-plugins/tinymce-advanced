@@ -357,51 +357,51 @@ foreach( $all_buttons as $button => $name ) {
 
 <?php
 
-if ( ! is_multisite() && current_user_can( 'manage_options' ) ) {
+if ( ! is_multisite() || current_user_can( 'manage_sites' ) ) {
 
 	?>
 	<div class="advanced-options">
 	<h3><?php _e('Advanced Options', 'tadv'); ?></h3>
 	<?php
 	
-	if ( ! current_theme_supports( 'editor-style' ) ) {
+	if ( ! is_multisite() && ! current_theme_supports( 'editor-style' ) ) {
 	
 		?>
-		<p><?php
-		_e('It seems your theme doesn\'t support customised styles for the editor. ', 'tadv');
-		_e('You can create a CSS file named <code>editor-style.css</code> and upload it to your theme\'s directory. ', 'tadv');
-		_e('After that, enable this setting.', 'tadv');
-		?></p>
-
-		<p>
+		<div>
 			<label><input type="checkbox" name="editorstyle" id="editorstyle" <?php if ( $this->check_admin_setting( 'editorstyle' ) ) echo ' checked="checked"'; ?> />
 			<?php _e('Import editor-style.css.', 'tadv'); ?></label>
-		</p>
+			<p><?php
+				_e('It seems your theme doesn\'t support customised styles for the editor. ', 'tadv');
+				_e('You can create a CSS file named <code>editor-style.css</code> and upload it to your theme\'s directory. ', 'tadv');
+				_e('After that, enable this setting.', 'tadv');
+			?></p>
+		</div>
 		<?php
 	}
 
 	?>
-	<p>
+	<div>
 		<label><input type="checkbox" name="importcss" id="importcss" <?php if ( $this->check_admin_setting( 'importcss' ) ) echo ' checked="checked"'; ?> />
-		<?php _e('Load the CSS classes used in editor-style.css and replace the Styles sub-menu.', 'tadv'); ?></label>
-	</p>
+		<?php _e('Load the CSS classes used in editor-style.css and replace the Formats button and sub-menu.', 'tadv'); ?></label>
+	</div>
 
-	<p>
+	<div>
 		<label><input type="checkbox" name="no_autop" id="no_autop" <?php if ( $this->check_admin_setting( 'no_autop' ) ) echo ' checked="checked"'; ?> />
 		<?php _e('Stop removing the &lt;p&gt; and &lt;br /&gt; tags when saving and show them in the Text editor', 'tadv'); ?></label>
-		<br>
-		<?php
+		<p><?php
 		_e('This will make it possible to use more advanced coding in the HTML editor without the back-end filtering affecting it much. ', 'tadv');
 		_e('However it may behave unexpectedly in rare cases, so test it thoroughly before enabling it permanently. ', 'tadv');
 		_e('Line breaks in the HTML editor would still affect the output, in particular do not use empty lines, line breaks inside HTML tags or multiple &lt;br /&gt; tags.', 'tadv');
-		?>
-	</p>
-
-	<p>
-		<button class="button" type="button" id="tadv-remove-settings"><?php _e('Remove Settings', 'tadv'); ?></button>
+		?></p>
+	</div>
+	</div>
+	
+	<div class="administration">
+	<h3><?php _e('Administration', 'tadv'); ?></h3>
+	<div>
 		<input type="submit" class="button" name="tadv-export-settings" value="<?php _e( 'Export Settings', 'tadv' ); ?>" />
 		<input type="submit" class="button" name="tadv-import-settings" value="<?php _e( 'Import Settings', 'tadv' ); ?>" />
-	</p>
+	</div>
 	</div>
 	<?php
 
@@ -418,14 +418,4 @@ if ( ! is_multisite() && current_user_can( 'manage_options' ) ) {
 <div id="wp-adv-error-message" class="tadv-error">
 <?php _e('The "Toolbar toggle" button shows/hides the second, third, and forth button rows. It will only work when it is in the first row and there are buttons in the second row.', 'tadv'); ?>
 </div>
-
-<div id="tadv-confirm-uninstall" style="">
-<form method="post" action="">
-<?php wp_nonce_field('tadv-uninstall'); ?>
-<div><?php _e('Remove all settings from the database?', 'tadv'); ?>
-	<input class="button" type="button" id="tadv-cancel" value="<?php _e('Cancel', 'tadv'); ?>" />
-	<input class="button" type="submit" name="tadv_uninstall" value="<?php _e('Continue', 'tadv'); ?>" />
-</div>
-</form>
-</div>
-</div>
+</div><!-- /wrap -->

@@ -8,13 +8,32 @@
 	font-weight: bold;
 }
 
-.advanced-options {
-	padding: 0 12px;
-	border: 1px solid red;
+.advanced-options,
+.administration {
+	margin: 25px 0;
+}
+
+.advanced-options div,
+.administration div {
+	margin: 1.2em 0;
+}
+
+.advanced-options p,
+.administration p {
+	margin-left: 22px;
+	margin-top: 5px;
+}
+
+.tadv-more-plugins {
+	margin-bottom: 30px;
 }
 
 .tadv-submit .button-large {
 	float: right;
+}
+
+#tadv-import-error {
+	height: 22px;
 }
 
 #tadv-confirm-uninstall {
@@ -38,6 +57,11 @@
 	width: 100%;
 	height: 300px;
 	padding: 8px 12px;
+}
+
+.tadv-submit {
+	padding-top: 8px;
+	border-top: 1px solid #ccc;
 }
 
 ul.container,
@@ -242,7 +266,7 @@ div.tadv-error {
 	font-weight: bold;
 	height: 26px;
 	line-height: 26px;
-	visibility: hidden;
+	display: none;
 }
 
 .wp-adv-error #wp-adv-error-message,

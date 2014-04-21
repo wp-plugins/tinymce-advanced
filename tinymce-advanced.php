@@ -58,7 +58,7 @@ class Tinymce_Advanced {
 			return;
 		}
 
-		add_filter( 'mce_buttons', array( &$this, 'mce_buttons_1' ), 999 );
+		add_filter( 'mce_buttons', array( &$this, 'mce_buttons_1' ), 999, 2 );
 		add_filter( 'mce_buttons_2', array( &$this, 'mce_buttons_2' ), 999 );
 		add_filter( 'mce_buttons_3', array( &$this, 'mce_buttons_3' ), 999 );
 		add_filter( 'mce_buttons_4', array( &$this, 'mce_buttons_4' ), 999 );
@@ -305,61 +305,65 @@ class Tinymce_Advanced {
 		return $this->check_setting( $setting, true );
 	}
 
-	function mce_buttons_1($orig) {
+	function mce_buttons_1( $original, $editor_id ) {
 		if ( ! is_array( $this->options ) ) {
 			$this->load_settings();
 		}
 
 		$buttons_1 = $this->toolbar_1;
 
-		if ( is_array($orig) && ! empty($orig) ) {
-			$orig = array_diff( $orig, $this->buttons_filter );
-			$buttons_1 = array_merge( $buttons_1, $orig );
+		if ( 'content' === $editor_id && ! in_array( 'wp_adv', $buttons_1, true ) ) {
+			add_action( 'wp_enqueue_editor', array( &$this, 'wp_enqueue_editor' ) );
+		}
+
+		if ( is_array( $original ) && ! empty( $original ) ) {
+			$original = array_diff( $original, $this->buttons_filter );
+			$buttons_1 = array_merge( $buttons_1, $original );
 		}
 
 		return $buttons_1;
 	}
 
-	function mce_buttons_2($orig) {
+	function mce_buttons_2( $original ) {
 		if ( ! is_array( $this->options ) ) {
 			$this->load_settings();
 		}
 
 		$buttons_2 = $this->toolbar_2;
 
-		if ( is_array($orig) && ! empty($orig) ) {
-			$orig = array_diff( $orig, $this->buttons_filter );
-			$buttons_2 = array_merge( $buttons_2, $orig );
+		if ( is_array( $original ) && ! empty( $original ) ) {
+			$original = array_diff( $original, $this->buttons_filter );
+			$buttons_2 = array_merge( $buttons_2, $original );
 		}
 
 		return $buttons_2;
 	}
 
-	function mce_buttons_3($orig) {
+	function mce_buttons_3( $original ) {
 		if ( ! is_array( $this->options ) ) {
 			$this->load_settings();
 		}
 
 		$buttons_3 = $this->toolbar_3;
 
-		if ( is_array($orig) && ! empty($orig) ) {
-			$orig = array_diff( $orig, $this->buttons_filter );
-			$buttons_3 = array_merge( $buttons_3, $orig );
+		if ( is_array( $original ) && ! empty( $original ) ) {
+			$original = array_diff( $original, $this->buttons_filter );
+			$buttons_3 = array_merge( $buttons_3, $original );
 		}
 
 		return $buttons_3;
 	}
 
-	function mce_buttons_4($orig) {
+	function mce_buttons_4( $original ) {
 		if ( ! is_array( $this->options ) ) {
 			$this->load_settings();
 		}
 
 		$buttons_4 = $this->toolbar_4;
 
-		if ( is_array($orig) && ! empty($orig) ) {
-			$orig = array_diff( $orig, $this->buttons_filter );
-			$buttons_4 = array_merge( $buttons_4, $orig );
+		if ( is_array( $original ) && ! empty( $original ) ) {
+			$original = array_diff( $original, $this->buttons_filter );
+			$buttons_4 = array_merge( $buttons_4, $original );
 		}
 
 		return $buttons_4;
@@ -435,6 +439,14 @@ class Tinymce_Advanced {
 		}
 
 		return $plugins;
+	}
+
+	function wp_enqueue_editor( $array ) {
+		if ( ! empty( $array['tinymce'] ) ) {
+			?>
+			<script>if ( typeof setUserSetting !== 'undefined' ) setUserSetting( 'hidetb', '1' );</script>
+			<?php
+		}
 	}
 
 	private function parse_buttons( $toolbar_id = false, $buttons = false ) {
