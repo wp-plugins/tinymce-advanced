@@ -3,7 +3,7 @@
 Plugin Name: TinyMCE Advanced
 Plugin URI: http://www.laptoptips.ca/projects/tinymce-advanced/
 Description: Enables advanced features and plugins in TinyMCE, the visual editor in WordPress.
-Version: 4.0.2-beta
+Version: 4.0.2
 Author: Andrew Ozz
 Author URI: http://www.laptoptips.ca/
 
@@ -32,7 +32,7 @@ class Tinymce_Advanced {
 	private $used_buttons = array();
 	private $all_buttons = array();
 	private $buttons_filter = array();
-	private $all_plugins = array( 'advlist','anchor','code','contextmenu','emoticons','importcss','insertdatetime','nonbreaking','print','searchreplace','table','visualblocks','visualchars' );
+	private $all_plugins = array( 'advlist','anchor','code','contextmenu','emoticons','importcss','insertdatetime','nonbreaking','print','searchreplace','table','visualblocks','visualchars','link' );
 
 	private $default_settings = array(
 		'options'	=> 'menubar,advlist',
@@ -280,6 +280,9 @@ class Tinymce_Advanced {
 		if ( $this->check_setting( 'advlist' ) )
 			$plugins[] = 'advlist';
 
+		if ( $this->check_setting( 'advlink' ) )
+			$plugins[] = 'link';
+
 		if ( $this->check_admin_setting( 'importcss' ) )
 			$plugins[] = 'importcss';
 
@@ -373,6 +376,7 @@ class Tinymce_Advanced {
 		if ( $this->check_admin_setting( 'no_autop' ) ) {
 			$init['wpautop'] = false;
 			$init['indent'] = true;
+			$init['tadv_noautop'] = true;
 		}
 
 		if ( $this->check_setting('menubar') ) {
@@ -381,6 +385,14 @@ class Tinymce_Advanced {
 
 		if ( $this->check_setting('image') ) {
 			$init['image_advtab'] = true;
+		}
+
+		if ( $this->check_setting( 'advlink' ) ) {
+			$init['rel_list'] = '[{text: "None", value: ""}, {text: "Nofollow", value: "nofollow"}]';
+		}
+
+		if ( ! in_array( 'wp_adv', $this->toolbar_1, true ) ) {
+			$init['wordpress_adv_hidden'] = false;
 		}
 
 		if ( $this->check_admin_setting( 'importcss' ) ) {
@@ -411,7 +423,7 @@ class Tinymce_Advanced {
 			$this->plugins = array();
 		}
 
-		if ( $this->check_admin_setting( 'no_autop' ) ) {
+		if ( $this->check_admin_setting( 'no_autop' ) || in_array( 'table', $this->plugins, true ) ) {
 			$this->plugins[] = 'wptadv';
 		}
 
@@ -428,7 +440,7 @@ class Tinymce_Advanced {
 
 	function tiny_mce_plugins( $plugins ) {
 		// This calls load_settings()
-		if ( $this->check_setting('image') && ! in_array( 'image', (array) $plugins, true ) ) {
+		if ( $this->check_setting('image') && ! in_array( 'image', $plugins, true ) ) {
 			$plugins[] = 'image';
 		}
 
