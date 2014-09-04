@@ -4,7 +4,7 @@ Tags: wysiwyg, formatting, tinymce, write, editor
 License: GPL v2
 Requires at least: 4.0
 Tested up to: 4.0
-Stable tag: 4.0.2
+Stable tag: 4.1
 
 Enables the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
