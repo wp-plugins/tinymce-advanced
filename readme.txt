@@ -1,10 +1,11 @@
 === TinyMCE Advanced ===
 Contributors: azaozz
 Tags: wysiwyg, formatting, tinymce, write, editor
-License: GPL v2
 Requires at least: 4.0
 Tested up to: 4.0
-Stable tag: 4.0.2
+Stable tag: 4.1
+License: GPLv2
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Enables the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
