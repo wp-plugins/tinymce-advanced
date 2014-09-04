@@ -1,14 +1,7 @@
 /*global tinymce:true */
 
 tinymce.PluginManager.add('wptadv', function( editor ) {
-
 	editor.on( 'init', function() {
-		editor.formatter.register({
-			valigntop: [{selector: 'td,th', styles: {'verticalAlign': 'top'}}],
-			valignmiddle: [{selector: 'td,th', styles: {'verticalAlign': 'middle'}}],
-			valignbottom: [{selector: 'td,th', styles: {'verticalAlign': 'bottom'}}]
-		});
-
 		if ( ! editor.settings.wpautop && editor.settings.tadv_noautop ) {
 			editor.on( 'SaveContent', function( event ) {
 				var regex = [

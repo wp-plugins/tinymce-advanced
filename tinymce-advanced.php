@@ -3,9 +3,10 @@
 Plugin Name: TinyMCE Advanced
 Plugin URI: http://www.laptoptips.ca/projects/tinymce-advanced/
 Description: Enables advanced features and plugins in TinyMCE, the visual editor in WordPress.
-Version: 4.0.2
+Version: 4.1
 Author: Andrew Ozz
 Author URI: http://www.laptoptips.ca/
+Text Domain: tinymce-advanced
 
 Released under the GPL version 2.0, http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,7 +33,7 @@ class Tinymce_Advanced {
 	private $used_buttons = array();
 	private $all_buttons = array();
 	private $buttons_filter = array();
-	private $all_plugins = array( 'advlist','anchor','code','contextmenu','emoticons','importcss','insertdatetime','nonbreaking','print','searchreplace','table','visualblocks','visualchars','link' );
+	private $all_plugins = array( 'advlist','anchor','code','contextmenu','emoticons','importcss','insertdatetime','nonbreaking','print','searchreplace','table','visualblocks','visualchars','link','textpattern' );
 
 	private $default_settings = array(
 		'options'	=> 'menubar,advlist',
@@ -46,6 +47,11 @@ class Tinymce_Advanced {
 	private $default_admin_settings = array( 'options' => array() );
 
 	function __construct() {
+		// Don't run outside of WP
+		if ( ! defined('ABSPATH') ) {
+			return;
+		}
+
 		add_action( 'plugins_loaded', array( &$this, 'set_paths' ), 50 );
 
 		if ( is_admin() ) {
@@ -67,6 +73,7 @@ class Tinymce_Advanced {
 		add_filter( 'htmledit_pre', array( &$this, 'htmledit' ), 999 );
 		add_filter( 'mce_external_plugins', array( &$this, 'mce_external_plugins' ), 999 );
 		add_filter( 'tiny_mce_plugins', array( &$this, 'tiny_mce_plugins' ), 999 );
+		add_action( 'after_wp_tiny_mce', array( &$this, 'after_wp_tiny_mce' ) );
 	}
 
 	// When using a plugin that changes the paths dinamically, set these earlier than 'plugins_loaded' 50.
@@ -136,7 +143,7 @@ class Tinymce_Advanced {
 
 	// Min version 3.9-RC1
 	private function check_minimum_supported_version() {
-		return ( isset( $GLOBALS['wp_db_version'] ) && $GLOBALS['wp_db_version'] > 27000 );
+		return ( isset( $GLOBALS['wp_db_version'] ) && $GLOBALS['wp_db_version'] >= 29630 );
 	}
 
 	private function check_plugin_version() {
@@ -224,14 +231,6 @@ class Tinymce_Advanced {
 			'wp_page'		=> 'Page Break',
 		);
 
-		if ( function_exists('moxiecode_plugins_url') ) {
-			if ( moxiecode_plugins_url('imagemanager') )
-				$buttons['insertimage'] = 'MC Image Manager';
-
-			if ( moxiecode_plugins_url('filemanager') )
-				$buttons['insertfile'] = 'MC File Manager';
-		}
-
 		// add/remove allowed buttons
 		$buttons = apply_filters( 'tadv_allowed_buttons', $buttons );
 
@@ -289,6 +288,9 @@ class Tinymce_Advanced {
 		if ( $this->check_setting( 'contextmenu' ) )
 			$plugins[] = 'contextmenu';
 
+		if ( $this->check_admin_setting( 'textpattern' ) )
+			$plugins[] = 'textpattern';
+
 		// add/remove used plugins
 		$plugins = apply_filters( 'tadv_used_plugins', $plugins, $this->used_buttons );
 
@@ -314,10 +316,6 @@ class Tinymce_Advanced {
 		}
 
 		$buttons_1 = $this->toolbar_1;
-
-		if ( 'content' === $editor_id && ! in_array( 'wp_adv', $buttons_1, true ) ) {
-			add_action( 'wp_enqueue_editor', array( &$this, 'wp_enqueue_editor' ) );
-		}
 
 		if ( is_array( $original ) && ! empty( $original ) ) {
 			$original = array_diff( $original, $this->buttons_filter );
@@ -400,7 +398,25 @@ class Tinymce_Advanced {
 			$init['importcss_file_filter'] = 'editor-style.css';
 		}
 
+		if ( $this->check_admin_setting( 'fontsize_formats' ) ) {
+			$init['fontsize_formats'] =  '8px 10px 12px 14px 16px 20px 24px 28px 32px 36px';
+		}
+
+		if ( $this->check_setting( 'paste_images' ) ) {
+			$init['paste_data_images'] = true;
+			$init['paste_word_valid_elements'] = '-strong/b,-em/i,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6,-p/div,-a[href|name],' .
+				'-table[width],-tr,-td[colspan|rowspan|width],-th,-thead,-tfoot,-tbody,sub,sup,strike,br,del,ins,img[src|alt|title|height|width]';
+		}
+
 		return $init;
+	}
+
+	function after_wp_tiny_mce() {
+		if ( $this->check_setting('menubar') ) {
+			?>
+			<style type="text/css">.wp-fullscreen-wrap .mce-menubar { position: static !important; width: auto !important; }</style>
+			<?php
+		}
 	}
 
 	function htmledit( $c ) {
@@ -451,14 +467,6 @@ class Tinymce_Advanced {
 		}
 
 		return $plugins;
-	}
-
-	function wp_enqueue_editor( $array ) {
-		if ( ! empty( $array['tinymce'] ) ) {
-			?>
-			<script>if ( typeof setUserSetting !== 'undefined' ) setUserSetting( 'hidetb', '1' );</script>
-			<?php
-		}
 	}
 
 	private function parse_buttons( $toolbar_id = false, $buttons = false ) {

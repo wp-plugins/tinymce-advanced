@@ -2,8 +2,8 @@
 Contributors: azaozz
 Tags: wysiwyg, formatting, tinymce, write, editor
 License: GPL v2
-Requires at least: 3.9
-Tested up to: 3.9
+Requires at least: 4.0
+Tested up to: 4.0
 Stable tag: 4.0.2
 
 Enables the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
@@ -28,6 +28,11 @@ With this plugin you will also be able to enable the TinyMCE menu. It is a conve
 Best is to install directly from WordPress. If manual installation is required, please make sure that the plugin files are in a folder named "tinymce-advanced" (not two nested folders) in the WordPress plugins folder, usually "wp-content/plugins".
 
 == Changelog ==
+
+= 4.1 =
+* Updated for WordPress 4.0 and TinyMCE 4.1.
+* Add the 'textpattern' plugin that supports some of the markdown syntax while typing, [(more info)](http://www.tinymce.com/wiki.php/Configuration:textpattern_patterns).
+* Add the updated 'table' plugin that supports background and border color.
 
 = 4.0.2 =
 * Fix showing of the second, third and forth button rows when the Toolbar Toggle button is not used.
@@ -103,8 +108,8 @@ Includes an admin page for arranging the TinyMCE toolbar buttons, easy installat
 
 == Upgrade Notice ==
 
-= 4.0.2 =
-Fixes for showing of all toolbars, advanced options for superadmins, vertical align for table cells, and more.
+= 4.1 =
+Includes the 'textpattern' plugin that supports some of the markdown syntax while typing, and the updated 'table' plugin that supports background and border color for tables.
 
 == Frequently Asked Questions ==
 
