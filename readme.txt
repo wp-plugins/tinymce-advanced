@@ -1,10 +1,11 @@
 === TinyMCE Advanced ===
 Contributors: azaozz
 Tags: wysiwyg, formatting, tinymce, write, editor
-License: GPL v2
 Requires at least: 4.0
 Tested up to: 4.0
 Stable tag: 4.1
+License: GPLv2
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Enables the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
@@ -28,6 +29,10 @@ With this plugin you will also be able to enable the TinyMCE menu. It is a conve
 Best is to install directly from WordPress. If manual installation is required, please make sure that the plugin files are in a folder named "tinymce-advanced" (not two nested folders) in the WordPress plugins folder, usually "wp-content/plugins".
 
 == Changelog ==
+
+= 4.1.1 =
+* Fix bug with image captions when wpautop is disabled.
+* Add translation support to the settings page.
 
 = 4.1 =
 * Updated for WordPress 4.0 and TinyMCE 4.1.

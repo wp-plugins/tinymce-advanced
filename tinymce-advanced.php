@@ -3,10 +3,9 @@
 Plugin Name: TinyMCE Advanced
 Plugin URI: http://www.laptoptips.ca/projects/tinymce-advanced/
 Description: Enables advanced features and plugins in TinyMCE, the visual editor in WordPress.
-Version: 4.1
+Version: 4.1.1-beta1
 Author: Andrew Ozz
 Author URI: http://www.laptoptips.ca/
-Text Domain: tinymce-advanced
 
 Released under the GPL version 2.0, http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,7 +32,24 @@ class Tinymce_Advanced {
 	private $used_buttons = array();
 	private $all_buttons = array();
 	private $buttons_filter = array();
-	private $all_plugins = array( 'advlist','anchor','code','contextmenu','emoticons','importcss','insertdatetime','nonbreaking','print','searchreplace','table','visualblocks','visualchars','link','textpattern' );
+
+	private $all_plugins = array(
+		'advlist',
+		'anchor',
+		'code',
+		'contextmenu',
+		'emoticons',
+		'importcss',
+		'insertdatetime',
+		'nonbreaking',
+		'print',
+		'searchreplace',
+		'table',
+		'visualblocks',
+		'visualchars',
+		'link',
+		'textpattern',
+	);
 
 	private $default_settings = array(
 		'options'	=> 'menubar,advlist',
@@ -55,7 +71,7 @@ class Tinymce_Advanced {
 		add_action( 'plugins_loaded', array( &$this, 'set_paths' ), 50 );
 
 		if ( is_admin() ) {
-			add_action( 'admin_menu', array( &$this, 'menu' ) );
+			add_action( 'admin_menu', array( &$this, 'add_menu' ) );
 			add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
 		}
 
@@ -108,6 +124,26 @@ class Tinymce_Advanced {
 			wp_enqueue_script( 'tadv-js', TADV_URL . 'js/tadv.js', array( 'jquery-ui-sortable' ), '4.0', true );
 			wp_enqueue_style( 'tadv-mce-skin', includes_url( 'js/tinymce/skins/lightgray/skin.min.css' ), array(), '4.0' );
 			wp_enqueue_style( 'tadv-css', TADV_URL . 'css/tadv-styles.css', array( 'editor-buttons' ), '4.0' );
+
+			if ( substr( get_locale(), 0, 2 ) !== 'en' ) {
+				add_action( 'admin_footer', array( &$this, 'load_mce_translation' ) );
+			}
+		}
+	}
+
+	function load_mce_translation() {
+		if ( ! class_exists( '_WP_Editors' ) ) {
+			require( ABSPATH . WPINC . '/class-wp-editor.php' );
+		}
+
+		$strings = _WP_Editors::wp_mce_translation();
+		$strings = preg_replace( '/tinymce.addI18n[^{]+/', '', $strings );
+		$strings = preg_replace( '/[^}]*$/', '', $strings );
+
+		if ( $strings ) {
+			?>
+			<script type="text/javascript">var tadvTranslation = <?php echo $strings; ?>;</script>
+			<?php
 		}
 	}
 
@@ -175,60 +211,60 @@ class Tinymce_Advanced {
 			'italic' => 'Italic',
 			'underline' => 'Underline',
 			'strikethrough' => 'Strikethrough',
-			'alignleft' => 'Align Left',
-			'aligncenter' => 'Align Center',
-			'alignright' => 'Align Right',
+			'alignleft' => 'Align left',
+			'aligncenter' => 'Align center',
+			'alignright' => 'Align right',
 			'alignjustify' => 'Justify',
-			'styleselect' => '<!--styleselect-->',
-			'formatselect' => '<!--formatselect-->',
-			'fontselect' => '<!--fontselect-->',
-			'fontsizeselect' => '<!--fontsizeselect-->',
+			'styleselect' => 'Formats',
+			'formatselect' => 'Paragraph',
+			'fontselect' => 'Font Family',
+			'fontsizeselect' => 'Font Sizes',
 			'cut' => 'Cut',
 			'copy' => 'Copy',
 			'paste' => 'Paste',
-			'bullist' => 'Bullet List',
-			'numlist' => 'Numbered List',
-			'outdent' => 'Outdent',
-			'indent' => 'Indent',
-			'blockquote' => 'Quote',
+			'bullist' => 'Bulleted list',
+			'numlist' => 'Numbered list',
+			'outdent' => 'Decrease indent',
+			'indent' => 'Increase indent',
+			'blockquote' => 'Blockquote',
 			'undo' => 'Undo',
 			'redo' => 'Redo',
-			'removeformat' => 'Remove Formatting',
+			'removeformat' => 'Clear formatting',
 			'subscript' => 'Subscript',
 			'superscript' => 'Superscript',
 
 			// From plugins
-			'hr' => 'Horizontal Rule',
-			'link' => 'Link',
-			'unlink' => 'Remove Link',
-			'image' => 'Edit Image',
-			'charmap' => 'Character Map',
-			'pastetext' => 'Paste as Text',
+			'hr' => 'Horizontal line',
+			'link' => 'Insert/edit link',
+			'unlink' => 'Remove link',
+			'image' => 'Insert/edit image',
+			'charmap' => 'Special character',
+			'pastetext' => 'Paste as text',
 			'print' => 'Print',
-			'anchor' => 'Insert Anchor',
-			'searchreplace' => 'Search/Replace',
-			'visualblocks' => 'Visual Blocks',
-		//	'visualchars' => 'Hidden Chars',
-			'code' => 'HTML code',
-			'fullscreen' => 'Full Screen',
-			'insertdatetime' => 'Insert Date/Time',
-			'media' => 'Insert Media',
-			'nonbreaking' => 'Non-Break Space',
+			'anchor' => 'Anchor',
+			'searchreplace' => 'Find and replace',
+			'visualblocks' => 'Show blocks',
+		//	'visualchars' => 'Hidden chars',
+			'code' => 'Source code',
+			'fullscreen' => 'Fullscreen',
+			'insertdatetime' => 'Insert date/time',
+			'media' => 'Insert/edit video',
+			'nonbreaking' => 'Nonbreaking space',
 			'table' => 'Table',
-			'ltr' => 'Left to Right',
-			'rtl' => 'Right to Left',
+			'ltr' => 'Left to right',
+			'rtl' => 'Right to left',
 			'emoticons' => 'Emoticons',
-			'forecolor' => 'Text Color',
-			'backcolor' => 'Text Background',
+			'forecolor' => 'Text color',
+			'backcolor' => 'Background color',
 
 			// Layer plugin ?
 		//	'insertlayer' => 'Layer',
 
 			// WP
-			'wp_adv'		=> 'Toolbar toggle',
-			'wp_help'		=> 'Help',
-			'wp_more'		=> 'More Tag',
-			'wp_page'		=> 'Page Break',
+			'wp_adv'		=> 'Toolbar Toggle',
+			'wp_help'		=> 'Keyboard Shortcuts',
+			'wp_more'		=> 'Read more...',
+			'wp_page'		=> 'Page break',
 		);
 
 		// add/remove allowed buttons
@@ -509,13 +545,14 @@ class Tinymce_Advanced {
 	}
 
 	function settings_page() {
-		if ( ! defined( 'TADV_ADMIN_PAGE' ) )
+		if ( ! defined( 'TADV_ADMIN_PAGE' ) ) {
 			define( 'TADV_ADMIN_PAGE', true );
+		}
 
 		include_once( TADV_PATH . 'tadv_admin.php' );
 	}
 
-	function menu() {
+	function add_menu() {
 		add_options_page( 'TinyMCE Advanced', 'TinyMCE Advanced', 'manage_options', 'tinymce-advanced', array( &$this, 'settings_page' ) );
 	}
 }

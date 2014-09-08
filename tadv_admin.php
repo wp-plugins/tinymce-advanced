@@ -9,6 +9,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
 	wp_die('Access denied');
 }
 
+load_plugin_textdomain( 'tinymce-advanced', false, 'tinymce-advanced/langs' );
 $message = '';
 
 // TODO admin || SA
@@ -18,7 +19,7 @@ if ( ! $this->check_minimum_supported_version() ) {
 	<div class="error">
 	<p><?php printf(
 		__( 'This plugin requires WordPress version 4.0 or newer. Please upgrade your WordPress ' .
-			'installation or download an %1$solder version of the plugin%2$s.', 'tinymce-advanced' ),
+			'installation or download an %solder version of the plugin%s.', 'tinymce-advanced' ),
 		'<a href="//wordpress.org/extend/plugins/tinymce-advanced/download/">',
 		'</a>'
 	); ?></p>
@@ -67,7 +68,7 @@ if ( isset( $_POST['tadv-save'] ) ) {
 
 	if ( ! empty( $_POST['menubar'] ) ) {
 		$options_array[] = 'menubar';
-		$plugins_array = array( 'anchor', 'code', 'insertdatetime', 'nonbreaking', 'print', 'searchreplace', 
+		$plugins_array = array( 'anchor', 'code', 'insertdatetime', 'nonbreaking', 'print', 'searchreplace',
 			'table', 'visualblocks', 'visualchars' );
 	}
 
@@ -283,15 +284,63 @@ if ( isset( $_POST['tadv-save'] ) && empty( $message ) ) {
 <?php _e('Enable the editor menu.', 'tinymce-advanced'); ?>
 </label></p>
 
-<p id="tadv-menu-img" <?php if ( $this->check_setting( 'menubar' ) ) { echo ' class="enabled"'; } ?>>&nbsp;</p>
+<div id="tadv-mce-menu" class="mce-container mce-menubar mce-toolbar mce-first mce-stack-layout-item
+	<?php if ( $this->check_setting( 'menubar' ) ) { echo ' enabled'; } ?>">
+	<div class="mce-container-body mce-flow-layout">
+		<div class="mce-widget mce-btn mce-menubtn mce-first mce-flow-layout-item">
+			<button type="button">
+				<span class="tadv-translate">File</span>
+				<i class="mce-caret"></i>
+			</button>
+		</div>
+		<div class="mce-widget mce-btn mce-menubtn mce-flow-layout-item">
+			<button type="button">
+				<span class="tadv-translate">Edit</span>
+				<i class="mce-caret"></i>
+			</button>
+		</div>
+		<div class="mce-widget mce-btn mce-menubtn mce-flow-layout-item">
+			<button type="button">
+				<span class="tadv-translate">Insert</span>
+				<i class="mce-caret"></i>
+			</button>
+		</div>
+		<div class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-toolbar-item">
+			<button type="button">
+				<span class="tadv-translate">View</span>
+				<i class="mce-caret"></i>
+			</button>
+		</div>
+		<div class="mce-widget mce-btn mce-menubtn mce-flow-layout-item">
+			<button type="button">
+				<span class="tadv-translate">Format</span>
+				<i class="mce-caret"></i>
+			</button>
+		</div>
+		<div class="mce-widget mce-btn mce-menubtn mce-flow-layout-item">
+			<button type="button">
+				<span class="tadv-translate">Table</span>
+				<i class="mce-caret"></i>
+			</button>
+		</div>
+		<div class="mce-widget mce-btn mce-menubtn mce-last mce-flow-layout-item">
+			<button type="button">
+				<span class="tadv-translate">Tools</span>
+				<i class="mce-caret"></i>
+			</button>
+		</div>
+	</div>
+</div>
 
 <?php
+
+$mce_text_buttons = array( 'styleselect', 'formatselect', 'fontselect', 'fontsizeselect' );
 
 for ( $i = 1; $i < 5; $i++ ) {
 	$toolbar = "toolbar_$i";
 
 	?>
-	<div class="tadvdropzone">
+	<div class="tadvdropzone mce-toolbar">
 	<ul id="tb<?php echo $i; ?>" class="container">
 	<?php
 
@@ -308,15 +357,30 @@ for ( $i = 1; $i < 5; $i++ ) {
 			continue;
 		}
 
-		if ( strpos( $name, '<!' ) === 0 )
-			$name = '';
-
 		?><li class="tadvmodule" id="<?php echo $button; ?>">
-		<div class="tadvitem">
-			<i class="mce-ico mce-i-<?php echo $button; ?>" title="<?php echo $name; ?>"></i>
-			<span class="descr"> <?php echo $name; ?></span>
-			<input type="hidden" class="tadv-button" name="tb<?php echo $i; ?>[]" value="<?php echo $button; ?>" />
-		</div>
+			<?php
+
+			if ( in_array( $button, $mce_text_buttons, true ) ) {
+				?>
+				<div class="tadvitem mce-widget mce-btn mce-menubtn mce-fixed-width mce-listbox">
+					<div class="the-button">
+						<span class="descr"><?php echo $name; ?></span>
+						<i class="mce-caret"></i>
+						<input type="hidden" class="tadv-button" name="tb<?php echo $i; ?>[]" value="<?php echo $button; ?>" />
+					</div>
+				</div>
+				<?php
+			} else {
+				?>
+				<div class="tadvitem">
+					<i class="mce-ico mce-i-<?php echo $button; ?>" title="<?php echo $name; ?>"></i>
+					<span class="descr"><?php echo $name; ?></span>
+					<input type="hidden" class="tadv-button" name="tb<?php echo $i; ?>[]" value="<?php echo $button; ?>" />
+				</div>
+				<?php
+			}
+
+			?>
 		</li><?php
 
 	}
@@ -338,21 +402,35 @@ for ( $i = 1; $i < 5; $i++ ) {
 <?php
 
 foreach( $all_buttons as $button => $name ) {
-	if ( strpos( $button, 'separator' ) !== false )
+	if ( strpos( $button, 'separator' ) !== false ) {
 		continue;
+	}
 
-	if ( strpos( $name, '<!' ) === 0 )
-		$name = '';
+	?><li class="tadvmodule" id="<?php echo $button; ?>">
+		<?php
 
-	?>
-	<li class="tadvmodule" id="<?php echo $button; ?>">
-	<div class="tadvitem">
-		<i class="mce-ico mce-i-<?php echo $button; ?>" title="<?php echo $name; ?>"></i>
-		<span class="descr"> <?php echo $name; ?></span>
-		<input type="hidden" class="tadv-button" name="unused[]" value="<?php echo $button; ?>" />
-	</div>
-	</li>
-	<?php
+		if ( in_array( $button, $mce_text_buttons, true ) ) {
+			?>
+			<div class="tadvitem mce-widget mce-btn mce-menubtn mce-fixed-width mce-listbox">
+				<div class="the-button">
+					<span class="descr"><?php echo $name; ?></span>
+					<i class="mce-caret"></i>
+					<input type="hidden" class="tadv-button" name="tb<?php echo $i; ?>[]" value="<?php echo $button; ?>" />
+				</div>
+			</div>
+			<?php
+		} else {
+			?>
+			<div class="tadvitem">
+				<i class="mce-ico mce-i-<?php echo $button; ?>" title="<?php echo $name; ?>"></i>
+				<span class="descr"><?php echo $name; ?></span>
+				<input type="hidden" class="tadv-button" name="tb<?php echo $i; ?>[]" value="<?php echo $button; ?>" />
+			</div>
+			<?php
+		}
+
+		?>
+	</li><?php
 
 }
 
@@ -489,7 +567,7 @@ if ( ! is_multisite() || current_user_can( 'manage_sites' ) ) {
 </form>
 
 <div id="wp-adv-error-message" class="tadv-error">
-<?php _e('The "Toolbar toggle" button shows/hides the second, third, and forth button rows. '.
+<?php _e('The [Toolbar toggle] button shows or hides the second, third, and forth button rows. ' .
 	'It will only work when it is in the first row and there are buttons in the second row.', 'tinymce-advanced'); ?>
 </div>
 </div><!-- /wrap -->
