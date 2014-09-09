@@ -55,7 +55,7 @@ tinymce.PluginManager.add( 'wptadv', function( editor ) {
 	// Remove white space between <div> and <dl> (fixes captions when no wpautop)
 	editor.on( 'PostProcess', function( event ) {
 		if ( event.content && ! editor.settings.wpautop && editor.settings.tadv_noautop ) {
-			event.content = event.content.replace( /(<div [^>]+>)\s*<dl/, '$1<dl' );
+			event.content = event.content.replace( /(<div [^>]+>)\s*<dl/g, '$1<dl' );
 		}
 	}, true );
 });
