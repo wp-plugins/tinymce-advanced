@@ -32,7 +32,7 @@ Best is to install directly from WordPress. If manual installation is required, 
 
 = 4.1.1 =
 * Fix bug with image captions when wpautop is disabled.
-* Add translation support to the settings page.
+* Add translation support to the settings page. Button names/descriptions are translated from JS using the existing WordPress translation, so this part of the settings page will be translated by default. The other text still needs separate translation.
 
 = 4.1 =
 * Updated for WordPress 4.0 and TinyMCE 4.1.
