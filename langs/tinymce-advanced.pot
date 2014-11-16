@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TinyMCE Advanced\n"
-"POT-Creation-Date: 2014-09-07 21:23-0800\n"
-"PO-Revision-Date: 2014-09-07 21:23-0800\n"
+"POT-Creation-Date: 2014-11-16 14:02-0800\n"
+"PO-Revision-Date: 2014-11-16 14:02-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -21,8 +21,9 @@ msgstr ""
 #: ../tadv_admin.php:21
 #, php-format
 msgid ""
-"This plugin requires WordPress version 4.0 or newer. Please upgrade your "
-"WordPress installation or download an %solder version of the plugin%s."
+"This plugin requires WordPress version %1$s or newer. Please upgrade your "
+"WordPress installation or download an <a href=\"%2$s\">older version of the "
+"plugin</a>."
 msgstr ""
 
 #: ../tadv_admin.php:146

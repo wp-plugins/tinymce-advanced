@@ -18,10 +18,10 @@ if ( ! $this->check_minimum_supported_version() ) {
 	<div class="wrap">
 	<div class="error">
 	<p><?php printf(
-		__( 'This plugin requires WordPress version 4.0 or newer. Please upgrade your WordPress ' .
-			'installation or download an %solder version of the plugin%s.', 'tinymce-advanced' ),
-		'<a href="//wordpress.org/extend/plugins/tinymce-advanced/download/">',
-		'</a>'
+		__( 'This plugin requires WordPress version %1$s or newer. Please upgrade your WordPress ' .
+			'installation or download an <a href="%2$s">older version of the plugin</a>.', 'tinymce-advanced' ),
+		'4.0',
+		'//wordpress.org/extend/plugins/tinymce-advanced/download/'
 	); ?></p>
 	</div>
 	</div>
@@ -438,7 +438,7 @@ foreach( $all_buttons as $button => $name ) {
 </ul>
 </div>
 
-<p class="tadv-more-plugins"><?php _e( 'Also enable:' ); ?>
+<p class="tadv-more-plugins"><?php _e( 'Also enable:', 'tinymce-advanced' ); ?>
 	<label>
 	<input type="checkbox" name="advlist" id="advlist" <?php if ( $this->check_setting('advlist') ) echo ' checked="checked"'; ?> />
 	<?php _e('List Style Options', 'tinymce-advanced'); ?>
