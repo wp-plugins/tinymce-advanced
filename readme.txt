@@ -30,6 +30,11 @@ Best is to install directly from WordPress. If manual installation is required, 
 
 == Changelog ==
 
+= 4.1.9 =
+* Updated for WordPress 4.2 and TinyMCE 4.1.9.
+* Fixed bugs with showing oEmbed previews when pasting an URL.
+* Fixed bugs with getting the content from TinyMCE with line breaks.
+
 = 4.1.7 =
 * Updated for WordPress 4.1 and TinyMCE 4.1.7.
 * Fixed bug where consecutive caption shortcodes may be split with an empty paragraph tag.
