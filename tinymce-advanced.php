@@ -182,7 +182,7 @@ class Tinymce_Advanced {
 
 	// Min version
 	private function check_minimum_supported_version() {
-		$wp_version = isset( $GLOBALS['wp_version'] ) ? $GLOBALS['wp_version'] : '0';
+		include( ABSPATH . WPINC . '/version.php' ); // get an unmodified $wp_version
 		$wp_version = str_replace( '-src', '', $wp_version );
 
 		return ( version_compare( $wp_version, $this->required_version, '>=' ) );
