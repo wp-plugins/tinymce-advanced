@@ -30,6 +30,9 @@ Best is to install directly from WordPress. If manual installation is required, 
 
 == Changelog ==
 
+= 4.2.3.1 =
+* Fix error with removing the 'textpattern' plugin.
+
 = 4.2.3 =
 * Updated for WordPress 4.3 and TinyMCE 4.2.3.
 * Removed the 'textpattern' plugin as WordPress 4.3 includes similar functionality by default.
