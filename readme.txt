@@ -30,6 +30,10 @@ Best is to install directly from WordPress. If manual installation is required, 
 
 == Changelog ==
 
+= 4.2.5 =
+* Updated for WordPress 4.3.1 and TinyMCE 4.2.5.
+* Fixed text domain and plugin headers.
+
 = 4.2.3.1 =
 * Fix error with removing the 'textpattern' plugin.
 
